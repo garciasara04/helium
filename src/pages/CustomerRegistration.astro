@@ -1,0 +1,127 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+const Title = "Registro Cliente";
+---
+
+<MainLayout title={Title}>
+  <img src="src/assets/image.png" class="object-center md:object-top "/>
+
+  <div class="min-h-screen flex items-center justify-center bg-gray-200 px-4 py-12">
+    
+    <div class="bg-gray-300 rounded-2xl shadow-2xl max-w-2xl w-full p-8 md:p-12">
+      <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-2">
+        Completa los siguientes datos como cliente
+      </h1>
+
+      <!-- Formulario -->
+      <form class="mt-8 space-y-6" action="/api/registro-cliente" method="POST">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <label for="tipo-documento" class="block text-sm font-medium text-gray-700 mb-1">
+                    Tipo de documento
+                </label>
+                <select id="tipo-documento" name="tipo-documento" class="w-full px-4 py-3 border border-gray-300 rounded-lg bg-amber-50 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition appearance-none">
+                    <option value="" disabled selected>Selecciona el tipo de documento</option>
+
+                    <option value="CC">Cédula de Ciudadanía (CC)</option>
+                    <option value="TI">Tarjeta de Identidad (TI)</option>
+                    <option value="CE">Cédula de Extranjería (CE)</option>
+                    <option value="PA">Pasaporte (PA)</option>
+                    <option value="RC">Registro Civil (RC)</option>
+                </select>
+            </div>
+      
+          <div>
+            <label for="identificacion" class="block text-sm font-medium text-gray-700 mb-1">
+              N°Identificación
+            </label>
+            <input type="text" id="identificacion" name="identificacion"  class="w-full px-4 py-3 border border-amber-50 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+          </div>
+          
+          <div>
+            <label for="correo" class="block text-sm font-medium text-gray-700 mb-1">
+              Correo
+            </label>
+            <input type="email"id="correo" name="correo" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+          </div>
+
+          <div>
+            <label for="nombres" class="block text-sm font-medium text-gray-700 mb-1">
+              Nombres
+            </label>
+            <input type="text" id="nombres" name="nombres" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" />
+          </div>
+
+
+          <label for="apellidos" class="block text-sm font-medium text-gray-700 mb-1">
+              Apellidos
+            </label>
+            <input type="text" id="apellidos" name="apellidos" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+          </div>
+
+
+          <div>
+            <label for="contrasena" class="block text-sm font-medium text-gray-700 mb-1">
+              Contraseña
+            </label>
+            <input type="password" id="contrasena" name="contrasena" minlength="8"class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+          </div>
+
+          <div>
+            
+
+          <div>
+            <label for="confirmar-contrasena" class="block text-sm font-medium text-gray-700 mb-1">
+              Confirmar Contraseña
+            </label>
+            <input type="password" id="confirmar-contrasena" name="confirmar-contrasena" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+          </div>
+
+          
+          <div>
+            <label for="fecha-nacimiento" class="block text-sm font-medium text-gray-700 mb-1">
+              Fecha de nacimiento
+            </label>
+            <input  type="date" id="fecha-nacimiento" name="fecha-nacimiento" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+          </div>
+
+         
+          <div>
+            <label for="celular" class="block text-sm font-medium text-gray-700 mb-1">
+              Celular
+            </label>
+            <input type="tel" id="celular" name="celular" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+          </div>
+        </div>
+        <div class="mt-8">
+          <label class="block text-sm font-medium text-gray-700 mb-3 text-center">
+            Foto de perfil 
+          </label>
+          <input type="file" id="file" name="foto" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"/>
+        </div>
+        
+        <div class="mt-8 flex items-center justify-center">
+          <input type="checkbox" id="terminos" name="terminos" class="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"/>
+          <label for="terminos" class="ml-3 text-sm text-gray-700">
+            Aceptar términos y condiciones
+          </label>
+        </div>
+
+        <div class="mt-10">
+          <button 
+            type="submit"
+            class="w-full py-4 px-6 bg-gray-900 text-white font-bold text-lg rounded-xl hover:bg-gray-800 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-gray-500" >
+            Crear cuenta
+          </button>
+        </div>
+      </form>
+
+ 
+      <p class="mt-8 text-center text-gray-600">
+        ¿Ya tienes cuenta? 
+        <a href="/login" class="text-blue-600 hover:underline font-medium">Inicia sesión</a>
+      </p>
+    </div>
+  </div>
+</MainLayout>

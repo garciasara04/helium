@@ -1,0 +1,65 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+// import backgroundImage from "../assets/image.png";
+
+const Title = "Recuperar Contraseña";
+---
+
+<MainLayout title={Title}>
+
+
+  <div class="h-screen w-screen overflow-hidden relative">
+
+
+    <div class="relative h-full flex items-center justify-center px-6 md:px-12 z-10">
+
+      
+      <div class="w-full max-w-md md:max-w-lg lg:max-w-xl bg-gray-400/35 backdrop-blur-sm rounded-3xl shadow-2xl p-10 md:p-14 border border-gray-300/60">
+
+        <h1 class="text-3xl md:text-4xl font-bold text-center text-white mb-10 drop-shadow-md">
+          Recuperar Contraseña
+        </h1>
+
+        <p class="text-center text-gray-200 mb-8 text-lg">
+          Ingresa tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña.
+        </p>
+
+        <form class="space-y-7" action="recuperar-contrasena" method="POST">
+
+          <div>
+            <label 
+              for="email" 
+              class="block text-sm font-medium text-white mb-2"
+            >
+              Correo electrónico
+            </label>
+            <input type="email" id="email" name="email" placeholder="tu@correo.com"
+            class="w-full px-5 py-4 rounded-xl bg-white/80 border border-gray-200/70 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-300/50 outline-none transition text-gray-900 placeholder-gray-500"
+            />
+          </div>
+
+          <div class="pt-4">
+            <button 
+              type="submit"
+              class="w-full py-4 px-6 bg-indigo-700 hover:bg-indigo-800 text-white font-medium text-lg rounded-xl transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-indigo-400/50"
+            >
+              Enviar enlace de recuperación
+            </button>
+          </div>
+
+        </form>
+
+        <div class="mt-8 text-center">
+          <a 
+            href="/login" 
+            class="text-indigo-300 hover:text-indigo-200 font-medium hover:underline transition"
+          >
+            ← Volver al inicio de sesión
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</MainLayout>
