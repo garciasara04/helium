@@ -2,34 +2,34 @@
 interface Props {
   title: string;
   subtitle: string;
-  background?: string;  // ruta opcional de la imagen de fondo
+  background?: string;
 }
 
-const { title, subtitle, background = '/assets/background.svg' } = Astro.props; // pon tu ruta por defecto
+const { title, subtitle, background = "/assets/background.svg" } = Astro.props;
 ---
 
-<!-- <section class="relative min-h-[80vh] flex items-center justify-center text-white overflow-hidden">
-  Imagen de fondo 
+<section class="relative min-h-[80vh] flex items-center justify-center text-white overflow-hidden">
+
+  <!-- Imagen de fondo -->
   <img 
-    src={background} 
-    alt="Fondo hero" 
+    src={background}
+    alt="Fondo hero"
     class="absolute inset-0 w-full h-full object-cover z-0"
     fetchpriority="high"
-  /> -->
+  />
 
- 
+  <!-- Overlay oscuro -->
   <div class="absolute inset-0 bg-black/40 z-10"></div>
 
-
-  <div class=" ">
+  <!-- Contenido -->
+  <div class="relative z-20 text-center px-4">
     <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight drop-shadow-lg">
       {title}
     </h1>
-    
+
     <p class="text-xl md:text-3xl mb-12 max-w-3xl mx-auto opacity-95 drop-shadow-md">
       {subtitle}
     </p>
-
 
     <div class="flex flex-col sm:flex-row gap-6 md:gap-10 justify-center">
       <slot />
