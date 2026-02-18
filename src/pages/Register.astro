@@ -1,147 +1,180 @@
 ---
 import MainLayout from "../layouts/MainLayout.astro";
-import backgroundImage from "../assets/image.png";
+
 const Title = "Registro | Bienvenid@s";
 ---
 
 <MainLayout title={Title}>
-  <div 
+  <div
     class="min-h-screen bg-cover bg-center bg-no-repeat relative"
-    style={`background-image: url(${backgroundImage.src});`}
+    style="background-image: url(/image.png);"
   >
-  <div class="relative z-10 flex items-center min-h-screen pt-20 pb-20 px-6 md:px-16 lg:px-32">
-   
-    <div class="w-full md:w-1/2 lg:w-1/2 max-w-2xl bg-gray-400/35 backdrop-blur-sm rounded-3xl shadow-2xl p-10 md:p-14 border border-gray-300/60">
+    <div class="relative z-10 flex min-h-screen pt-8 pb-20 px-6 md:px-16 lg:px-2">
       
-      <h1 class="text-4xl font-bold text-center text-blue-950 mb-10">REGISTRO</h1>
-
-      <form id="registerForm" class="space-y-6">
-        <!-- Campos comunes -->
-        <div>
-          <label for="names" class="block text-sm font-medium text-amber-50 mb-1">Nombres</label>
-          <input type="text" id="names" name="names"
-                 class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none text-gray-900 transition" />
-        </div>
-
-        <!-- <div>
-          <label for="last_names" class="block text-sm font-medium text-amber-50 mb-1">Apellidos</label>
-          <input type="text" id="last_names" name="last_names" placeholder="Ej: Pérez Gómez" required
-                 class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none transition" />
-        </div> -->
-
-        <div>
-          <label for="email" class="block text-sm font-medium text-amber-50 mb-1">Correo electrónico</label>
-          <input type="email" id="email" name="email" 
-                 class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none  text-gray-900 transition" />
-        </div>
-
-        <div>
-          <label for="password" class="block text-sm font-medium text-amber-50 mb-1">Contraseña</label>
-          <input type="password" id="password" name="password" 
-                 class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none  text-gray-900 transition" />
-        </div>
-
-        <div>
-          <label for="phone" class="block text-sm font-medium text-amber-50 mb-1">Teléfono </label>
-          <input type="tel" id="phone" name="phone" 
-                 class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none  text-gray-900 transition" />
-        </div>
-        <div>
-            <label for="photo" class="block text-sm font-medium text-amber-5050 mb-1">Foto de perfil </label>
-            <input type="file" id="photo" name="photo" accept="image/*" 
-                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 file:mr-4 file:py-3 file:px-6 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 transition" />
-            <p class="mt-1 text-xs text-amber-100">Formato recomendado: JPG, PNG. Máximo 2MB.</p>
-          </div>
-        <div>
-          <label for="role_id" class="block text-sm font-medium text-amber-50 mb-1">Selecciona tu rol</label>
-          <select id="role_id" name="role_id" 
-                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none text-gray-900 transition">
-            <option value="" disabled selected>Selecciona tu rol</option>
-            <option value="1">Freelancer</option>
-            <option value="2">Usuario</option>
-            <option value="3">Empresa</option>
-          </select>
-        </div>
-
-        <!-- Sección Freelancer si se elige -->
-        <div id="freelancerSection" class="conditional-section space-y-6">
-          <h3 class="text-xl font-semibold text-amber-50">Perfil de Freelancer</h3>
-          <div>
-            <label for="description" class="block text-sm font-medium text-amber-50">Descripción / Sobre mí</label>
-            <textarea id="description" name="description" 
-                      class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none min-h-30 text-gray-900 transition"></textarea>
-          </div>
-          <div>
-            <label for="profession" class="block text-sm font-medium text-amber-50 mb-1">Profesión principal</label>
-            <input type="text" id="profession" name="profession" 
-                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none text-gray-900 transition" />
-          </div>
-
+      <div
+          id="registerCard"
+          class="w-full md:w-1/2 lg:w-1/2 max-w-2xl
+                 bg-gray-400/35 backdrop-blur-sm rounded-3xl shadow-2xl
+                 p-8 md:p-10 border border-gray-300/60
+                 opacity-0 translate-y-6 transition-all duration-700 ease-out"
+>
         
-          <div>
-            <label for="experience" class="block text-sm font-medium text-amber-50 mb-1">Años de experiencia</label>
-            <input type="number" id="experience" name="experience" min="0" max="50"  
-                  class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none text-gray-900 transition" />
-          </div>
+        <h1
+          id="registerTitle"
+          class="text-4xl font-bold text-center text-blue-950 mb-3
+                 opacity-0 translate-y-3 transition-all duration-500 ease-out"
+>
+          REGISTRO
+        </h1>
 
-          <!-- Nivel de educación (ya lo tenías) -->
-          <div>
-            <label for="education_level" class="block text-sm font-medium text-amber-50 mb-1">Nivel de educación alcanzado</label>
-            <select id="education_level" name="education_level" 
-                    class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none text-gray-900 transition">
-              <option value="">Selecciona uno</option>
-              <option value="primaria">Primaria </option>
-              <option value="bachiller">Bachillerato completo</option>
-              <option value="tecnico">Técnico </option>
-              <option value="tecnico">Técnologo </option>
-              <option value="universitario">Pregrado / Universitario</option>
-              <option value="posgrado">Posgrado / Maestría</option>
-              <option value="doctorado">Doctorado o superior</option>
-            </select>
-          </div>
-       
-         
+        <form id="registerForm" method="POST" action="/register"
+            class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                
+            <!-- Nombres -->  
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-amber-50 mb-1">Nombres</label>
+              <input type="text" name="names"
+                class="w-full px-5 py-2 rounded-xl bg-white text-gray-900 border border-gray-300" />
+            </div>
+          
+            <!-- Email -->
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-amber-50 mb-1">Correo electrónico</label>
+              <input type="email" name="email"
+                class="w-full px-5 py-2 rounded-xl bg-white text-gray-900 border border-gray-300" />
+            </div>
+          
+            <!-- Password -->
+            <div>
+              <label class="block text-sm font-medium text-amber-50 mb-1">Contraseña</label>
+              <input id="password" type="password" name="password"
+                class="w-full px-5 py-2 rounded-xl bg-white text-gray-900 border border-gray-300" />
+            </div>
+          
+            <!-- Confirm -->
+            <div>
+              <label class="block text-sm font-medium text-amber-50 mb-1">Confirmar contraseña</label>
+              <input id="configpassword" type="password" name="configpassword"
+                class="w-full px-5 py-2 rounded-xl bg-white text-gray-900 border border-gray-300" />
+            </div>
+          
+            <!-- Teléfono -->
+            <div>
+              <label class="block text-sm font-medium text-amber-50 mb-1">Teléfono</label>
+              <input type="tel" name="phone"
+                class="w-full px-5 py-2 rounded-xl bg-white border text-gray-900 border-gray-300" />
+            </div>
+          
+            <!-- Rol -->
+            <div>
+              <label class="block text-sm font-medium text-gray-50 mb-1">Rol</label>
+              <select
+                id="role_id"
+                name="role_id"
+                class="w-full px-4 py-2 rounded-lg bg-white text-gray-900 border border-gray-300
+                      focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500">
+              
+                <option value="" disabled selected class="text-gray-400">
+                  Selecciona tu rol
+                </option>
+                <option value="1" class="text-gray-900 bg-white">Freelancer</option>
+                <option value="2" class="text-gray-900 bg-white">Usuario</option>
+                <option value="3" class="text-gray-900 bg-white">Empresa</option>
+              </select>
+            </div>
+          
+            <!-- Foto -->
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-amber-50 mb-1">
+                Foto de perfil
+              </label>
+            
+              <label
+                for="photo"
+                class="flex items-center justify-between
+                       px-4 py-2 rounded-xl
+                       bg-white border border-gray-300
+                       cursor-pointer hover:bg-gray-50 transition"
+              >
+                <span id="fileText" class="text-gray-500">
+                  Selecciona una imagen
+                </span>
+              
+                <span class="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm">
+                  Subir
+                </span>
+              </label>
+            
+              <input
+                id="photo"
+                type="file"
+                accept="image/*"
+                class="hidden"
+              />
+            </div>
+          
+            <!-- FREELANCER -->
+            <div id="freelancerSection" class="hidden md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <h3 class="md:col-span-2 text-xl font-semibold text-amber-50">Perfil Freelancer</h3>
+            
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-amber-50">Descripción</label>
+                <textarea name="description" rows="3" class="w-full px-4 py-2 rounded-lg bg-white border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500"></textarea>
+              </div>
+            
+              <div>
+                <label class="block text-sm font-medium text-amber-50">Profesión</label>
+                <input type="text" class="w-full px-5 py-2 rounded-xl bg-white border" />
+              </div>
+            
+              <div>
+                <label class="block text-sm font-medium text-amber-50">Años experiencia</label>
+                <input type="number" class="w-full px-5 py-2 rounded-xl bg-white border" />
+              </div>
+            </div>
+          
+            <!-- EMPRESA -->
+            <div id="companySection" class="hidden md:col-span-2 grid grid-cols-2 gap-4">
+              <h3 class="col-span-2 text-xl font-semibold text-amber-50">Empresa</h3>
+            
+              <div>
+                <label class="block text-sm font-medium text-amber-50">NIT</label>
+                <input type="text" class="w-full px-5 py-2 rounded-xl bg-white border" />
+              </div>
+            
+              <div>
+                <label class="block text-sm font-medium text-amber-50">Dirección</label>
+                <input type="text" class="w-full px-5 py-2 rounded-xl bg-white border" />
+              </div>
+            </div>
+          
+            <!-- BOTÓN -->
+            <div class="md:col-span-2">
+              <button type="submit"
+                class="w-full py-2 bg-gray-900 text-white rounded-xl font-bold">
+                Crear cuenta
+              </button>
+            </div>
+          </form>
+
+        <p class="text-center mt-4 text-gray-600 text-sm">
+          ¿Olvidaste tu contraseña?
+          <a href="/RecuperarContraseña" class="text-indigo-700 font-medium hover:underline">
+            Recuperar contraseña
+          </a>
+        </p>
+
+        <div class="text-center mt-6 text-gray-700">
+          ¿Ya tienes cuenta?
+          <a href="/login" class="text-indigo-800 font-medium hover:underline">
+            Inicia sesión
+          </a>
         </div>
 
-        <!-- Sección Empresa -->
-        <div id="companySection" class="conditional-section space-y-6">
-          <h3 class="text-xl font-semibold text-amber-50">Información de la Empresa</h3>
-          <div>
-            <label for="nit" class="block text-sm font-medium text-amber-50 mb-1">
-              NIT o Documento de la empresa *
-            </label>
-            <input type="text"name="nit"id="nit"
-            class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none text-gray-900 transition"/>
-          </div>
-         
-          <div>
-            <label for="address" class="block text-sm font-medium text-amber-50 mb-1">
-              Dirección completa 
-            </label>
-            <input type="text"name="address"id="address"
-              class="w-full px-5 py-4 rounded-xl bg-white border border-gray-300 focus:border-indigo-700 focus:ring-2 focus:ring-indigo-200 outline-none text-gray-900 transition">
-          </div>
-        </div>
-        <div class="mt-10">
-          <button type="submit"
-            class="w-full py-4 px-6 bg-gray-900 text-white font-bold text-lg rounded-xl hover:bg-gray-800 transition duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-gray-500" >
-            Crear cuenta
-          </button>
-        </div>
-  
-      </form>
-      <p class="text-center mt-4 text-gray-600 text-sm">
-        ¿Olvidaste tu contraseña? 
-        <a href="/RecuperarContraseña" 
-          class="text-indigo-700 font-medium hover:underline"
-        >
-          Recuperar contraseña
-        </a>
-      </p>
-      <div class="text-center mt-6 text-gray-700">
-        ¿Ya tienes cuenta? <a href="/login" class="text-indigo-800 font-medium hover:underline">Inicia sesión</a>
       </div>
     </div>
   </div>
 </MainLayout>
 
+<!-- JS EXTERNO -->
+<script type="module" src="/src/scripts/register.js"></script>

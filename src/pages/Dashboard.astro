@@ -1,0 +1,13 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+---
+
+<MainLayout title="Dashboard">
+  <h1 class="text-3xl font-bold">Dashboard</h1>
+  <p>Solo usuarios autenticados</p>
+</MainLayout>
+
+<script type="module">
+  import { requireAuth } from "/src/scripts/auth.js";
+  requireAuth();
+</script>
