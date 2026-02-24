@@ -173,6 +173,10 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+
+
+
+
 document.addEventListener("DOMContentLoaded", () => {
   const card = document.getElementById("registerCard");
 
@@ -204,3 +208,106 @@ if (photoInput) {
   });
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('registerForm');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // ← Evita el envío tradicional
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Creando cuenta...';
+    }
+
+    // Captura TODOS los campos + el archivo automáticamente
+    const formData = new FormData(form);
+
+    // Validación rápida en frontend (opcional pero muy útil)
+    const password = formData.get('password');
+    const configpassword = formData.get('configpassword');
+
+    if (password !== configpassword) {
+      alert('Las contraseñas no coinciden');
+      resetButton(submitBtn);
+      return;
+    }
+
+    // Si el rol es Freelancer (1), verifica campos extras si quieres
+    const role = formData.get('role_id');
+    if (role === '1') {
+      const description = formData.get('description')?.toString().trim();
+      if (!description) {
+        alert('La descripción es obligatoria para Freelancers');
+        resetButton(submitBtn);
+        return;
+      }
+    }
+
+    try {
+      const response = await fetch('https://tu-dominio-laravel.com/api/register', {
+        method: 'POST',
+        body: formData,          // ← Envía multipart/form-data automáticamente
+        // NO pongas headers: { 'Content-Type': ... } → el navegador lo hace solo
+        // Si usas Sanctum o CORS con credenciales:
+        credentials: 'include',
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Éxito (201 o 200)
+        console.log('Respuesta exitosa:', result);
+
+        alert(result.message || '¡Cuenta creada exitosamente!');
+
+        // Guarda token si lo devuelve Laravel
+        if (result.token) {
+          localStorage.setItem('token', result.token);
+        }
+
+        // Redirige según rol (ajusta según lo que devuelva tu API)
+        const rol = result.role_id || result.user?.role_id || result.role;
+
+        if (rol === 1 || rol === 'freelancer') {
+          window.location.href = '/freelancer/dashboard';
+        } else if (rol === 2 || rol === 'usuario') {
+          window.location.href = '/usuario/perfil';
+        } else if (rol === 3 || rol === 'empresa') {
+          window.location.href = '/empresa/panel';
+        } else {
+          window.location.href = '/dashboard'; // fallback
+        }
+      } else {
+        // Error (422 validación, 400, etc.)
+        console.error('Error del servidor:', result);
+
+        let mensajeError = 'Error al registrar: ';
+
+        if (result.errors) {
+          // Laravel devuelve { errors: { email: ["El email ya existe"], ... } }
+          Object.values(result.errors).forEach((errs) => {
+            mensajeError += errs.join(', ') + '. ';
+          });
+        } else {
+          mensajeError += result.message || 'Revisa los datos e intenta nuevamente.';
+        }
+
+        alert(mensajeError);
+      }
+    } catch (error) {
+      console.error('Error de conexión:', error);
+      alert('No pudimos conectar con el servidor. Verifica tu conexión.');
+    } finally {
+      resetButton(submitBtn);
+    }
+  });
+
+  function resetButton(btn) {
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = 'Crear cuenta';
+    }
+  }
+});
