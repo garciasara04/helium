@@ -1,0 +1,8 @@
+---
+const { id, title } = Astro.props;
+---
+
+<div id={id} class="bg-slate-900/70 backdrop-blur-sm border border-slate-800 rounded-xl p-8 lg:p-10">
+  <h2 class="text-3xl font-semibold text-violet-300 mb-6">{title}</h2>
+  <slot />
+</div>

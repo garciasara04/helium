@@ -1,0 +1,31 @@
+---
+const { name, role, rating, reviews, price, imageUrl } = Astro.props;
+---
+
+<div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-violet-600 transition-colors group">
+  <div class="p-6 flex flex-col items-center text-center">
+    <img 
+      src={imageUrl} 
+      alt={name} 
+      class="w-24 h-24 rounded-full object-cover mb-4 border-4 border-violet-700 shadow-lg"
+    />
+    <h3 class="text-xl font-bold text-white">{name}</h3>
+    <p class="text-violet-400 text-sm font-medium">{role}</p>
+    
+    <div class="flex items-center gap-1 mt-2 text-yellow-400">
+      <span>★ {rating}</span>
+      <span class="text-slate-400">({reviews})</span>
+    </div>
+    
+    <p class="mt-4 text-slate-300 font-medium">{price}</p>
+  </div>
+  
+  <div class="flex border-t border-slate-800">
+    <button class="flex-1 py-4 text-slate-300 hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+      <span>♡</span> Guardar
+    </button>
+    <button class="flex-1 py-4 bg-violet-700 hover:bg-blue-600 text-white font-medium transition-colors">
+      Contacto
+    </button>
+  </div>
+</div>

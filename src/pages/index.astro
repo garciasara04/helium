@@ -1,72 +1,72 @@
- ---
+---
 import MainLayout from '../layouts/MainLayout.astro';
-import '../styles/global.css';
-
 ---
 
-<MainLayout title="Helium">
+<MainLayout title="Helium - Plataforma Freelance">
 
-  <section class="relative min-h-screen flex items-center bg-gray-950 overflow-hidden">
+  <section class="relative min-h-screen flex items-center bg-slate-950 overflow-hidden">
 
-    <!-- Fondo sutil (gradiente + patrón opcional) -->
-    <div class="absolute inset-0 bg-linear-to-r from-gray-950 via-blue-950/10 to-gray-950" aria-hidden="true"></div>
+    <!-- Fondo degradado -->
+    <div class="absolute inset-0 bg-linear-to-r from-slate-950 via-blue-950/20 to-slate-950"></div>
+
+    <!-- Patrón opcional -->
     <div 
-      class="absolute inset-0 bg-[url('/pattern.png')] bg-repeat bg-center opacity-15 pointer-events-none" 
-      aria-hidden="true"
+      class="absolute inset-0 bg-[url('/pattern.png')] bg-repeat bg-center opacity-10 pointer-events-none"
     ></div>
 
-    <!-- Contenedor principal con dos columnas -->
+    <!-- Contenedor -->
     <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 w-full">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-        <!-- Columna izquierda: Imagen del computador -->
+        <!-- Imagen -->
         <div class="flex justify-center lg:justify-start order-2 lg:order-1">
           <img
             src="/compu.png"
-            alt="Computadora representando sitios web rápidos y profesionales"
-            class="w-4/5 sm:w-3/4 md:w-96 lg:w-125 object-contain drop-shadow-2xl transition-all duration-700 hover:scale-105 hover:rotate-2"
+            alt="Computadora representando desarrollo web"
+            class="w-4/5 sm:w-3/4 md:w-96 object-contain drop-shadow-2xl transition duration-500 hover:scale-105"
             loading="eager"
           />
         </div>
 
-        <!-- Columna derecha: Título, texto y botones -->
-        <div class="text-center lg:text-left order-1 lg:order-2">
-          <h1 class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white mb-6 lg:mb-8 drop-shadow-xl">
+        <!-- Texto -->
+        <div class="text-center lg:text-left order-1 lg:order-2 bg-slate-950 ">
+
+          <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-6">
             <span class="text-blue-500">HELIUM</span>
           </h1>
 
-          <p class="text-lg sm:text-xl md:text-2xl text-gray-300 font-light max-w-3xl mx-auto lg:mx-0 mb-10 lg:mb-12 leading-relaxed">
-            Creamos páginas web profesionales, rápidas y ligeras<br class="hidden sm:block" />
-            para que freelancers como tú destaquen y consigan más clientes.
+          <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto lg:mx-0 mb-10 leading-relaxed">
+            Creamos páginas web profesionales, rápidas y ligeras
+            para que freelancers destaquen y consigan más clientes.
           </p>
 
           <!-- Botones -->
           <div class="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+
             <a
-              href="/register"
-              class="px-10 py-5 bg-linear-to-r from-blue-600 to-blue-800 text-white font-bold text-lg rounded-full shadow-xl hover:shadow-blue-500/40 transition-all duration-300 hover:scale-105"
+              href="/Register"
+              class="px-8 py-4 bg-linear-to-r from-blue-600 to-blue-800 text-white font-semibold text-lg rounded-full shadow-lg hover:scale-105 transition duration-300"
             >
-              Crear mi sitio ahora
+              Crear mi sitio
             </a>
 
             <a
-              href="/login"
-              class="px-10 py-5 border-2 border-blue-600 text-blue-400 font-bold text-lg rounded-full hover:bg-blue-900/30 hover:text-white transition-all duration-300 hover:scale-105"
+              href="/Login"
+              class="px-8 py-4 border-2 border-blue-600 text-blue-400 font-semibold text-lg rounded-full hover:bg-blue-900/30 hover:text-white transition duration-300"
             >
               Iniciar sesión
             </a>
+
           </div>
 
-          <!-- Pequeño texto de confianza (opcional, puedes quitarlo) -->
-          <p class="mt-10 text-gray-500 text-base">
+          <p class="mt-8 text-slate-500 text-sm">
             +100 freelancers ya impulsan su marca con Helium
           </p>
-        </div>
 
+        </div>
       </div>
     </div>
 
   </section>
 
 </MainLayout>
-<script type="module" src="/scripts/index.js"></script>

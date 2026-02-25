@@ -1,90 +1,130 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
-
+const names = {
+  name: "Sara López", 
+};
 ---
 <HomeLayout title="">
-  <!-- MAIN -->
-  <main class="flex-1 p-8">
-
-    <!-- NAVBAR SUPERIOR -->
-    <div class="flex justify-between items-center mb-8">
-      <h1 class="text-3xl font-bold">
-        Bienvenida de nuevo, Sara 👋
+    <div class="max-w-7xl mx-auto p-8">
+      <h1 class="text-3xl font-bold text-purple-500">
+        Bienvenida, {names} 👋
       </h1>
+    </div>
 
-    <!-- STATS -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+    <!-- ================== HERO CON IMAGEN ================== -->
+    <section 
+      class="relative h-125 bg-cover bg-center"
+      style="background-image: url('/hero.jpg');"
+    >
+      <div class="absolute inset-0 bg-black/40"></div>
 
-      <div class="bg-white p-6 rounded-2xl shadow">
-        <p class="text-gray-500">Servicios</p>
-        <h2 class="text-2xl font-bold">12</h2>
+      <div class="relative max-w-6xl mx-auto h-full flex items-center">
+        <div class="bg-gray-800/70 p-10 rounded-2xl text-white max-w-xl">
+          <h2 class="text-3xl font-bold mb-4">
+            Encuentra el talento perfecto
+          </h2>
+          <p class="mb-6">
+            Conecta con freelancers profesionales y lleva tu proyecto al siguiente nivel.
+          </p>
+          <a 
+            href="/nuestrosServicios" 
+            class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+          >
+            Explorar servicios
+          </a>
+        </div>
       </div>
+    </section>
+    <!-- los trabajadores -->
+    <section class="py-20 bg-white">
 
-      <div class="bg-white p-6 rounded-2xl shadow">
-        <p class="text-gray-500">Pedidos activos</p>
-        <h2 class="text-2xl font-bold">3</h2>
-      </div>
+    <div class="max-w-7xl mx-auto text-center mb-12">
+        <h2 class="text-3xl font-bold text-blue-950">
+        Estos son algunos de nuestros trabajadores
+        </h2>
+        <p class="text-gray-600 mt-4">
+        Conoce algunos de los profesionales destacados de nuestra comunidad.
+        </p>
+    </div>
 
-      <div class="bg-white p-6 rounded-2xl shadow">
-        <p class="text-gray-500">Ganancias</p>
-        <h2 class="text-2xl font-bold">$540</h2>
-      </div>
+    <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 px-6">
 
-      <div class="bg-white p-6 rounded-2xl shadow">
-        <p class="text-gray-500">Calificación</p>
-        <h2 class="text-2xl font-bold">⭐ 4.9</h2>
-      </div>
+        <!-- CARD 1 -->
+        <div class="bg-gray-50 rounded-2xl shadow hover:shadow-xl transition p-6 text-center">
+        <img 
+            src="/images/freelancer1.jpg" 
+            alt="Freelancer"
+            class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+        />
+        <h3 class="text-lg font-bold text-blue-950">Carlos Méndez</h3>
+        <p class="text-gray-500 text-sm mb-2">Desarrollador Web</p>
+        <p class="text-yellow-500 font-semibold">⭐ 4.9</p>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="bg-gray-50 rounded-2xl shadow hover:shadow-xl transition p-6 text-center">
+        <img 
+            src="/images/freelancer2.jpg" 
+            alt="Freelancer"
+            class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+        />
+        <h3 class="text-lg font-bold text-blue-950">Laura Gómez</h3>
+        <p class="text-gray-500 text-sm mb-2">Diseñadora UX/UI</p>
+        <p class="text-yellow-500 font-semibold">⭐ 4.8</p>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="bg-gray-50 rounded-2xl shadow hover:shadow-xl transition p-6 text-center">
+        <img 
+            src="/images/freelancer3.jpg" 
+            alt="Freelancer"
+            class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+        />
+        <h3 class="text-lg font-bold text-blue-950">Andrés Ruiz</h3>
+        <p class="text-gray-500 text-sm mb-2">Marketing Digital</p>
+        <p class="text-yellow-500 font-semibold">⭐ 5.0</p>
+        </div>
 
     </div>
 
-    <!-- ACTIVIDAD RECIENTE -->
-    <div class="bg-white p-6 rounded-2xl shadow mb-10">
-      <h2 class="text-xl font-bold mb-4">Actividad reciente</h2>
-      <ul class="space-y-3">
-        <li class="flex justify-between border-b pb-2">
-          <span>Diseño de Landing Page</span>
-          <span class="text-sm text-yellow-500">En progreso</span>
-        </li>
-        <li class="flex justify-between border-b pb-2">
-          <span>Logo corporativo</span>
-          <span class="text-sm text-green-500">Completado</span>
-        </li>
-        <li class="flex justify-between">
-          <span>Edición de video promocional</span>
-          <span class="text-sm text-blue-500">Entregado</span>
-        </li>
-      </ul>
-    </div>
+    </section>
 
-    <!-- SERVICIOS RECOMENDADOS -->
-    <div>
-      <h2 class="text-xl font-bold mb-6">Servicios recomendados</h2>
+    <section class="bg-slate-950 py-16">
+      <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="/satisfaccion" target="_blank" rel="noopener noreferrer" class="bg-purple-600 p-8 rounded-2xl text-white hover:scale-105 transition duration-300 ease-in-out block text-center shadow-lg hover:shadow-xl">
+          <h3 class="text-xl font-bold mb-3">Satisfacción garantizada</h3>
+          <p class="text-purple-100">Garantizamos la mejor experiencia para nuestros usuarios.</p>
+        </a>
+        <a href="/red" target="_blank" rel="noopener noreferrer" class="bg-purple-600 p-8 rounded-2xl text-white hover:scale-105 transition duration-300 ease-in-out block text-center shadow-lg hover:shadow-xl">
+          <h3 class="text-xl font-bold mb-3">Tu red de freelancers</h3>
+          <p class="text-purple-100">Conecta y administra todos tus freelancers en un solo lugar.</p>
+        </a>
+        <a href="/metodosPagos" target="_blank" rel="noopener noreferrer" class="bg-purple-600 p-8 rounded-2xl text-white hover:scale-105 transition duration-300 ease-in-out block text-center shadow-lg hover:shadow-xl">
+          <h3 class="text-xl font-bold mb-3">Métodos de pago</h3>
+          <p class="text-purple-100">Pagos seguros y múltiples opciones adaptadas a ti.</p>
+        </a>
+        
 
-        <div class="bg-white rounded-2xl shadow hover:shadow-xl transition p-6">
-          <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-          <h3 class="font-bold mb-2">Desarrollo Web Profesional</h3>
-          <p class="text-green-600 font-semibold">Desde $120</p>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow hover:shadow-xl transition p-6">
-          <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-          <h3 class="font-bold mb-2">Diseño UX/UI Moderno</h3>
-          <p class="text-green-600 font-semibold">Desde $95</p>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow hover:shadow-xl transition p-6">
-          <div class="h-32 bg-gray-200 rounded-xl mb-4"></div>
-          <h3 class="font-bold mb-2">Marketing Digital</h3>
-          <p class="text-green-600 font-semibold">Desde $80</p>
-        </div>
 
       </div>
-    </div>
+    </section>
 
-  </main>
+    <!-- ================== BÚSQUEDAS RECIENTES ================== -->
+    <section class="py-16 bg-gray-100">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-2xl font-bold text-blue-950 mb-6">
+          Tus últimas búsquedas
+        </h2>
 
-
-
+        <div class="flex gap-6">
+          <div class="bg-white p-6 rounded-xl shadow">
+            Desarrollo Web en Astro
+          </div>
+          <div class="bg-white p-6 rounded-xl shadow">
+            Diseño de Logo Profesional
+          </div>
+        </div>
+      </div>
+    </section>
 </HomeLayout>
