@@ -1,130 +1,181 @@
 ---
 import HomeLayout from '../layouts/HomeLayout.astro';
-const names = {
-  name: "Sara López", 
-};
+
+// Datos de ejemplo (puedes reemplazar con datos reales desde API o props)
+const recommendedFreelancers = [
+  { name: "Ana Martínez", rating: 4.9, reviews: 342, image: "/images/ana.jpg" },
+  { name: "Carlos Gómez", rating: 4.8, reviews: 215, image: "/images/carlos.jpg" },
+  { name: "Laura Herrera", rating: 5.0, reviews: 189, image: "/images/laura.jpg" },
+  { name: "Diego Torres", rating: 4.7, reviews: 456, image: "/images/diego.jpg" },
+];
+
+const activeProjects = [
+  { title: "Rediseño sitio web Helium", freelancer: "Ana Martínez", progress: 68 },
+  { title: "Contenido blog + SEO 2026", freelancer: "Laura Herrera", progress: 92 },
+];
+
+const popularServices = [
+  { title: "Logo Profesional", image: "/images/logo-service.jpg" },
+  { title: "Edición de Video", image: "/images/video-service.jpg" },
+  { title: "Posicionamiento SEO", image: "/images/seo-service.jpg" },
+  { title: "Diseño Web Moderno", image: "/images/web-service.jpg" },
+];
 ---
-<HomeLayout title="">
-    <div class="max-w-7xl mx-auto p-8">
-      <h1 class="text-3xl font-bold text-purple-500">
-        Bienvenida, {names} 👋
-      </h1>
+
+<HomeLayout title="Inicio - Helium">
+  <!-- Hero con imagen de fondo y contenido perfectamente centrado -->
+  <section 
+    class="relative min-h-[80vh] md:min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center"
+    style="background-image: url('/hero.jpg');"
+  >
+    <!-- Overlay suave (opcional, pero ayuda a que el texto se lea bien) -->
+    <div class="absolute inset-0 bg-black/40 md:bg-black/50"></div>
+
+    <!-- Contenido centrado en la mitad de la sección -->
+    <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 drop-shadow-2xl">
+        Encuentra el talento perfecto
+      </h2>
+      <p class="text-lg md:text-xl lg:text-2xl text-slate-200 mb-10 max-w-3xl mx-auto drop-shadow-lg">
+        Conecta con freelancers profesionales y lleva tu proyecto al siguiente nivel.
+      </p>
+      <a 
+        href="/nuestrosServicios" 
+        class="inline-block bg-purple-700 hover:bg-purple-600 px-8 md:px-12 py-4 md:py-5 rounded-xl font-bold text-white text-lg md:text-xl transition shadow-xl shadow-purple-900/40 hover:shadow-purple-700/60 transform hover:scale-105"
+      >
+        Explorar servicios →
+      </a>
     </div>
+  </section>
 
-    <!-- ================== HERO CON IMAGEN ================== -->
-    <section 
-      class="relative h-125 bg-cover bg-center"
-      style="background-image: url('/hero.jpg');"
-    >
-      <div class="absolute inset-0 bg-black/40"></div>
+  <!-- Recomendados para ti (como en la captura) -->
+  <section class="py-16 bg-slate-950">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-white mb-10">
+        Recomendados para ti
+      </h2>
 
-      <div class="relative max-w-6xl mx-auto h-full flex items-center">
-        <div class="bg-gray-800/70 p-10 rounded-2xl text-white max-w-xl">
-          <h2 class="text-3xl font-bold mb-4">
-            Encuentra el talento perfecto
-          </h2>
-          <p class="mb-6">
-            Conecta con freelancers profesionales y lleva tu proyecto al siguiente nivel.
-          </p>
-          <a 
-            href="/nuestrosServicios" 
-            class="bg-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
-          >
-            Explorar servicios
-          </a>
-        </div>
-      </div>
-    </section>
-    <!-- los trabajadores -->
-    <section class="py-20 bg-white">
-
-    <div class="max-w-7xl mx-auto text-center mb-12">
-        <h2 class="text-3xl font-bold text-blue-950">
-        Estos son algunos de nuestros trabajadores
-        </h2>
-        <p class="text-gray-600 mt-4">
-        Conoce algunos de los profesionales destacados de nuestra comunidad.
-        </p>
-    </div>
-
-    <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10 px-6">
-
-        <!-- CARD 1 -->
-        <div class="bg-gray-50 rounded-2xl shadow hover:shadow-xl transition p-6 text-center">
-        <img 
-            src="/images/freelancer1.jpg" 
-            alt="Freelancer"
-            class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-        />
-        <h3 class="text-lg font-bold text-blue-950">Carlos Méndez</h3>
-        <p class="text-gray-500 text-sm mb-2">Desarrollador Web</p>
-        <p class="text-yellow-500 font-semibold">⭐ 4.9</p>
-        </div>
-
-        <!-- CARD 2 -->
-        <div class="bg-gray-50 rounded-2xl shadow hover:shadow-xl transition p-6 text-center">
-        <img 
-            src="/images/freelancer2.jpg" 
-            alt="Freelancer"
-            class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-        />
-        <h3 class="text-lg font-bold text-blue-950">Laura Gómez</h3>
-        <p class="text-gray-500 text-sm mb-2">Diseñadora UX/UI</p>
-        <p class="text-yellow-500 font-semibold">⭐ 4.8</p>
-        </div>
-
-        <!-- CARD 3 -->
-        <div class="bg-gray-50 rounded-2xl shadow hover:shadow-xl transition p-6 text-center">
-        <img 
-            src="/images/freelancer3.jpg" 
-            alt="Freelancer"
-            class="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
-        />
-        <h3 class="text-lg font-bold text-blue-950">Andrés Ruiz</h3>
-        <p class="text-gray-500 text-sm mb-2">Marketing Digital</p>
-        <p class="text-yellow-500 font-semibold">⭐ 5.0</p>
-        </div>
-
-    </div>
-
-    </section>
-
-    <section class="bg-slate-950 py-16">
-      <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-
-        <a href="/satisfaccion" target="_blank" rel="noopener noreferrer" class="bg-purple-600 p-8 rounded-2xl text-white hover:scale-105 transition duration-300 ease-in-out block text-center shadow-lg hover:shadow-xl">
-          <h3 class="text-xl font-bold mb-3">Satisfacción garantizada</h3>
-          <p class="text-purple-100">Garantizamos la mejor experiencia para nuestros usuarios.</p>
-        </a>
-        <a href="/red" target="_blank" rel="noopener noreferrer" class="bg-purple-600 p-8 rounded-2xl text-white hover:scale-105 transition duration-300 ease-in-out block text-center shadow-lg hover:shadow-xl">
-          <h3 class="text-xl font-bold mb-3">Tu red de freelancers</h3>
-          <p class="text-purple-100">Conecta y administra todos tus freelancers en un solo lugar.</p>
-        </a>
-        <a href="/metodosPagos" target="_blank" rel="noopener noreferrer" class="bg-purple-600 p-8 rounded-2xl text-white hover:scale-105 transition duration-300 ease-in-out block text-center shadow-lg hover:shadow-xl">
-          <h3 class="text-xl font-bold mb-3">Métodos de pago</h3>
-          <p class="text-purple-100">Pagos seguros y múltiples opciones adaptadas a ti.</p>
-        </a>
-        
-
-
-      </div>
-    </section>
-
-    <!-- ================== BÚSQUEDAS RECIENTES ================== -->
-    <section class="py-16 bg-gray-100">
-      <div class="max-w-6xl mx-auto">
-        <h2 class="text-2xl font-bold text-blue-950 mb-6">
-          Tus últimas búsquedas
-        </h2>
-
-        <div class="flex gap-6">
-          <div class="bg-white p-6 rounded-xl shadow">
-            Desarrollo Web en Astro
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {recommendedFreelancers.map(f => (
+          <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition-all group">
+            <img 
+              src={f.image} 
+              alt={f.name}
+              class="w-full h-64 object-cover"
+            />
+            <div class="p-5 text-center">
+              <h3 class="text-xl font-bold text-white group-hover:text-purple-400 transition">
+                {f.name}
+              </h3>
+              <div class="flex justify-center items-center gap-1 mt-2 text-yellow-400">
+                <span class="text-lg">★★★★★</span>
+                <span class="text-slate-300 text-sm">{f.rating} ({f.reviews})</span>
+              </div>
+              <button class="mt-5 w-full py-3 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition">
+                Ver perfil
+              </button>
+            </div>
           </div>
-          <div class="bg-white p-6 rounded-xl shadow">
-            Diseño de Logo Profesional
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Tus proyectos activos -->
+  <section class="py-16 bg-slate-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-white mb-10">
+        Tus proyectos activos
+      </h2>
+
+      <div class="space-y-6">
+        {activeProjects.map(p => (
+          <div class="bg-slate-800 rounded-xl p-6 border border-slate-700">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div>
+                <h3 class="text-xl font-bold text-white">{p.title}</h3>
+                <p class="text-slate-400 mt-2">con {p.freelancer}</p>
+              </div>
+              <div class="w-full md:w-64">
+                <div class="bg-slate-700 rounded-full h-3 overflow-hidden">
+                  <div 
+                    class="bg-purple-600 h-3 rounded-full transition-all"
+                    style={`width: ${p.progress}%`}
+                  ></div>
+                </div>
+                <div class="text-right mt-2 text-purple-400 font-medium">
+                  {p.progress}%
+                </div>
+              </div>
+            </div>
           </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios populares -->
+  <section class="py-16 bg-slate-950">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-white mb-10">
+        Servicios populares
+      </h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {popularServices.map(s => (
+          <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition group">
+            <img 
+              src={s.image} 
+              alt={s.title}
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-5 text-center">
+              <h3 class="text-xl font-bold text-white group-hover:text-purple-400 transition">
+                {s.title}
+              </h3>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Tus últimas búsquedas (adaptado a oscuro) -->
+  <section class="py-16 bg-slate-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-2xl font-bold text-white mb-8">
+        Tus últimas búsquedas
+      </h2>
+
+      <div class="flex flex-wrap gap-4">
+        <div class="bg-slate-800 px-8 py-5 rounded-xl border border-slate-700 hover:border-purple-600 transition">
+          Desarrollo Web en Astro
+        </div>
+        <div class="bg-slate-800 px-8 py-5 rounded-xl border border-slate-700 hover:border-purple-600 transition">
+          Diseño de Logo Profesional
         </div>
       </div>
-    </section>
+    </div>
+  </section>
+
+  <!-- Las 3 tarjetas grandes -->
+  <section class="py-16 bg-slate-950">
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+      <a href="/satisfaccion" class="bg-purple-900/40 border border-purple-700/50 p-10 rounded-2xl text-white hover:bg-purple-900/60 hover:scale-[1.02] transition-all duration-300 shadow-xl">
+        <h3 class="text-2xl font-bold mb-4">Satisfacción garantizada</h3>
+        <p class="text-purple-200">Garantizamos la mejor experiencia para nuestros usuarios.</p>
+      </a>
+
+      <a href="/red" class="bg-purple-900/40 border border-purple-700/50 p-10 rounded-2xl text-white hover:bg-purple-900/60 hover:scale-[1.02] transition-all duration-300 shadow-xl">
+        <h3 class="text-2xl font-bold mb-4">Tu red de freelancers</h3>
+        <p class="text-purple-200">Conecta y administra todos tus freelancers en un solo lugar.</p>
+      </a>
+
+      <a href="/metodosPagos" class="bg-purple-900/40 border border-purple-700/50 p-10 rounded-2xl text-white hover:bg-purple-900/60 hover:scale-[1.02] transition-all duration-300 shadow-xl">
+        <h3 class="text-2xl font-bold mb-4">Métodos de pago</h3>
+        <p class="text-purple-200">Pagos seguros y múltiples opciones adaptadas a ti.</p>
+      </a>
+    </div>
+  </section>
+
 </HomeLayout>

@@ -1,0 +1,147 @@
+---
+// src/pages/nosotros.astro
+import HomeLayout from '../layouts/HomeLayout.astro';
+---
+
+<HomeLayout title="Nosotros - Helium">
+
+  <!-- Hero superior -->
+  <section class="relative py-24 md:py-32 bg-gradient-to-br from-slate-950 via-slate-900 to-purple-950/30 overflow-hidden">
+    <div class="absolute inset-0 bg-grid-slate-800/10"></div>
+    <div class="relative max-w-7xl mx-auto px-6 text-center">
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight">
+        Somos Helium
+      </h1>
+      <p class="text-xl md:text-2xl text-slate-300 max-w-4xl mx-auto mb-10">
+        La plataforma colombiana que conecta talento freelance de primer nivel con proyectos que transforman ideas en realidad.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/nuestrosServicios" class="px-8 py-4 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-xl transition shadow-lg shadow-purple-900/30">
+          Explorar servicios →
+        </a>
+        <a href="/contacto" class="px-8 py-4 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold rounded-xl transition">
+          Contáctanos
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Misión - Visión - Valores -->
+  <section class="py-20 bg-slate-950">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid md:grid-cols-3 gap-10 lg:gap-12">
+        <!-- Misión -->
+        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 md:p-10 hover:border-purple-600/60 transition-all group">
+          <div class="text-6xl mb-6 text-purple-500">🎯</div>
+          <h2 class="text-3xl font-bold text-white mb-4 group-hover:text-purple-300 transition">
+            Nuestra Misión
+          </h2>
+          <p class="text-slate-300 text-lg leading-relaxed">
+            Facilitar conexiones de calidad entre clientes y freelancers talentosos de Tolima y toda Colombia, garantizando proyectos exitosos, pagos seguros y experiencias transparentes.
+          </p>
+        </div>
+
+        <!-- Visión -->
+        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 md:p-10 hover:border-purple-600/60 transition-all group">
+          <div class="text-6xl mb-6 text-purple-500">🔮</div>
+          <h2 class="text-3xl font-bold text-white mb-4 group-hover:text-purple-300 transition">
+            Nuestra Visión
+          </h2>
+          <p class="text-slate-300 text-lg leading-relaxed">
+            Ser la plataforma freelance referente en Colombia para proyectos digitales, donde la calidad, la confianza y el talento local impulsen el crecimiento de emprendedores y empresas.
+          </p>
+        </div>
+
+        <!-- Valores -->
+        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-8 md:p-10 hover:border-purple-600/60 transition-all group">
+          <div class="text-6xl mb-6 text-purple-500">❤️</div>
+          <h2 class="text-3xl font-bold text-white mb-4 group-hover:text-purple-300 transition">
+            Nuestros Valores
+          </h2>
+          <ul class="space-y-4 text-slate-300 text-lg">
+            <li class="flex items-start gap-3">
+              <span class="text-green-400 text-xl">✓</span> Transparencia total en pagos y procesos
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-green-400 text-xl">✓</span> Calidad y profesionalismo por encima de todo
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-green-400 text-xl">✓</span> Apoyo al talento colombiano
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="text-green-400 text-xl">✓</span> Satisfacción garantizada al cliente
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Equipo (opcional - puedes quitar o agregar fotos reales) -->
+  <section class="py-20 bg-slate-900">
+    <div class="max-w-7xl mx-auto px-6">
+      <h2 class="text-4xl md:text-5xl font-bold text-center text-white mb-16">
+        El equipo detrás de Helium
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+        <!-- Miembro 1 -->
+        <div class="text-center">
+          <div class="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-purple-600/40 mb-6 shadow-xl">
+            <img src="/images/team/sara.jpg" alt="Sara López" class="w-full h-full object-cover" />
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-2">Sara López</h3>
+          <p class="text-purple-400 font-medium">Fundadora & CEO</p>
+        </div>
+
+        <!-- Miembro 2 -->
+        <div class="text-center">
+          <div class="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-purple-600/40 mb-6 shadow-xl">
+            <img src="/images/team/camilo.jpg" alt="Camilo" class="w-full h-full object-cover" />
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-2">Camilo</h3>
+          <p class="text-purple-400 font-medium">Desarrollador Full Stack</p>
+        </div>
+
+        <!-- Miembro 3 -->
+        <div class="text-center">
+          <div class="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-purple-600/40 mb-6 shadow-xl">
+            <img src="/images/team/stiven.jpg" alt="Stiven" class="w-full h-full object-cover" />
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-2">Stiven</h3>
+          <p class="text-purple-400 font-medium">Diseñador UI/UX</p>
+        </div>
+
+        <!-- Miembro 4 -->
+        <div class="text-center">
+          <div class="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-purple-600/40 mb-6 shadow-xl">
+            <img src="/images/team/ronald.jpg" alt="Ronald" class="w-full h-full object-cover" />
+          </div>
+          <h3 class="text-2xl font-bold text-white mb-2">Ronald</h3>
+          <p class="text-purple-400 font-medium">Marketing & Growth</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA final -->
+  <section class="py-20 bg-gradient-to-br from-purple-950/40 to-slate-950">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold text-white mb-8">
+        ¿Quieres ser parte de Helium?
+      </h2>
+      <p class="text-xl text-slate-300 mb-12 max-w-3xl mx-auto">
+        Ya sea como cliente o como freelancer talentoso, estamos creciendo juntos. Únete a nuestra comunidad.
+      </p>
+      <div class="flex flex-wrap justify-center gap-6">
+        <a href="/registro-freelancer" class="px-10 py-5 bg-purple-700 hover:bg-purple-600 text-white font-bold text-xl rounded-xl transition shadow-2xl shadow-purple-900/40">
+          Únete como freelancer
+        </a>
+        <a href="/registro-cliente" class="px-10 py-5 bg-slate-800 hover:bg-slate-700 border-2 border-purple-600 text-white font-bold text-xl rounded-xl transition">
+          Regístrate como cliente
+        </a>
+      </div>
+    </div>
+  </section>
+
+</HomeLayout>
