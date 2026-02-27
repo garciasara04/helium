@@ -50,7 +50,7 @@ const Title = "Login";
 
           <div>
             <label 
-              for="contrasena" 
+              for="password" 
               class="block text-sm font-medium text-amber-50 mb-2"
             >
               Contraseña
@@ -78,6 +78,35 @@ const Title = "Login";
       </div>
     </div>
   </div>
+  <script>
+    const loginForm = document.getElementById('loginForm');
+    loginForm?.addEventListener('submit', async (e)=> {
+      e.preventDefault();
+      const formdata = new FormData(loginForm);
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/login", {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+          },
+          body: formdata
+        })
+        const data = await response.json();
+        console.log(data);
+        if(data.token){
+          localStorage.setItem('token', data.token);
+          window.location.href=('/home');
+        }
+        else{
+          alert('Credenciales incorrecta')
+        }
+        
+      }
+      catch (error) {
+        console.log("error", error);
+      }
+    } )
+  </script>
 
 </MainLayout>
 
