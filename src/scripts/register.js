@@ -1,16 +1,19 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // 1. Capturamos los elementos principales
+  const form = document.getElementById('registerForm');
   const roleSelect = document.getElementById('role_id');
   const freelancerSection = document.getElementById('freelancerSection');
   const companySection = document.getElementById('companySection');
-  const form = document.getElementById('registerForm');
-
   const passwordInput = document.getElementById('password');
-  // Se asegura que coincida con el ID de tu HTML
   const confirmInput = document.getElementById('password_confirmation');
 
-  if (!form) return; // Si no hay form, no ejecuta nada de esto
+  // Trampa de seguridad con aviso:
+  if (!form) {
+    console.error("🚨 ATENCIÓN: No se encontró el id='registerForm' en tu HTML.");
+    return;
+  }
 
-  // --- 1. Lógica de Feedback de Contraseña ---
+  // --- 2. Lógica de Feedback de Contraseña ---
   const feedback = document.createElement('ul');
   feedback.id = 'passwordFeedback';
   feedback.className = 'mt-2 text-sm space-y-1 bg-gray-200 bg-opacity-50 p-3 rounded-md';
@@ -95,32 +98,31 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // --- 2. Lógica de Ocultar/Mostrar Secciones ---
+  // --- 3. Lógica de Ocultar/Mostrar Secciones ---
   function toggleSections() {
+    if(!roleSelect || !freelancerSection || !companySection) return;
+    
     const selectedRole = roleSelect.value;
-
     freelancerSection.classList.add('hidden');
     companySection.classList.add('hidden');
 
-    // IMPORTANTE: En tu HTML el Freelancer tiene value="2"
     if (selectedRole === '2') {
       freelancerSection.classList.remove('hidden');
-    } else if (selectedRole === '3') { // Empresa
+    } else if (selectedRole === '3') {
       companySection.classList.remove('hidden');
     }
   }
 
   if (roleSelect) {
     roleSelect.addEventListener('change', toggleSections);
-    toggleSections(); // Ejecutar al inicio por si el navegador guardó el valor
+    toggleSections(); 
   }
 
 
-  // --- 3. Validación de Campos Vacíos (Visual) ---
+  // --- 4. Validación General del Formulario ---
   function validateForm() {
     let valid = true;
 
-    // Campos básicos obligatorios (Acorde a tus IDs)
     const requiredFields = ['names', 'email', 'password', 'password_confirmation', 'phone', 'role_id'];
     
     requiredFields.forEach(id => {
@@ -144,9 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
       valid = false;
     }
 
-    // Validar extras según rol
-    if (roleSelect && roleSelect.value === '2') { // Freelancer
-      // Nota: quité 'education_level' porque no está en tu HTML actual
+    if (roleSelect && roleSelect.value === '2') {
       const freelancerFields = ['description', 'profession', 'experience'];
       freelancerFields.forEach(id => {
         const el = document.getElementById(id);
@@ -157,8 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
           el.classList.remove('border-red-600');
         }
       });
-    } else if (roleSelect && roleSelect.value === '3') { // Empresa
-      // Ojo: En tu HTML pusiste name="nit" pero no tiene id="nit". Si falla, ponle id="nit" al input en Astro
+    } else if (roleSelect && roleSelect.value === '3') {
       const companyFields = ['nit', 'address'];
       companyFields.forEach(name => {
         const el = document.querySelector(`input[name="${name}"]`);
@@ -174,13 +173,24 @@ document.addEventListener('DOMContentLoaded', () => {
     return valid;
   }
 
-  // --- 4. El ENVÍO (Tu lógica Fetch) ---
- 
+  // --- 5. EL GATILLO: Evento Submit ---
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault(); // Evita que la página se recargue
 
-  })
+    // Ejecutamos tu validación aquí
+    if (!validateForm()) {
+      console.log("Faltan campos por llenar o hay errores.");
+      // Puedes poner un alert() aquí si quieres
+      return; // Detiene la ejecución si hay errores
+    }
 
-// --- Animaciones y Extras de tu compañera ---
-document.addEventListener("DOMContentLoaded", () => {
+    // SI LLEGA HASTA AQUÍ, LOS DATOS ESTÁN PERFECTOS
+    console.log("¡Todo válido! Listo para enviar a Laravel.");
+    
+    // Aquí pondrías tu lógica del fetch...
+  });
+
+  // --- 6. Animaciones y Extras de tu compañera ---
   const card = document.getElementById("registerCard");
   if (card) {
     requestAnimationFrame(() => {

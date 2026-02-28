@@ -1,0 +1,162 @@
+[33mcommit 2164c3ad067a2a45837f5fe70d46d0ce0af4e3bd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: stiven <you@example.com>
+Date:   Fri Feb 27 11:57:34 2026 -0500
+
+    login y register y redirecciones en dichos archivos
+
+[1mdiff --git a/src/pages/Login.astro b/src/pages/Login.astro[m
+[1mindex f39bb44..228c017 100644[m
+[1m--- a/src/pages/Login.astro[m
+[1m+++ b/src/pages/Login.astro[m
+[36m@@ -50,7 +50,7 @@[m [mconst Title = "Login";[m
+ [m
+           <div>[m
+             <label [m
+[31m-              for="contrasena" [m
+[32m+[m[32m              for="password"[m[41m [m
+               class="block text-sm font-medium text-amber-50 mb-2"[m
+             >[m
+               Contraseña[m
+[36m@@ -78,6 +78,35 @@[m [mconst Title = "Login";[m
+       </div>[m
+     </div>[m
+   </div>[m
+[32m+[m[32m  <script>[m
+[32m+[m[32m    const loginForm = document.getElementById('loginForm');[m
+[32m+[m[32m    loginForm?.addEventListener('submit', async (e)=> {[m
+[32m+[m[32m      e.preventDefault();[m
+[32m+[m[32m      const formdata = new FormData(loginForm);[m
+[32m+[m[32m      try {[m
+[32m+[m[32m        const response = await fetch("http://127.0.0.1:8000/api/login", {[m
+[32m+[m[32m          method: 'POST',[m
+[32m+[m[32m          headers: {[m
+[32m+[m[32m            'Accept': 'application/json',[m
+[32m+[m[32m          },[m
+[32m+[m[32m          body: formdata[m
+[32m+[m[32m        })[m
+[32m+[m[32m        const data = await response.json();[m
+[32m+[m[32m        console.log(data);[m
+[32m+[m[32m        if(data.token){[m
+[32m+[m[32m          localStorage.setItem('token', data.token);[m
+[32m+[m[32m          window.location.href=('/home');[m
+[32m+[m[32m        }[m
+[32m+[m[32m        else{[m
+[32m+[m[32m          alert('Credenciales incorrecta')[m
+[32m+[m[32m        }[m
+[32m+[m[41m        [m
+[32m+[m[32m      }[m
+[32m+[m[32m      catch (error) {[m
+[32m+[m[32m        console.log("error", error);[m
+[32m+[m[32m      }[m
+[32m+[m[32m    } )[m
+[32m+[m[32m  </script>[m
+ [m
+ </MainLayout>[m
+ [m
+[1mdiff --git a/src/pages/Register.astro b/src/pages/Register.astro[m
+[1mindex 364e6ea..4f9cfac 100644[m
+[1m--- a/src/pages/Register.astro[m
+[1m+++ b/src/pages/Register.astro[m
+[36m@@ -1,6 +1,5 @@[m
+ ---[m
+ import MainLayout from "../layouts/MainLayout.astro";[m
+[31m-[m
+ const Title = "Registro | Bienvenid@s";[m
+ ---[m
+ [m
+[36m@@ -27,45 +26,45 @@[m [mconst Title = "Registro | Bienvenid@s";[m
+           REGISTRO[m
+         </h1>[m
+ [m
+[31m-        <form id="registerForm" method="POST" [m
+[32m+[m[32m        <form id="registerForm" method="POST" action="/register"[m
+             class="grid grid-cols-1 md:grid-cols-2 gap-3">[m
+                 [m
+[31m-            <!-- Nombres -->  [m
+             <div class="md:col-span-2">[m
+               <label class="block text-sm font-medium text-amber-50 mb-1">Nombres</label>[m
+[31m-              <input type="text" name="names"[m
+[32m+[m[32m              <input id="names" type="text" name="names"[m
+[32m+[m[32m                class="w-full px-5 py-2 rounded-xl bg-white text-gray-900 border border-gray-300" />[m
+[32m+[m[32m            </div>[m
+[32m+[m
+[32m+[m[32m            <div class="md:col-span-2">[m
+[32m+[m[32m              <label class="block text-sm font-medium text-amber-50 mb-1">Apellidos</label>[m
+[32m+[m[32m              <input id="last_names" type="text" name="last_names"[m
+                 class="w-full px-5 py-2 rounded-xl bg-white text-gray-900 border border-gray-300" />[m
+             </div>[m
+           [m
+[31m-            <!-- Email -->[m
+             <div class="md:col-span-2">[m
+               <label class="block text-sm font-medium text-amber-50 mb-1">Correo electrónico</label>[m
+[31m-              <input type="email" name="email"[m
+[32m+[m[32m              <input id="email" type="email" name="email"[m
+                 class="w-full px-5 py-2 rounded-xl bg-white text-gray-900 border border-gray-300" />[m
+             </div>[m
+           [m
+[31m-            <!-- Password -->[m
+             <div>[m
+               <label class="block text-sm font-medium text-amber-50 mb-1">Contraseña</label>[m
+               <input id="password" type="password" name="password"[m
+                 class="w-full px-5 py-2 rounded-xl bg-white text-gray-900 border border-gray-300" />[m
+             </div>[m
+           [m
+[31m-            <!-- Confirm -->[m
+             <div>[m
+               <label class="block text-sm font-medium text-amber-50 mb-1">Confirmar contraseña</label>[m
+[31m-              <input id="configpassword" type="password" name="configpassword"[m
+[32m+[m[32m              <input id="password_confirmation" type="password" name="password_confirmation"[m
+                 class="w-full px-5 py-2 rounded-xl bg-white text-gray-900 border border-gray-300" />[m
+             </div>[m
+           [m
+[31m-            <!-- Teléfono -->[m
+             <div>[m
+               <label class="block text-sm font-medium text-amber-50 mb-1">Teléfono</label>[m
+[31m-              <input type="tel" name="phone"[m
+[32m+[m[32m              <input type="tel" id="phone" name="phone"[m
+                 class="w-full px-5 py-2 rounded-xl bg-white border text-gray-900 border-gray-300" />[m
+             </div>[m
+           [m
+[31m-            <!-- Rol -->[m
+             <div>[m
+               <label class="block text-sm font-medium text-gray-50 mb-1">Rol</label>[m
+               <select[m
+[36m@@ -77,13 +76,12 @@[m [mconst Title = "Registro | Bienvenid@s";[m
+                 <option value="" disabled selected class="text-gray-400">[m
+                   Selecciona tu rol[m
+                 </option>[m
+[31m-                <option value="1" class="text-gray-900 bg-white">Freelancer</option>[m
+[31m-                <option value="2" class="text-gray-900 bg-white">Usuario</option>[m
+[32m+[m[32m                <option value="2" class="text-gray-900 bg-white">Freelancer</option>[m
+[32m+[m[32m                <option value="1" class="text-gray-900 bg-white">Usuario</option>[m
+                 <option value="3" class="text-gray-900 bg-white">Empresa</option>[m
+               </select>[m
+             </div>[m
+           [m
+[31m-            <!-- Foto -->[m
+             <div class="md:col-span-2">[m
+               <label class="block text-sm font-medium text-amber-50 mb-1">[m
+                 Foto de perfil[m
+[36m@@ -110,45 +108,47 @@[m [mconst Title = "Registro | Bienvenid@s";[m
+                 type="file"[m
+                 accept="image/*"[m
+                 class="hidden"[m
+[32m+[m[32m                name="photo"[m
+               />[m
+             </div>[m
+           [m
+[31m-            <!-- FREELANCER -->[m
+[31m-            <div id="freelancerSection" class="hidden md:col-span-2  grid-cols-1 md:grid-cols-2 gap-4">[m
+[32m+[m[32m            <div id="freelancerSection" class="hidden md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">[m
+               <h3 class="md:col-span-2 text-xl font-semibold text-amber-50">Perfil Freelancer</h3>[m
+             [m
+               <div class="md:col-span-2">[m
+                 <label class="block text-sm font-medium text-amber-50">Descripción</label>[m
+[31m-                <textarea name="description" rows="3" class="w-full px-4 py-2 rounded-lg bg-white border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500"></textarea>[m
+[32m+[m[32m                <textarea name="description" id="description" rows="3" class="w-full px-4 py-2 rounded-lg bg-white text-gray-900 border border-gray-300 focus:ring-2 focus:ring-indigo-400 focus:border-indigo-500"></textarea>[m
+               </div>[m
+             [m
+               <div>[m
+                 <label class="block text-sm font-medium text-amber-50">Profesión</label>[m
+[31m-                <input type="text" class="w-full px-5 py-2 rounded-xl bg-white border" />[m
+

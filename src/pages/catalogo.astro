@@ -1,50 +1,10 @@
 ---
-// src/pages/catalogo.astro (o /catalogo-freelancers.astro)
 import HomeLayout from '../layouts/HomeLayout.astro';
-
-// Datos de ejemplo (en producción: vienen de tu API o base de datos)
-const freelancers = [
-  {
-    name: "Talal",
-    level: "Nivel 2",
-    rating: 4.9,
-    reviews: 17,
-    title: "Crearé un sistema de trading automatizado impulsado por IA",
-    price: "Desde USD 2,095",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400",
-    tags: ["IA", "Trading", "Python", "Automatización"],
-    videoConsult: true
-  },
-  {
-    name: "Mian Jim",
-    level: "Nivel 2",
-    rating: 5.0,
-    reviews: 35,
-    title: "Crearé aplicaciones web full stack de IA con React, Node y Django",
-    price: "Desde USD 3,000",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400",
-    tags: ["React", "Node.js", "Django", "Full Stack", "IA"],
-    videoConsult: true
-  },
-  {
-    name: "Geeksoo Agency",
-    level: "Nivel 2",
-    rating: 5.0,
-    reviews: 9,
-    title: "Nuestra agencia arreglará la codificación vibe para apps con IA",
-    price: "Desde USD 750",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400",
-    tags: ["Mobile Apps", "IA", "Agencia", "Chatbots"],
-    videoConsult: true
-  },
-  // Agrega más según necesites (puedes tener 12-20 por página)
-];
 ---
 
 <HomeLayout title="Catálogo de Freelancers - Helium">
 
   <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-10 lg:py-16">
-    <!-- Título superior -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
       <div>
         <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-white">
@@ -66,12 +26,10 @@ const freelancers = [
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
-      <!-- Filtros laterales (izquierda) -->
       <aside class="lg:col-span-1 space-y-8">
         <div class="bg-slate-900/80 border border-slate-700 rounded-xl p-6">
           <h3 class="text-xl font-bold text-white mb-6">Opciones de servicio</h3>
 
-          <!-- Filtros tipo acordeón o simples -->
           <div class="space-y-6">
             <div>
               <h4 class="font-semibold text-slate-300 mb-3">Tipo de aplicación</h4>
@@ -99,8 +57,6 @@ const freelancers = [
                 <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-purple-600" /> Django</label></li>
               </ul>
             </div>
-
-            <!-- Más filtros... -->
           </div>
         </div>
 
@@ -116,65 +72,11 @@ const freelancers = [
         </div>
       </aside>
 
-      <!-- Grid principal de freelancers/servicios -->
       <div class="lg:col-span-3">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {freelancers.map(f => (
-            <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-purple-600 transition-all duration-300 group shadow-lg hover:shadow-purple-900/20">
-              {/* Imagen / banner */}
-              <div class="h-48 bg-linear-to-br from-slate-800 to-slate-900 relative">
-                <img 
-                  src={f.image} 
-                  alt={f.name}
-                  class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition"
-                />
-                {f.videoConsult && (
-                  <div class="absolute top-3 right-3 bg-purple-700 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    Video consulta
-                  </div>
-                )}
-              </div>
-
-              {/* Contenido */}
-              <div class="p-6">
-                <div class="flex items-center justify-between mb-3">
-                  <h3 class="text-xl font-bold text-white group-hover:text-purple-400 transition">
-                    {f.name}
-                  </h3>
-                  <span class="text-sm text-purple-400 font-medium">{f.level}</span>
-                </div>
-
-                <p class="text-slate-300 mb-4 line-clamp-2">
-                  {f.title}
-                </p>
-
-                <div class="flex items-center gap-2 mb-4">
-                  <span class="text-yellow-400 text-lg">★★★★★</span>
-                  <span class="text-slate-400 text-sm">{f.rating} ({f.reviews})</span>
-                </div>
-
-                <div class="flex flex-wrap gap-2 mb-6">
-                  {f.tags.map(tag => (
-                    <span class="text-xs px-3 py-1 bg-slate-800 rounded-full text-purple-300">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-
-                <div class="flex items-center justify-between">
-                  <span class="text-xl font-bold text-purple-400">
-                    {f.price}
-                  </span>
-                  <button class="px-6 py-2.5 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition">
-                    Contratar ahora
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div id="contenedor-freelancers" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          
         </div>
 
-        {/* Paginación o "Ver más" */}
         <div class="mt-16 text-center">
           <button class="px-10 py-4 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-xl transition shadow-lg shadow-purple-900/30">
             Ver más freelancers →
@@ -182,6 +84,67 @@ const freelancers = [
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
 </HomeLayout>
+
+<script>
+  const contenedor = document.getElementById('contenedor-freelancers');
+
+  async function cargarFreelancers() {
+    try {
+      const respuesta = await fetch('http://127.0.0.1:8000/api/TU_RUTA_AQUI');
+      const data = await respuesta.json();
+
+      contenedor.innerHTML = '';
+
+      data.forEach(f => {
+        const tarjetaHTML = `
+          <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-purple-600 transition-all duration-300 group shadow-lg hover:shadow-purple-900/20">
+            <div class="h-48 bg-linear-to-br from-slate-800 to-slate-900 relative">
+              <img 
+                src="${f.image}" 
+                alt="${f.name}"
+                class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition"
+              />
+            </div>
+
+            <div class="p-6">
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-xl font-bold text-white group-hover:text-purple-400 transition">
+                  ${f.name}
+                </h3>
+                <span class="text-sm text-purple-400 font-medium">${f.level}</span>
+              </div>
+
+              <p class="text-slate-300 mb-4 line-clamp-2">
+                ${f.title}
+              </p>
+
+              <div class="flex items-center gap-2 mb-4">
+                <span class="text-yellow-400 text-lg">★★★★★</span>
+                <span class="text-slate-400 text-sm">${f.rating} (${f.reviews})</span>
+              </div>
+
+              <div class="flex items-center justify-between">
+                <span class="text-xl font-bold text-purple-400">
+                  ${f.price}
+                </span>
+                <button class="px-6 py-2.5 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition">
+                  Contratar ahora
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        contenedor.innerHTML += tarjetaHTML;
+      });
+
+    } catch (error) {
+      contenedor.innerHTML = '<p class="text-red-500">Error al cargar los datos.</p>';
+    }
+  }
+
+  cargarFreelancers();
+</script>
