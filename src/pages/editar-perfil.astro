@@ -1,0 +1,146 @@
+---
+// src/pages/editar-perfil.astro
+import HomeLayout from '../layouts/HomeLayout.astro';
+
+// Datos de ejemplo (en producción: vienen de la sesión o API del usuario logueado)
+const user = {
+  names: "Sara",
+  last_names: "López",
+  email: "sara.lopez@example.com",
+  phone: "+57 312 456 7890",
+  photo: "",
+
+};
+---
+
+<HomeLayout title="Editar Mi Perfil - Helium">
+
+  <div class="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12 py-12">
+    
+    <div class="mb-10 text-center lg:text-left">
+      <h1 class="text-3xl md:text-4xl font-bold text-white">
+        Editar mi perfil
+      </h1>
+      <p class="mt-3 text-lg text-slate-400">
+        Actualiza la información básica con la que te registraste
+      </p>
+    </div>
+
+    <div class="bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 shadow-xl shadow-purple-900/20">
+
+      <!-- Foto de perfil + botón cambiar -->
+      <div class="flex flex-col items-center mb-12">
+        <div class="relative mb-6">
+          <img
+            src={user.photo}
+            alt="Foto de perfil"
+            class="w-40 h-40 rounded-full object-cover border-4 border-purple-600 shadow-2xl"
+          />
+          <button 
+            type="button"
+            class="absolute bottom-0 right-0 bg-purple-700 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded-full shadow-md transition"
+            onclick="document.getElementById('photo-upload').click()"
+          >
+            Cambiar foto
+          </button>
+          <input 
+            type="file" 
+            id="photo-upload" 
+            accept="image/*" 
+            class="hidden"
+          />
+        </div>
+        <p class="text-sm text-gray-400">Tamaño recomendado: 400x400 px (máx 5MB)</p>
+      </div>
+
+      <!-- Formulario simple -->
+      <form class="space-y-8">
+        
+        <!-- Nombre completo (dividido en nombres y apellidos) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label for="names" class="block text-sm font-medium text-gray-300 mb-2">
+              Nombres
+            </label>
+            <input 
+              type="text" 
+              id="names" 
+              name="names"
+              value={user.names}
+              required
+              class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
+            />
+          </div>
+          
+          <div>
+            <label for="last_names" class="block text-sm font-medium text-gray-300 mb-2">
+              Apellidos
+            </label>
+            <input 
+              type="text" 
+              id="last_names" 
+              name="last_names"
+              value={user.last_names}
+              required
+              class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
+            />
+          </div>
+        </div>
+
+        <!-- Correo -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
+            Correo electrónico
+          </label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email"
+            value={user.email}
+            required
+            class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
+          />
+          <p class="mt-1 text-xs text-gray-500">
+            Este es el correo con el que te registraste. Puedes cambiarlo si lo necesitas.
+          </p>
+        </div>
+
+        <!-- Teléfono -->
+        <div>
+          <label for="phone" class="block text-sm font-medium text-gray-300 mb-2">
+            Teléfono / WhatsApp
+          </label>
+          <input 
+            type="tel" 
+            id="phone" 
+            name="phone"
+            value={user.phone}
+            placeholder="+57 300 123 4567"
+            class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
+          />
+          <p class="mt-1 text-xs text-gray-500">
+            Incluye el código de país (ej: +57)
+          </p>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-end mt-12 pt-8 border-t border-gray-800">
+          <a 
+            href="/perfil"
+            class="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg transition text-center"
+          >
+            Cancelar
+          </a>
+          <button 
+            type="submit"
+            class="px-10 py-3 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-lg transition shadow-lg shadow-purple-900/30"
+          >
+            Guardar cambios
+          </button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+</HomeLayout>
