@@ -1,0 +1,177 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout title="Crear Servicio" userRole="freelance">
+
+<div class="max-w-3xl mx-auto">
+
+<form id="serviceForm" class="space-y-6 bg-slate-900 p-8 rounded-xl border border-slate-800">
+
+  <!-- Titulo -->
+  <div>
+    <label class="block text-sm mb-2">Título del servicio</label>
+    <input
+      type="text"
+      id="title"
+      placeholder="Ej: Desarrollo de API REST con Laravel"
+      class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+      required
+    />
+  </div>
+
+  <!-- Descripción -->
+  <div>
+    <label class="block text-sm mb-2">Descripción</label>
+    <textarea
+      id="description"
+      rows="4"
+      placeholder="Describe que incluye tu servicio..."
+      class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+      required
+    ></textarea>
+  </div>
+
+  <!-- Categoria -->
+  <div>
+    <label class="block text-sm mb-2">Categoría</label>
+
+    <select
+      id="category_id"
+      class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+    >
+      <option value="1">Desarrollo Web</option>
+      <option value="2">Desarrollo Móvil</option>
+      <option value="3">Diseño Gráfico</option>
+      <option value="4">Marketing Digital</option>
+      <option value="5">Redacción y Traducción</option>
+      <option value="6">Edición de Video</option>
+      <option value="7">Soporte TI</option>
+    </select>
+  </div>
+
+  <!-- Precio -->
+  <div>
+    <label class="block text-sm mb-2">Precio (COP)</label>
+    <input
+      type="number"
+      id="price"
+      placeholder="450000"
+      class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+      required
+    />
+  </div>
+
+  <!-- Tiempo entrega -->
+  <div>
+    <label class="block text-sm mb-2">Tiempo de entrega (días)</label>
+    <input
+      type="number"
+      id="delivery_time"
+      placeholder="7"
+      class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+      required
+    />
+  </div>
+
+  <!-- Revisiones -->
+  <div>
+    <label class="block text-sm mb-2">Revisiones</label>
+    <input
+      type="number"
+      id="revisions"
+      placeholder="2"
+      class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+      required
+    />
+  </div>
+
+  <!-- Requisitos -->
+  <div>
+    <label class="block text-sm mb-2">Requisitos del cliente</label>
+    <textarea
+      id="requirements"
+      rows="3"
+      placeholder="Ej: Comparte alcance del proyecto..."
+      class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
+    ></textarea>
+  </div>
+
+  <!-- Botón -->
+  <button
+    type="submit" 
+    class="w-full bg-purple-600 hover:bg-purple-700 transition py-3 rounded-lg font-semibold"
+  >
+    Publicar Servicio
+  </button>
+
+</form>
+
+</div>
+
+
+<!-- <script>
+
+const form = document.getElementById("serviceForm");
+
+form.addEventListener("submit", async (e) => {
+
+  e.preventDefault();
+
+  const data = {
+
+    title: document.getElementById("title").value,
+
+    description: document.getElementById("description").value,
+
+    category_id: Number(document.getElementById("category_id").value),
+
+    price: Number(document.getElementById("price").value),
+
+    delivery_time: Number(document.getElementById("delivery_time").value),
+
+    revisions: Number(document.getElementById("revisions").value),
+
+    requirements: document.getElementById("requirements").value
+
+  };
+
+  console.log("JSON enviado:", data);
+
+  try {
+
+    const response = await fetch("http://localhost:8000/api/services", {
+
+      method: "POST",
+
+      headers: {
+
+        "Content-Type": "application/json",
+
+        "Authorization": "Bearer TU_TOKEN"
+
+      },
+
+      body: JSON.stringify(data)
+
+    });
+
+    const result = await response.json();
+
+    alert("Servicio creado correctamente");
+
+    console.log(result);
+
+  } catch (error) {
+
+    console.error(error);
+
+    alert("Error al crear servicio");
+
+  }
+
+});
+
+</script> -->
+
+</DashboardLayout>

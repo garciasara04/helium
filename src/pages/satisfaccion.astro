@@ -1,74 +1,76 @@
 ---
-import GarantiaHero from '../components/GarantiaHero.astro';
-import GarantiaSection from '../components/GarantiaSection.astro';
-import SidebarEnlaces from '../components/SidebarEnlaces.astro';
-import HomeLayout from '../layouts/HomeLayout.astro';
+import PublicLayout from "../layouts/PublicLayout.astro";
+import GarantiaSection from "../components/sections/GarantiaSection.astro";
+import SidebarEnlaces from "../components/ui/SidebarEnlaces.astro";
 ---
 
-<HomeLayout title="Garantía de Satisfacción - Helium">
-  <main class="min-h-screen bg-slate-950 text-slate-100">
-    <div class="container mx-auto px-4 py-12 lg:py-16">
+<PublicLayout title="Satisfacción del Cliente - Helium">
+  <main class="min-h-screen bg-slate-950 text-purple-600">
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-12">
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
-
-        <!-- Contenido principal -->
-        <div class="lg:col-span-3 space-y-10 lg:space-y-16">
-          <GarantiaHero />
-
-          <GarantiaSection id="cubierto" title="¿Qué está cubierto?">
-            <p class="text-slate-300 mb-6">
-              La garantía de satisfacción se aplica a los siguientes servicios en Helium:
+        <div class="lg:col-span-3 space-y-12">
+          
+          <section class="text-center border-b border-slate-800 pb-10">
+            <h1 class="text-4xl font-bold mb-4">
+              Satisfacción del Cliente
+            </h1>
+            
+            <p class="text-slate-400 max-w-2xl mx-auto">
+              En Helium conectamos empresas y freelancers para desarrollar proyectos
+              digitales de alta calidad. Nuestro objetivo es ofrecer una experiencia
+              segura, transparente y profesional para todos los usuarios.
             </p>
+          </section>
+          
+          <GarantiaSection id="compromiso" title="Nuestro compromiso">
+            <p class="text-slate-300">
+              Helium trabaja constantemente para garantizar una experiencia
+              profesional entre clientes, empresas y freelancers.
+            </p>
+            
+            <p class="text-slate-300 mt-4">
+              Nuestro sistema permite contratar servicios digitales de manera segura,
+              con comunicación directa y seguimiento del proyecto.
+            </p>
+          
+          </GarantiaSection>
+
+          <GarantiaSection id="calidad" title="Calidad del servicio">
             <ul class="list-disc pl-6 space-y-3 text-slate-300">
-              <li>Servicios de creación y diseño de páginas web completas por freelancers verificados y expertos.</li>
-              <li>Desarrollo de blogs personalizados (WordPress, Astro, Next.js, custom, headless, etc.).</li>
-              <li>Paquetes que incluyen rediseño, migración, SEO inicial o optimización de sitios web existentes.</li>
-              <li>Servicios gestionados por expertos del dominio, incluyendo recomendaciones de freelancers y coordinación del proyecto.</li>
+              <li>Freelancers verificados.</li>
+              <li>Perfil profesional con experiencia.</li>
+              <li>Sistema de calificaciones.</li>
+              <li>Seguimiento del proyecto.</li>
+              <li>Comunicación directa cliente–freelancer.</li>
             </ul>
-            <p class="mt-6 text-slate-400 italic">
-              La garantía cubre tanto el pago del servicio principal como cualquier pedido adicional relacionado con freelancers recomendados.
+          </GarantiaSection>
+
+          <GarantiaSection id="experiencia" title="Experiencia del usuario">
+            <p class="text-slate-300">
+              La plataforma Helium está diseñada para que empresas y clientes
+              encuentren fácilmente al freelancer adecuado para cada proyecto.
             </p>
           </GarantiaSection>
 
-          <GarantiaSection id="funciona" title="Cómo funciona">
-            <ul class="list-disc pl-6 space-y-4 text-slate-300">
-              <li><span class="font-semibold text-violet-400">Plazo de solicitud:</span> Tienes hasta <strong>14 días</strong> calendario después de la entrega final para reportar insatisfacción a soporte@helium.</li>
-              <li><span class="font-semibold text-violet-400">Proceso de reembolso:</span> Si se aprueba, reembolso del 100% del monto pagado (a saldo Helium o método original según caso).</li>
-              <li><span class="font-semibold text-violet-400">Derechos de uso:</span> Tras reembolso, no podrás usar ninguna parte del trabajo. El freelancer retiene todos los derechos.</li>
-              <li><span class="font-semibold text-violet-400">Exclusiones:</span> No aplica a trabajos por hora, cambios post-aprobación, abuso o incumplimiento grave de términos.</li>
-            </ul>
-          </GarantiaSection>
-
-          <GarantiaSection id="practicas" title="Mejores prácticas para resultados óptimos">
+          <GarantiaSection id="mejoras" title="Mejora continua">
             <ul class="list-disc pl-6 space-y-3 text-slate-300">
-              <li>Entrega un brief claro y detallado desde el día 1 (objetivos, referencias, paleta de colores, etc.).</li>
-              <li>Revisa entregas parciales rápidamente y comunica ajustes temprano.</li>
-              <li>Mantén comunicación fluida por chat o comentarios en la plataforma.</li>
-              <li>Aprovecha las revisiones incluidas antes de aprobar la entrega final.</li>
+              <li>Escuchamos el feedback de los usuarios.</li>
+              <li>Actualizamos constantemente la plataforma.</li>
+              <li>Agregamos nuevas herramientas para facilitar la contratación.</li>
             </ul>
           </GarantiaSection>
-
-          <GarantiaSection id="resumen" title="Resumen">
-            <p class="text-slate-300 mb-8">
-              La Garantía de Satisfacción de Helium es nuestro compromiso real con la calidad. Contrata tu blog o página web con confianza total: si no cumple tus expectativas, te devolvemos tu dinero. Comunicación clara + talento verificado = proyectos exitosos.
-            </p>
-            <a href="/contratar" class="inline-block px-8 py-4 bg-violet-700 hover:bg-blue-600 text-white font-semibold rounded-lg transition-colors duration-300 shadow-lg shadow-violet-900/30">
-              Contratar ahora con garantía →
-            </a>
-          </GarantiaSection>
-
-          <p class="text-center text-slate-500 text-sm mt-12">
-            Helium se reserva el derecho de evaluar elegibilidad, rechazar casos de abuso/fraude y modificar esta garantía. Aplican los Términos de Servicio.
-          </p>
         </div>
-
-        <!-- Sidebar derecha (sticky) -->
+        
         <div class="lg:col-span-1">
-          <div class="lg:sticky lg:top-8 space-y-6">
+          <div class="sticky top-8">
             <SidebarEnlaces />
           </div>
         </div>
-
+      
       </div>
+
     </div>
+  
   </main>
-</HomeLayout>
+
+</PublicLayout>

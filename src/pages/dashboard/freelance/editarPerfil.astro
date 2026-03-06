@@ -1,6 +1,8 @@
 ---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
 //en la linea 29 se debe hacer un script para la modificacion de la foto 
-import HomeLayout from '../layouts/HomeLayout.astro';
+
 const user = {
   nombre: "Sara López",
   email: "sara.lopez.bpo@gmail.com",
@@ -16,7 +18,7 @@ const user = {
   idiomas: "Español (nativo), Inglés (B2)",
 };
 ---
-<HomeLayout title="ensayo">
+<DashboardLayout title="ensayo" userRole="freelance">
 <div class="relative max-w-4xl mx-auto px-5 py-12 md:py-16">
 
     <div class="text-center mb-12">
@@ -102,4 +104,4 @@ const user = {
     </form>
 
   </div>
-</HomeLayout>
+</DashboardLayout>

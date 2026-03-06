@@ -1,0 +1,194 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+
+---
+
+<DashboardLayout title="Editar Servicio" userRole="freelance">
+
+<div class="max-w-3xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl p-8">
+
+  <h2 class="text-xl font-semibold mb-6">
+    Editar Servicio
+  </h2>
+
+  <form id="editServiceForm" class="space-y-6">
+
+    <input type="hidden" id="serviceId" value=id />
+
+   
+    <div>
+      <label class="block text-sm text-slate-400 mb-2">
+        Título del servicio
+      </label>
+      <input
+        id="title"
+        type="text"
+        class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
+      />
+    </div>
+    <div>
+      <label class="block text-sm text-slate-400 mb-2">
+        Descripción
+      </label>
+      <textarea
+        id="description"
+        rows="4"
+        class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
+      ></textarea>
+    </div>
+
+   
+    <div>
+      <label class="block text-sm text-slate-400 mb-2">
+        Categoría
+      </label>
+
+      <select
+        id="category_id"
+        class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
+      >
+        <option value="1">Desarrollo Web</option>
+        <option value="2">Desarrollo Móvil</option>
+        <option value="3">Diseño Gráfico</option>
+        <option value="4">Marketing Digital</option>
+        <option value="5">Redacción y Traducción</option>
+        <option value="6">Edición de Video</option>
+        <option value="7">Soporte TI</option>
+      </select>
+    </div>
+
+
+    <div>
+      <label class="block text-sm text-slate-400 mb-2">
+        Precio
+      </label>
+      <input
+        id="price"
+        type="number"
+        class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm text-slate-400 mb-2">
+        Días de entrega
+      </label>
+      <input
+        id="delivery_time"
+        type="number"
+        class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
+      />
+    </div>
+
+  
+    <div>
+      <label class="block text-sm text-slate-400 mb-2">
+        Revisiones
+      </label>
+      <input
+        id="revisions"
+        type="number"
+        class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
+      />
+    </div>
+
+   
+    <div>
+      <label class="block text-sm text-slate-400 mb-2">
+        Requisitos del cliente
+      </label>
+      <textarea
+        id="requirements"
+        rows="3"
+        class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
+      ></textarea>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full bg-purple-600 hover:bg-purple-700 transition py-3 rounded-xl font-semibold"
+    >
+      Actualizar servicio
+    </button>
+
+  </form>
+
+</div>
+
+</DashboardLayout>
+
+
+<!-- <script>
+
+const id = document.getElementById("serviceId").value;
+
+/* Cargar servicio */
+
+async function loadService(){
+
+  const response = await fetch(`http://localhost:8000/api/services/${id}`);
+
+  const data = await response.json();
+
+  document.getElementById("title").value = data.title;
+  document.getElementById("description").value = data.description;
+  document.getElementById("category_id").value = data.category_id;
+  document.getElementById("price").value = data.price;
+  document.getElementById("delivery_time").value = data.delivery_time;
+  document.getElementById("revisions").value = data.revisions;
+  document.getElementById("requirements").value = data.requirements;
+
+}
+
+loadService();
+
+
+
+/* Actualizar servicio */
+
+document.getElementById("editServiceForm")
+.addEventListener("submit", async (e)=>{
+
+e.preventDefault();
+
+const body = {
+
+title: document.getElementById("title").value,
+description: document.getElementById("description").value,
+category_id: document.getElementById("category_id").value,
+price: document.getElementById("price").value,
+delivery_time: document.getElementById("delivery_time").value,
+revisions: document.getElementById("revisions").value,
+requirements: document.getElementById("requirements").value
+
+};
+
+const response = await fetch(`http://localhost:8000/api/services/${id}`,{
+
+method:"PUT",
+
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer "+localStorage.getItem("token")
+},
+
+body: JSON.stringify(body)
+
+});
+
+if(response.ok){
+
+alert("Servicio actualizado");
+
+window.location.href="/dashboard/freelance/servicios";
+
+}else{
+
+alert("Error al actualizar servicio");
+
+}
+
+});
+
+</script> -->

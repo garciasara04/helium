@@ -1,0 +1,82 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const services = [
+  {
+    title: "Desarrollo de API REST con Laravel",
+    category: "Desarrollo Web",
+    price: 450000,
+    delivery_time: 7
+  },
+  {
+    title: "Diseño de Logo Profesional",
+    category: "Diseño Gráfico",
+    price: 120000,
+    delivery_time: 3
+  }
+];
+---
+
+<DashboardLayout title="Mis Servicios" userRole="freelance">
+
+<div class="max-w-6xl mx-auto">
+
+  <div class="flex justify-between items-center mb-8">
+    <h2 class="text-xl font-semibold">Servicios publicados</h2>
+
+    <a
+      href="/dashboard/freelance/crearServicio"
+      class="bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-lg text-sm font-medium"
+    >
+      + Crear servicio
+    </a>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    {services.map(service => (
+
+  <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+
+    <h3 class="font-semibold text-lg mb-2">
+      {service.title}
+    </h3>
+
+    <p class="text-sm text-slate-400 mb-4">
+      {service.category}
+    </p>
+
+    <div class="flex justify-between text-sm text-slate-300 mb-4">
+      <span>${service.price}</span>
+      <span>{service.delivery_time} días</span>
+    </div>
+
+    <div class="flex gap-3">
+
+      <!-- EDITAR -->
+      <a
+        href="/dashboard/freelance/editarServicio"
+        class="flex-1 text-center bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm"
+      >
+        Editar
+      </a>
+
+      <!-- ELIMINAR -->
+      <button
+        onclick={`deleteService(${service.id})`}
+        class="flex-1 bg-red-600 hover:bg-red-700 py-2 rounded-lg text-sm"
+      >
+        Eliminar
+      </button>
+
+    </div>
+
+  </div>
+
+))}
+
+  </div>
+
+</div>
+
+</DashboardLayout>

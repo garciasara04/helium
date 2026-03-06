@@ -1,0 +1,163 @@
+---
+// src/components/layout/CategoriesBar.astro
+const { userRole } = Astro.props;
+
+// Solo mostrar para cliente y company
+const showCategories = userRole === 'cliente' || userRole === 'company';
+---
+
+{showCategories && (
+  <div class="bg-slate-900/90 border-t border-slate-800 sticky top-17 z-40 w-full backdrop-blur-sm">
+
+    <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-3 flex justify-center gap-8 text-sm md:text-base font-medium text-slate-300 overflow-x whitespace-nowrap">
+
+      <!-- Desarrollo Web -->
+      <div class="relative group">
+        <a href="/catalogo?category_id=1" id="1" class="hover:text-purple-400 transition">
+          Desarrollo Web
+        </a>
+        <div class="absolute left-0 mt-3 w-72 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+          <ul class="grid grid-cols-2 gap-2 text-sm">
+            <li>Laravel</li>
+            <li>PHP</li>
+            <li>JavaScript</li>
+            <li>React</li>
+            <li>Vue.js</li>
+            <li>Node.js</li>
+            <li>PostgreSQL</li>
+            <li>MySQL</li>
+            <li>HTML5</li>
+            <li>CSS3</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Desarrollo Móvil -->
+      <div class="relative group">
+        <a href="/catalogo?category_id=2" id="2" class="hover:text-purple-400 transition">
+          Desarrollo Móvil
+        </a>
+        <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+          <ul class="grid grid-cols-2 gap-2 text-sm">
+            <li>Flutter</li>
+            <li>React Native</li>
+            <li>Kotlin</li>
+            <li>Swift</li>
+            <li>Android Studio</li>
+            <li>Firebase</li>
+            <li>API REST</li>
+            <li>UI/UX móvil</li>
+            <li>Play Store</li>
+            <li>App Store</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Diseño Gráfico -->
+      <div class="relative group">
+        <a href="/catalogo?category_id=3" id="3" class="hover:text-purple-400 transition">
+          Diseño Gráfico
+        </a>
+        <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+          <ul class="grid grid-cols-2 gap-2 text-sm">
+            <li>Photoshop</li>
+            <li>Illustrator</li>
+            <li>Figma</li>
+            <li>Diseño de Logos</li>
+            <li>Branding</li>
+            <li>Diseño Publicitario</li>
+            <li>Edición de imágenes</li>
+            <li>Diseño UX/UI</li>
+            <li>Canva Pro</li>
+            <li>Prototipado</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Marketing Digital -->
+      <div class="relative group">
+        <a href="/catalogo?category_id=4" id="4" class="hover:text-purple-400 transition">
+          Marketing Digital
+        </a>
+        <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+          <ul class="grid grid-cols-2 gap-2 text-sm">
+            <li>SEO</li>
+            <li>SEM</li>
+            <li>Google Ads</li>
+            <li>Facebook Ads</li>
+            <li>Email Marketing</li>
+            <li>Copywriting</li>
+            <li>Analytics</li>
+            <li>Embudos de venta</li>
+            <li>Automatización</li>
+            <li>Estrategia digital</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Redacción y Traducción -->
+      <div class="relative group">
+        <a href="/catalogo?category_id=5" id="5" class="hover:text-purple-400 transition">
+          Redacción y Traducción
+        </a>
+        <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+          <ul class="grid grid-cols-2 gap-2 text-sm">
+            <li>Redacción SEO</li>
+            <li>Copy publicitario</li>
+            <li>Traducción Inglés</li>
+            <li>Traducción Español</li>
+            <li>Corrección de estilo</li>
+            <li>Artículos de blog</li>
+            <li>Escritura técnica</li>
+            <li>Ghostwriting</li>
+            <li>Transcripción</li>
+            <li>Storytelling</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Edición de Video -->
+      <div class="relative group">
+        <a href="/catalogo?category_id=6" id="6" class="hover:text-purple-400 transition">
+          Edición de Video
+        </a>
+        <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+          <ul class="grid grid-cols-2 gap-2 text-sm">
+            <li>Premiere Pro</li>
+            <li>After Effects</li>
+            <li>CapCut</li>
+            <li>Edición YouTube</li>
+            <li>Motion Graphics</li>
+            <li>Animación 2D</li>
+            <li>Animación 3D</li>
+            <li>Producción audiovisual</li>
+            <li>Colorización</li>
+            <li>Diseño Sonoro</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Soporte TI -->
+      <div class="relative group">
+        <a href="/catalogo?category_id=7" id="7" class="hover:text-purple-400 transition">
+          Soporte TI
+        </a>
+        <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
+          <ul class="grid grid-cols-2 gap-2 text-sm">
+            <li>Soporte remoto</li>
+            <li>Redes</li>
+            <li>Linux</li>
+            <li>Windows Server</li>
+            <li>Ciberseguridad</li>
+            <li>Mantenimiento PC</li>
+            <li>Docker</li>
+            <li>DevOps básico</li>
+            <li>AWS</li>
+            <li>Backup y recuperación</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+)}

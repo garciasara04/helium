@@ -1,11 +1,11 @@
 ---
-import HomeLayout from '../layouts/HomeLayout.astro';
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 const user = {
   name: "Sara López",
   photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&auto=format&fit=crop",
 };
 ---
-<HomeLayout title="cuenta">
+<DashboardLayout title="Panel Freelance" userRole="freelance">
 <div class="relative max-w-5xl mx-auto px-5 py-12 md:py-16">
 
     <header class="text-center mb-14">
@@ -24,7 +24,7 @@ const user = {
 
       <!-- Editar Perfil -->
       <a
-        href="/editarPerfil"
+        href="/dashboard/freelance/editarPerfil"
         class="group bg-gray-900/40 backdrop-blur-sm border border-indigo-800/40 rounded-2xl p-8 md:p-10 flex flex-col items-center justify-center text-center hover:border-indigo-600/60 hover:bg-gray-900/60 transition-all duration-300 shadow-xl shadow-black/40"
       >
         <div class="w-24 h-24 md:w-32 md:h-32 bg-purple-900/30 rounded-full flex items-center justify-center mb-6 group-hover:bg-purple-800/40 transition-colors">
@@ -37,7 +37,7 @@ const user = {
 
       <!-- Cambiar Contraseña -->
       <a
-        href="/cambiarContrasena"
+        href="/dashboard/freelance/cambiarContraseña"
         class="group bg-gray-900/40 backdrop-blur-sm border border-indigo-800/40 rounded-2xl p-8 md:p-10 flex flex-col items-center justify-center text-center hover:border-indigo-600/60 hover:bg-gray-900/60 transition-all duration-300 shadow-xl shadow-black/40"
       >
         <div class="w-24 h-24 md:w-32 md:h-32 bg-purple-900/30 rounded-full flex items-center justify-center mb-6 group-hover:bg-purple-800/40 transition-colors">
@@ -64,4 +64,4 @@ const user = {
     </div>
 
   </div>
-</HomeLayout>
+</DashboardLayout>

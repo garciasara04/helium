@@ -1,0 +1,47 @@
+---
+// src/layouts/DashboardLayout.astro
+import '../styles/global.css';
+
+import CategoriesBar from '../components/layout/CategoriesBar.astro';
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+
+interface Props {
+  title: string;
+  userRole: 'cliente' | 'freelance' | 'company' | 'admin';
+  userName?: string;
+}
+
+const { title, userRole, userName = "Sara Lopez" } = Astro.props;
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} - Helium</title>
+  </head>
+
+  <body class="bg-slate-950 text-white antialiased">
+    <div class="flex min-h-screen flex-col">
+
+      <!-- Header/Nav (menú horizontal) -->
+      <Navbar userName={userName} userRole={userRole} />
+
+      <CategoriesBar userRole={userRole} />
+      <!-- Contenido con sidebar -->
+      <div class="flex flex-1">
+
+        <!-- Contenido principal -->
+        <main class="flex-1 p-6 md:p-8 lg:p-10 overflow-auto">
+          <h1 class="text-2xl md:text-3xl font-bold mb-6 text-white">{title}</h1>
+          <slot />
+        </main>
+      </div>
+
+      <!-- Footer -->
+      <Footer />
+
+    </div>
+  </body>
+</html>

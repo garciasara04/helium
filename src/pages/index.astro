@@ -1,69 +1,68 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
+import PublicLayout from '../layouts/PublicLayout.astro';
 ---
 
-<MainLayout title="Helium - Plataforma Freelance">
+<PublicLayout title="Helium - Plataforma Freelance">
 
-  <section class="relative min-h-screen flex items-center bg-slate-950 overflow-hidden">
+<section class="relative min-h-screen flex items-center bg-slate-950 overflow-hidden">
 
+  <div class="absolute inset-0 bg-linear-to-r from-slate-950 via-blue-950/20 to-slate-950"></div>
 
-    <div class="absolute inset-0 bg-linear-to-r from-slate-950 via-blue-950/20 to-slate-950"></div>
+  <div 
+    class="absolute inset-0 bg-[url('/pattern.png')] bg-repeat bg-center opacity-10 pointer-events-none"
+  ></div>
 
-    <div 
-      class="absolute inset-0 bg-[url('/pattern.png')] bg-repeat bg-center opacity-10 pointer-events-none"
-    ></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 w-full">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
+      <!-- IMAGEN -->
+      <div class="flex justify-center lg:justify-start order-2 lg:order-1">
+        <img
+          src="/compu.png"
+          alt="Computadora representando desarrollo web"
+          class="w-4/5 sm:w-3/4 md:w-96 object-contain drop-shadow-2xl transition duration-500 hover:scale-105"
+          loading="eager"
+        />
+      </div>
 
-    <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 lg:px-16 w-full">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <!-- TEXTO -->
+      <div class="text-center lg:text-left order-1 lg:order-2 bg-slate-950">
 
-    
-        <div class="flex justify-center lg:justify-start order-2 lg:order-1">
-          <img
-            src="/compu.png"
-            alt="Computadora representando desarrollo web"
-            class="w-4/5 sm:w-3/4 md:w-96 object-contain drop-shadow-2xl transition duration-500 hover:scale-105"
-            loading="eager"
-          />
-        </div>
+        <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-6">
+          <span class="text-blue-500">HELIUM</span>
+        </h1>
 
+        <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto lg:mx-0 mb-10 leading-relaxed">
+          Creamos páginas web profesionales, rápidas y ligeras
+          para que freelancers destaquen y consigan más clientes.
+        </p>
 
-        <div class="text-center lg:text-left order-1 lg:order-2 bg-slate-950 ">
+        <div class="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
 
-          <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-6">
-            <span class="text-blue-500">HELIUM</span>
-          </h1>
+          <a
+            href="/register"
+            class="px-8 py-4 bg-linear-to-r from-blue-600 to-blue-800 text-white font-semibold text-lg rounded-full shadow-lg hover:scale-105 transition duration-300"
+          >
+            Crear mi sitio
+          </a>
 
-          <p class="text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto lg:mx-0 mb-10 leading-relaxed">
-            Creamos páginas web profesionales, rápidas y ligeras
-            para que freelancers destaquen y consigan más clientes.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
-
-            <a
-              href="/Register"
-              class="px-8 py-4 bg-linear-to-r from-blue-600 to-blue-800 text-white font-semibold text-lg rounded-full shadow-lg hover:scale-105 transition duration-300"
-            >
-              Crear mi sitio
-            </a>
-
-            <a
-              href="/Login"
-              class="px-8 py-4 border-2 border-blue-600 text-blue-400 font-semibold text-lg rounded-full hover:bg-blue-900/30 hover:text-white transition duration-300"
-            >
-              Iniciar sesión
-            </a>
-
-          </div>
-
-          <p class="mt-8 text-slate-500 text-sm">
-            +100 freelancers ya impulsan su marca con Helium
-          </p>
+          <a
+            href="/login"
+            class="px-8 py-4 border-2 border-blue-600 text-blue-400 font-semibold text-lg rounded-full hover:bg-blue-900/30 hover:text-white transition duration-300"
+          >
+            Iniciar sesión
+          </a>
 
         </div>
+
+        <p class="mt-8 text-slate-500 text-sm">
+          +100 freelancers ya impulsan su marca con Helium
+        </p>
+
       </div>
     </div>
+  </div>
 
-  </section>
+</section>
 
-</MainLayout>
+</PublicLayout>

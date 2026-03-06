@@ -1,5 +1,5 @@
 ---
-import HomeLayout from "../layouts/HomeLayout.astro";
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 const freelancer = {
   name: "Ana Martínez",
@@ -34,7 +34,7 @@ const portfolio = [
   },
 ]
 ---
-<HomeLayout title="Catálogo - Helium">
+<DashboardLayout title="Catalogo Cliente" userRole="cliente">
 
 <div class="min-h-screen bg-linear-to-b from-gray-950 to-gray-900 text-gray-100">
   <!-- Contenedor principal -->
@@ -137,3 +137,4 @@ const portfolio = [
 
   </div>
 </div>
+</DashboardLayout>

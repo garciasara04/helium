@@ -1,0 +1,30 @@
+---
+// src/components/layout/Footer.astro
+---
+
+<footer class="bg-slate-950 border-t border-slate-800 py-12 mt-auto">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-10 text-slate-400">
+    <div>
+      <h3 class="text-white font-bold mb-4">Helium</h3>
+      <p class="text-sm">Plataforma freelance colombiana</p>
+    </div>
+    <div>
+      <h3 class="text-white font-bold mb-4">Enlaces</h3>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/nosotros" class="hover:text-purple-400">Nosotros</a></li>
+        <li><a href="/terminos" class="hover:text-purple-400">Términos y condiciones</a></li>
+        <li><a href="/privacidad" class="hover:text-purple-400">Privacidad</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-white font-bold mb-4">Soporte</h3>
+      <ul class="space-y-2 text-sm">
+        <li><a href="/ayuda" class="hover:text-purple-400">Centro de ayuda</a></li>
+        <li><a href="/contacto" class="hover:text-purple-400">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="mt-10 text-center text-slate-500 text-sm">
+    © {new Date().getFullYear()} Helium • Hecho con ❤️ en Tolima, Colombia
+  </div>
+</footer>

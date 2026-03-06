@@ -1,83 +1,88 @@
 ---
-import MainLayout from "../layouts/MainLayout.astro";
+import PublicLayout from "../layouts/PublicLayout.astro";
 import backgroundImage from "../assets/image.png";
 
 const Title = "Login";
 ---
 
-<MainLayout title={Title}>
+<PublicLayout title={Title}>
+
+<div 
+  class="min-h-screen bg-cover bg-center bg-no-repeat relative"
+  style={`background-image: url(${backgroundImage.src});`}
+>
 
   <div 
-    class="min-h-screen bg-cover bg-center bg-no-repeat relative"
+    class="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-x-[-1]"
     style={`background-image: url(${backgroundImage.src});`}
-  >
-  <div 
-      class="absolute inset-0 bg-cover bg-center bg-no-repeat transform scale-x-[-1]"
-      style={`background-image: url(${backgroundImage.src});`}
-    >
-  </div>
-    
-    <div class="absolute inset-0 bg-black/25">
+  ></div>
 
-    
-    <div class="relative min-h-screen flex justify-end pt-8 pb-20 px-6 md:px-10 lg:px-12 xl:px-24 z-10">
+  <div class="absolute inset-0 bg-black/25"></div>
 
-      
-      <div 
-        id="loginCard" 
-        class="w-full md:w-1/2 lg:w-1/2 max-w-2xl
-                 bg-gray-400/35 backdrop-blur-sm rounded-3xl shadow-2xl
-                 p-10 md:p-14 border border-gray-300/60
-                 opacity-0 translate-y-6 transition-all duration-700 ease-out">
+  <div class="relative min-h-screen flex justify-end pt-8 pb-20 px-6 md:px-10 lg:px-12 xl:px-24 z-10">
 
-        <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">
-          Inicio de Sesión
-        </h1>
+    <div 
+      id="loginCard"
+      class="w-full md:w-1/2 lg:w-1/2 max-w-2xl
+      bg-gray-400/35 backdrop-blur-sm rounded-3xl shadow-2xl
+      p-10 md:p-14 border border-gray-300/60">
 
-        <form id="loginForm" class="space-y-7">
+      <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">
+        Inicio de Sesión
+      </h1>
 
-          <div>
-            <label 
-              for="email" 
-              class="block text-sm font-medium text-amber-50 mb-2"
-            >
-              Correo electrónico
-            </label>
-            <input 
-              type="email" id="email" name="email" 
-              class="w-full px-5 py-2 rounded-xl bg-white/90 border border-gray-300/80 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200/50 outline-none text-gray-900 transition" />
-          </div>
+      <form id="loginForm" class="space-y-7">
 
-          <div>
-            <label 
-              for="password" 
-              class="block text-sm font-medium text-amber-50 mb-2"
-            >
-              Contraseña
-            </label>
-            <input type="password" id="password" name="password" 
-           class="w-full px-5 py-2 rounded-xl bg-white/90 border border-gray-300/80 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200/50 outline-none text-gray-900 transition " />
-          </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-amber-50 mb-2">
+            Correo electrónico
+          </label>
 
-          <div class="pt-4">
-            <button type="submit"
-              class="w-full py-2 px-6 bg-gray-900 text-white font-medium text-lg rounded-xl hover:bg-gray-800 transition duration-300 shadow-md hover:shadow-xl transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-gray-600">
-              Ingresar
-            </button>
-          </div>
-        </form>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="w-full px-5 py-2 rounded-xl bg-white border border-gray-300 text-gray-900"
+          />
+        </div>
 
-        <p class="text-center mt-4 text-gray-200 text-sm">
-          ¿Olvidaste tu contraseña? 
-        <a 
-          href="/RecuperarContraseña "class="text-indigo-950 font-medium hover:underline ">
+        <div>
+          <label for="password" class="block text-sm font-medium text-amber-50 mb-2">
+            Contraseña
+          </label>
+
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="w-full px-5 py-2 rounded-xl bg-white border border-gray-300 text-gray-900"
+          />
+        </div>
+
+        <div class="pt-4">
+          <button
+            type="submit"
+            class="w-full py-2 px-6 bg-gray-900 text-white font-medium text-lg rounded-xl hover:bg-gray-800 transition">
+            Ingresar
+          </button>
+        </div>
+
+      </form>
+
+      <p class="text-center mt-4 text-gray-200 text-sm">
+        ¿Olvidaste tu contraseña?
+        <a href="/recuperar-contrasena" class="text-indigo-900 font-medium hover:underline">
           Recuperar contraseña
         </a>
       </p>
 
-      </div>
     </div>
+
   </div>
+
+</div>
+
+
   <script>
     const loginForm = document.getElementById('loginForm');
     loginForm?.addEventListener('submit', async (e)=> {
@@ -108,6 +113,6 @@ const Title = "Login";
     } )
   </script>
 
-</MainLayout>
+</PublicLayout>
 
 <script type="module" src="src/scripts/login.js"></script>

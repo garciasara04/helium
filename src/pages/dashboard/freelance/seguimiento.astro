@@ -1,0 +1,126 @@
+---
+// src/pages/dashboard/freelance/seguimiento.astro
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const order = {
+  id: 1024,
+  client: "TechCorp",
+  service: "Desarrollo de API REST con Laravel",
+  price: 450000,
+  status: "En progreso",
+  startDate: "10 Mar 2026",
+  deliveryDate: "17 Mar 2026",
+};
+
+const steps = [
+  { name: "Pedido recibido", completed: true },
+  { name: "Trabajo iniciado", completed: true },
+  { name: "En desarrollo", completed: true },
+  { name: "En revisión", completed: false },
+  { name: "Entregado", completed: false }
+];
+---
+
+<DashboardLayout title="Seguimiento del trabajo" userRole="freelance">
+
+<div class="max-w-5xl mx-auto">
+
+  <!-- Información del pedido -->
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 mb-8 shadow">
+
+    <h2 class="text-xl font-bold text-white mb-6">
+      Información del pedido
+    </h2>
+
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-sm">
+
+      <div>
+        <p class="text-slate-400">Cliente</p>
+        <p class="font-semibold">{order.client}</p>
+      </div>
+
+      <div>
+        <p class="text-slate-400">Servicio</p>
+        <p class="font-semibold">{order.service}</p>
+      </div>
+
+      <div>
+        <p class="text-slate-400">Precio</p>
+        <p class="font-semibold">${order.price}</p>
+      </div>
+
+      <div>
+        <p class="text-slate-400">Inicio</p>
+        <p class="font-semibold">{order.startDate}</p>
+      </div>
+
+      <div>
+        <p class="text-slate-400">Entrega</p>
+        <p class="font-semibold">{order.deliveryDate}</p>
+      </div>
+
+      <div>
+        <p class="text-slate-400">Estado</p>
+
+        <span class="px-3 py-1 bg-blue-900/60 text-blue-300 rounded-full text-xs font-medium">
+          {order.status}
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Seguimiento del trabajo -->
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 shadow">
+
+    <h2 class="text-xl font-bold text-white mb-8">
+      Estado del trabajo
+    </h2>
+
+    <div class="space-y-6">
+
+      {steps.map((step, index) => (
+
+        <div class="flex items-center gap-4">
+
+          <!-- círculo -->
+          <div class={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold
+            ${step.completed ? 'bg-purple-600 text-white' : 'bg-slate-700 text-slate-400'}
+          `}>
+            {index + 1}
+          </div>
+
+          <!-- línea -->
+          <div class="flex-1">
+
+            <p class={`font-medium ${
+              step.completed ? 'text-white' : 'text-slate-400'
+            }`}>
+
+              {step.name}
+
+            </p>
+
+          </div>
+
+          <!-- estado -->
+          {step.completed ? (
+            <span class="text-green-400 text-sm">Completado</span>
+          ) : (
+            <span class="text-slate-500 text-sm">Pendiente</span>
+          )}
+
+        </div>
+
+      ))}
+
+    </div>
+
+  </div>
+
+</div>
+
+</DashboardLayout>

@@ -1,0 +1,105 @@
+---
+// src/pages/dashboard/cliente/red.astro
+import DashboardLayout from '../../../layouts/DashboardLayout.astro';
+import FreelancerCard from '../../../components/ui/FreelancerCard.astro';
+
+// Datos de ejemplo (en producción, trae esto de tu API o backend)
+const freelancers = [
+  { 
+    name: "Darshan", 
+    role: "Profesional examinado", 
+    rating: 4.9, 
+    reviews: 1779, 
+    price: "Desde US$150/proyecto", 
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400" 
+  },
+  { 
+    name: "Matías", 
+    role: "Profesional examinado", 
+    rating: 4.9, 
+    reviews: 601, 
+    price: "Desde US$100/proyecto", 
+    imageUrl: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400" 
+  },
+  { 
+    name: "Manav S", 
+    role: "Profesional examinado", 
+    rating: 4.8, 
+    reviews: 1200, 
+    price: "Desde US$200/proyecto", 
+    imageUrl: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400" 
+  },
+];
+---
+<DashboardLayout title="Red Cliente" userRole="cliente">
+
+  <main class="min-h-screen bg-slate-950 text-slate-100">
+    <div class="container mx-auto px-4 py-8 lg:py-12">
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+
+        <!-- Sidebar izquierda -->
+        <aside class="lg:w-64 shrink-0">
+          <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 sticky top-8">
+            <h1 class="text-2xl font-bold text-violet-400 mb-8">Red de autónomos</h1>
+
+            <nav class="space-y-8">
+              <div>
+                <h2 class="text-lg font-semibold text-slate-300 mb-4">Basado en tu actividad</h2>
+                <ul class="space-y-3">
+                  <li>
+                    <a href="#todas" class="flex items-center gap-3 px-4 py-3 rounded-lg bg-violet-900/30 hover:bg-violet-800/50 transition-colors">
+                      <span class="text-violet-400">✦</span> Todas las contrataciones
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#vistos" class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-slate-800 transition-colors">
+                      <span class="text-violet-400">⌛</span> Vistos recientemente
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </aside>
+
+        <!-- Contenido principal -->
+        <div class="flex-1 space-y-12">
+
+          <!-- Sección: Todas las contrataciones -->
+          <section id="todas">
+            <h2 class="text-3xl font-bold text-violet-300 mb-6">Todas las contrataciones</h2>
+            {freelancers.length > 0 ? (
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {freelancers.map(f => (
+                  <FreelancerCard {...f} />
+                ))}
+              </div>
+            ) : (
+              <div class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
+                No tienes contrataciones todavía.
+              </div>
+            )}
+          </section>
+
+          <!-- Sección: Vistos recientemente -->
+          <section id="vistos">
+            <h2 class="text-3xl font-bold text-violet-300 mb-6">Vistos recientemente</h2>
+            {freelancers.length > 0 ? (
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {freelancers.slice(0,3).map(f => (
+                  <FreelancerCard {...f} />
+                ))}
+              </div>
+            ) : (
+              <div class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
+                No has visto freelancers recientemente.
+              </div>
+            )}
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+</DashboardLayout>
