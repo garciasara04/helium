@@ -1,0 +1,40 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const company = {
+name:"Tech Company",
+nit:"123456789",
+phone:"+34 600000000",
+address:"Madrid",
+website:"tech.com"
+};
+---
+
+<DashboardLayout title="Perfil empresa" userRole="company">
+
+<div class="bg-slate-900 p-8 rounded-xl">
+
+<h2 class="text-2xl font-bold mb-6">
+Información
+</h2>
+
+<ul class="space-y-3 text-slate-300">
+
+<li>Nombre: {company.name}</li>
+<li>NIT: {company.nit}</li>
+<li>Teléfono: {company.phone}</li>
+<li>Dirección: {company.address}</li>
+<li>Website: {company.website}</li>
+
+</ul>
+
+<a
+href="/dashboard/company/editar"
+class="mt-6 inline-block bg-purple-600 px-5 py-2 rounded-lg"
+>
+Editar perfil
+</a>
+
+</div>
+
+</DashboardLayout>

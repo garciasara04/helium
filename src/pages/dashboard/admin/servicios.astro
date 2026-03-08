@@ -1,0 +1,67 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const servicios = [
+  {
+    titulo: "Landing Page Profesional",
+    freelancer: "Sara Lopez",
+    estado: "Activo"
+  },
+  {
+    titulo: "Diseño Logo",
+    freelancer: "Ana Martinez",
+    estado: "Inactivo"
+  }
+];
+---
+
+<DashboardLayout title="Moderación servicios" userRole="admin">
+  <h1 class="text-2xl font-bold mb-6">
+    Servicios publicados
+  </h1>
+
+  <div class="grid md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+      <p class="text-slate-400">Total servicios</p>
+      <p class="text-3xl font-bold">510</p>
+    </div>
+
+    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+      <p class="text-slate-400">Activos</p>
+      <p class="text-3xl font-bold text-green-400">450</p>
+    </div>
+
+    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+      <p class="text-slate-400">Inactivos</p>
+      <p class="text-3xl font-bold text-red-400">60</p>
+    </div>
+  </div>
+
+  <div class="space-y-4">
+    {servicios.map(s => (
+      <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+        <h3 class="text-xl font-bold">
+          {s.titulo}
+        </h3>
+
+        <p class="text-slate-400">
+          Freelancer: {s.freelancer}
+        </p>
+
+        <p class="mt-2">
+          Estado: {s.estado}
+        </p>
+
+        <div class="flex gap-3 mt-4">
+          <button class="bg-red-600 px-4 py-2 rounded">
+            Desactivar
+          </button>
+
+          <button class="bg-green-600 px-4 py-2 rounded">
+            Reactivar
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+</DashboardLayout>

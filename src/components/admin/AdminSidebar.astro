@@ -1,0 +1,71 @@
+---
+const path = Astro.url.pathname;
+---
+
+<aside class="w-64 bg-slate-900 border-r border-slate-800 p-6 hidden lg:block">
+  <h2 class="text-lg font-bold mb-6 text-white">
+    Panel Admin
+  </h2>
+
+  <nav class="space-y-2 text-sm">
+    <a
+      href="/dashboard/admin"
+      class={`flex items-center gap-3 px-4 py-2 rounded-lg transition
+        ${path === "/dashboard/admin"
+          ? "bg-indigo-600 text-white"
+          : "bg-slate-800 hover:bg-indigo-600"}`}
+    >
+      🏠 Inicio
+    </a>
+
+    <a
+      href="/dashboard/admin/usuarios"
+      class={`flex items-center gap-3 px-4 py-2 rounded-lg transition
+        ${path.startsWith("/dashboard/admin/usuarios")
+          ? "bg-indigo-600 text-white"
+          : "bg-slate-800 hover:bg-indigo-600"}`}
+    >
+      👥 Usuarios
+    </a>
+
+    <a
+      href="/dashboard/admin/servicios"
+      class={`flex items-center gap-3 px-4 py-2 rounded-lg transition
+        ${path === "/dashboard/admin/servicios"
+          ? "bg-indigo-600 text-white"
+          : "bg-slate-800 hover:bg-indigo-600"}`}
+    >
+      🛠 Servicios
+    </a>
+
+    <a
+      href="/dashboard/admin/reputacion"
+      class={`flex items-center gap-3 px-4 py-2 rounded-lg transition
+        ${path === "/dashboard/admin/reputacion"
+          ? "bg-indigo-600 text-white"
+          : "bg-slate-800 hover:bg-indigo-600"}`}
+    >
+      ⭐ Reputación
+    </a>
+
+    <a
+      href="/dashboard/admin/ordenes"
+      class={`flex items-center gap-3 px-4 py-2 rounded-lg transition
+        ${path === "/dashboard/admin/ordenes"
+          ? "bg-indigo-600 text-white"
+          : "bg-slate-800 hover:bg-indigo-600"}`}
+    >
+      📦 Órdenes
+    </a>
+
+    <a
+      href="/dashboard/admin/reportes"
+      class={`flex items-center gap-3 px-4 py-2 rounded-lg transition
+        ${path === "/dashboard/admin/reportes"
+          ? "bg-indigo-600 text-white"
+          : "bg-slate-800 hover:bg-indigo-600"}`}
+    >
+      📊 Reportes
+    </a>
+  </nav>
+</aside>

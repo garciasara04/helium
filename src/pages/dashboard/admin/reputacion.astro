@@ -1,0 +1,61 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout title="Reputación freelancers" userRole="admin">
+  <h1 class="text-2xl font-bold mb-8">
+    Monitoreo de reputación
+  </h1>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <!-- RATING BAJO -->
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <h2 class="text-xl font-semibold mb-4">
+        Freelancers con rating bajo
+      </h2>
+
+      <ul class="space-y-3">
+        <li class="bg-slate-800 p-3 rounded">
+          Juan Perez — ⭐ 2.8
+        </li>
+
+        <li class="bg-slate-800 p-3 rounded">
+          Ana Lopez — ⭐ 3.1
+        </li>
+      </ul>
+    </div>
+
+    <!-- RESEÑAS NEGATIVAS -->
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <h2 class="text-xl font-semibold mb-4">
+        Más reseñas negativas
+      </h2>
+
+      <ul class="space-y-3">
+        <li class="bg-slate-800 p-3 rounded">
+          Carlos Ramirez — 8 reseñas negativas
+        </li>
+
+        <li class="bg-slate-800 p-3 rounded">
+          Laura Gomez — 6 reseñas negativas
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- STRIKES -->
+  <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl mt-8">
+    <h2 class="text-xl font-semibold mb-4">
+      Usuarios con muchos strikes
+    </h2>
+
+    <ul class="space-y-3">
+      <li class="bg-slate-800 p-3 rounded flex justify-between">
+        <span>Usuario X — 3 strikes</span>
+        <button class="bg-yellow-600 px-3 py-1 rounded">
+          Agregar strike
+        </button>
+      </li>
+    </ul>
+  </div>
+</DashboardLayout>

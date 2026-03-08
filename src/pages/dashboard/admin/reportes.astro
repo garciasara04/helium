@@ -1,0 +1,37 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout title="Reportes" userRole="admin">
+  <div class="grid md:grid-cols-3 gap-6">
+    <a
+      href="/dashboard/admin/reportesVentas"
+      class="bg-slate-900 border border-slate-800 p-8 rounded-xl hover:border-indigo-500 transition"
+    >
+      <h2 class="text-xl font-bold mb-2">💰 Reportes de ventas</h2>
+      <p class="text-slate-400">
+        Ingresos, órdenes completadas y rendimiento financiero.
+      </p>
+    </a>
+
+    <a
+      href="/dashboard/admin/reportesActividad"
+      class="bg-slate-900 border border-slate-800 p-8 rounded-xl hover:border-indigo-500 transition"
+    >
+      <h2 class="text-xl font-bold mb-2">📈 Reportes de actividad</h2>
+      <p class="text-slate-400">
+        Actividad de la plataforma y comportamiento de usuarios.
+      </p>
+    </a>
+
+    <a
+      href="/dashboard/admin/reportesUsuarios"
+      class="bg-slate-900 border border-slate-800 p-8 rounded-xl hover:border-indigo-500 transition"
+    >
+      <h2 class="text-xl font-bold mb-2">👥 Reportes de usuarios</h2>
+      <p class="text-slate-400">
+        Crecimiento, registros y comportamiento de usuarios.
+      </p>
+    </a>
+  </div>
+</DashboardLayout>

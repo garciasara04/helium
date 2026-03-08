@@ -1,0 +1,29 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout title="Marketplace" userRole="company">
+
+<input
+placeholder="Buscar servicio"
+class="w-full p-3 mb-6 bg-slate-800 rounded"
+/>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<a href="/dashboard/company/servicio-detalle"
+class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+
+<h3 class="font-bold">
+Landing page
+</h3>
+
+<p class="text-slate-400">
+$500
+</p>
+
+</a>
+
+</div>
+
+</DashboardLayout>
