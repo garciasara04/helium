@@ -1,22 +1,32 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const notifications = [
+{type:"orden",msg:"Tu orden fue aceptada"},
+{type:"entrega",msg:"Servicio entregado"},
+{type:"mensaje",msg:"Nuevo mensaje del freelancer"}
+];
 ---
 
 <DashboardLayout title="Notificaciones" userRole="company">
 
 <div class="space-y-4">
 
-<div class="bg-slate-900 p-4 rounded">
-Orden entregada
+{notifications.map(n => (
+
+<div class="bg-slate-900 p-5 rounded-xl flex justify-between">
+
+<p>{n.msg}</p>
+
+<span class="text-purple-400 capitalize">
+
+{n.type}
+
+</span>
+
 </div>
 
-<div class="bg-slate-900 p-4 rounded">
-Nuevo mensaje
-</div>
-
-<button class="bg-purple-600 px-5 py-2 rounded-lg">
-Marcar todas como leídas
-</button>
+))}
 
 </div>
 

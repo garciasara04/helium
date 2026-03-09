@@ -1,191 +1,199 @@
 ---
-import PublicLayout from '../layouts/PublicLayout.astro';
+import PublicLayout from "../layouts/PublicLayout.astro";
+
+const views = [
+  {
+    title: "Panel Cliente",
+    image: "vista-cliente.png",
+    desc: "Encuentra freelancers y contrata servicios fácilmente."
+  },
+  {
+    title: "Panel Freelancer",
+    image: "/images/vista-freelancer.png",
+    desc: "Publica servicios y gestiona pedidos."
+  },
+  {
+    title: "Panel Empresa",
+    image: "/images/vista-company.png",
+    desc: "Gestiona proyectos y contrata talento."
+  }
+];
 ---
 
-<PublicLayout title="Helium - Conecta Talento con Oportunidades">
+<PublicLayout title="Helium - Marketplace Freelance">
 
-<div class="relative min-h-screen bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-950 text-white overflow-hidden">
-
-  <!-- Fondo animado sutil (efecto de red/partículas muy ligero) -->
-  <div class="absolute inset-0 pointer-events-none">
-    <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(139,92,246,0.12)_0%,transparent_60%),radial-gradient(circle_at_80%_70%,rgba(59,130,246,0.12)_0%,transparent_60%)] animate-pulse-slow"></div>
-  </div>
-
-  <!-- Hero principal -->
-  <section class="relative z-10 flex flex-col items-center justify-center min-h-screen px-6 py-20">
-    <h1 class="text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-black tracking-tighter mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 animate-gradient-x">
-      HELIUM
+<!-- HERO -->
+<section class="bg-slate-950 text-slate-100">
+  <div class="max-w-7xl mx-auto px-6 py-24 text-center">
+    <h1 class="text-5xl md:text-6xl font-bold mb-6">
+      Encuentra el <span class="text-purple-500">talento perfecto</span>
     </h1>
-
-    <p class="text-2xl sm:text-4xl md:text-5xl font-light mb-12 md:mb-16 text-center max-w-4xl leading-tight">
-      La red que une talento freelance con proyectos que importan
+    <p class="text-slate-400 max-w-2xl mx-auto mb-10 text-lg">
+      Helium conecta empresas y clientes con freelancers profesionales
+      en desarrollo, diseño, marketing y más.
     </p>
-
-    <!-- Botones principales interactivos -->
-    <div class="flex flex-wrap justify-center gap-6 md:gap-10 z-20 relative">
-      <a
-        href="#servicios"
-        class="group relative px-10 py-5 bg-linear-to-r from-indigo-600 to-purple-600 rounded-xl font-bold text-lg shadow-2xl shadow-purple-900/50 hover:shadow-purple-700/70 hover:scale-105 transition-all duration-400 overflow-hidden"
-      >
-        <span class="relative z-10">Explorar Servicios</span>
-        <div class="absolute inset-0 bg-linear-to-r from-indigo-500/40 to-purple-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+    <div class="flex justify-center gap-5 flex-wrap">
+      <a href="/register" class="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-xl font-semibold transition text-lg">
+        Explorar servicios
       </a>
-
-      <a
-        href="#nosotros"
-        class="group relative px-10 py-5 border-2 border-purple-500 text-purple-300 rounded-xl font-bold text-lg hover:bg-purple-900/40 hover:text-white transition-all duration-400 hover:scale-105"
-      >
-        Conócenos
-      </a>
-
-      <a
-        href="#satisfaccion"
-        class="group relative px-10 py-5 border-2 border-blue-500 text-blue-300 rounded-xl font-bold text-lg hover:bg-blue-900/40 hover:text-white transition-all duration-400 hover:scale-105"
-      >
-        Lo que dicen
+      <a href="/register" class="border border-slate-600 hover:border-purple-500 px-8 py-4 rounded-xl transition text-lg">
+        Crear cuenta
       </a>
     </div>
+  </div>
+</section>
 
-    <!-- Efecto visual de nodos/conexiones (más visible en desktop) -->
-    <div class="absolute inset-0 z-0 pointer-events-none hidden lg:block">
-      <div class="absolute top-[20%] left-[15%] w-10 h-10 bg-purple-500 rounded-full shadow-2xl shadow-purple-700/60 animate-pulse group-hover:scale-150 transition-transform duration-700"></div>
-      <div class="absolute top-[35%] right-[20%] w-8 h-8 bg-blue-500 rounded-full shadow-2xl shadow-blue-700/60 animate-pulse delay-500"></div>
-      <div class="absolute bottom-[25%] left-[30%] w-12 h-12 bg-indigo-500 rounded-full shadow-2xl shadow-indigo-700/60 animate-pulse delay-1000"></div>
-      <div class="absolute bottom-[30%] right-[25%] w-9 h-9 bg-purple-400 rounded-full shadow-2xl shadow-purple-600/60 animate-pulse delay-1500"></div>
+<!-- CAROUSEL -->
+<section class="bg-slate-950 py-16 md:py-24 overflow-hidden">
+  <div class="relative max-w-7xl mx-auto px-6">
 
-      <!-- Líneas de conexión sutiles -->
-      <svg class="absolute inset-0 w-full h-full opacity-15" viewBox="0 0 100 100" preserveAspectRatio="none">
-        <line x1="15" y1="20" x2="80" y2="35" stroke="url(#grad1)" stroke-width="0.6" />
-        <line x1="15" y1="20" x2="30" y2="75" stroke="url(#grad2)" stroke-width="0.6" />
-        <line x1="80" y1="35" x2="70" y2="70" stroke="url(#grad1)" stroke-width="0.6" />
-        <defs>
-          <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#a78bfa" />
-            <stop offset="100%" stop-color="#60a5fa" />
-          </linearGradient>
-          <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#60a5fa" />
-            <stop offset="100%" stop-color="#c084fc" />
-          </linearGradient>
-        </defs>
-      </svg>
+    <div class="relative flex items-center justify-center min-h-105 md:min-h-125">
+
+      <!-- Botones -->
+      <button id="prev" class="absolute left-4 md:left-8 z-20 bg-slate-900/80 hover:bg-purple-700/80 backdrop-blur-sm p-4 rounded-full text-2xl transition-all duration-300 shadow-xl">
+        ←
+      </button>
+
+      <button id="next" class="absolute right-4 md:right-8 z-20 bg-slate-900/80 hover:bg-purple-700/80 backdrop-blur-sm p-4 rounded-full text-2xl transition-all duration-300 shadow-xl">
+        →
+      </button>
+
+      <!-- Contenedor del carousel -->
+      <div id="carousel" class="flex items-center justify-center gap-4 md:gap-8 transition-transform duration-700 ease-out">
+        {
+          views.map((view, index) => (
+            <div
+              class="carousel-item min-w-[280px] md:min-w-[380px] bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl transition-all duration-700 cursor-pointer group"
+              data-index={index}
+            >
+              <img
+                src={view.image}
+                alt={view.title}
+                class="w-full h-56 md:h-72 object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <div class="p-6 md:p-8">
+                <h3 class="text-xl md:text-2xl font-semibold mb-3 text-slate-100">
+                  {view.title}
+                </h3>
+                <p class="text-slate-400 text-sm md:text-base">
+                  {view.desc}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Sección Servicios -->
-  <section id="servicios" class="py-24 px-6 bg-black/30">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
-        Nuestros Servicios
-      </h2>
+<!-- SERVICIOS -->
+<section class="bg-slate-950 py-20">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-4xl font-bold text-slate-100 mb-16 text-center">
+      Servicios populares
+    </h2>
 
-      <div class="grid md:grid-cols-3 gap-8 md:gap-12">
-        <div class="group bg-slate-900/70 border border-purple-800/40 rounded-2xl p-10 hover:border-purple-500 hover:shadow-2xl hover:shadow-purple-900/40 transition-all duration-500 hover:-translate-y-4">
-          <div class="text-7xl mb-6 group-hover:scale-110 transition-transform duration-500">🖥️</div>
-          <h3 class="text-3xl font-bold mb-4">Desarrollo Web</h3>
-          <p class="text-slate-300 text-lg leading-relaxed">
-            Sitios rápidos, modernos, responsivos y optimizados para posicionamiento en buscadores.
-          </p>
-        </div>
+    <div class="grid md:grid-cols-3 gap-8">
+      <!-- Desarrollo Web -->
+      <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-purple-600/50 transition-all duration-300 group">
+        <h3 class="text-2xl font-semibold text-slate-100 mb-4 group-hover:text-purple-400 transition-colors">
+          Desarrollo Web
+        </h3>
+        <p class="text-slate-400 mb-6">
+          Freelancers expertos en Astro, React y Node.js
+        </p>
+        <a href="/nuestrosServicios"class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-medium transition">
+          Ver servicios
+        </a>
+      </div>
 
-        <div class="group bg-slate-900/70 border border-indigo-800/40 rounded-2xl p-10 hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-900/40 transition-all duration-500 hover:-translate-y-4">
-          <div class="text-7xl mb-6 group-hover:scale-110 transition-transform duration-500">🎨</div>
-          <h3 class="text-3xl font-bold mb-4">Diseño & Branding</h3>
-          <p class="text-slate-300 text-lg leading-relaxed">
-            Identidad visual única: logos, UI/UX, material publicitario y branding completo.
-          </p>
-        </div>
+      <!-- Diseño UI/UX -->
+      <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-purple-600/50 transition-all duration-300 group">
+        <h3 class="text-2xl font-semibold text-slate-100 mb-4 group-hover:text-purple-400 transition-colors">
+          Diseño UI / UX
+        </h3>
+        <p class="text-slate-400 mb-6">
+          Diseños profesionales para apps y sitios web.
+        </p>
+        <a href="/nuestrosServicios"class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-medium transition">
+          Ver servicios
+        </a>
+      </div>
 
-        <div class="group bg-slate-900/70 border border-blue-800/40 rounded-2xl p-10 hover:border-blue-500 hover:shadow-2xl hover:shadow-blue-900/40 transition-all duration-500 hover:-translate-y-4">
-          <div class="text-7xl mb-6 group-hover:scale-110 transition-transform duration-500">📈</div>
-          <h3 class="text-3xl font-bold mb-4">Marketing Digital</h3>
-          <p class="text-slate-300 text-lg leading-relaxed">
-            Estrategias SEO, redes sociales, anuncios pagados y generación de leads reales.
-          </p>
-        </div>
+      <!-- Marketing Digital -->
+      <div class="bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-purple-600/50 transition-all duration-300 group">
+        <h3 class="text-2xl font-semibold text-slate-100 mb-4 group-hover:text-purple-400 transition-colors">
+          Marketing Digital
+        </h3>
+        <p class="text-slate-400 mb-6">
+          SEO, publicidad y crecimiento online.
+        </p>
+        <a href="/nuestrosServicios" class="bg-purple-600 hover:bg-purple-700 px-6 py-3 rounded-xl font-medium transition">
+          Ver servicios
+        </a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- Sección Nosotros -->
-  <section id="nosotros" class="py-24 px-6 bg-gradient-to-b from-purple-950/80 to-indigo-950/80">
-    <div class="max-w-5xl mx-auto text-center">
-      <h2 class="text-5xl md:text-6xl font-bold mb-12 bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
-        Quiénes Somos
-      </h2>
+<script>
+  let current = 1;
+  const carousel = document.getElementById("carousel");
+  const items = document.querySelectorAll(".carousel-item");
+  const total = items.length;
 
-      <p class="text-xl md:text-2xl leading-relaxed text-slate-200 max-w-4xl mx-auto mb-12">
-        Helium es la plataforma creada para conectar talento real con proyectos que valen la pena. 
-        Nacimos para hacer el trabajo remoto más justo, transparente y eficiente para todos.
-      </p>
+  function updateCarousel() {
+    items.forEach((item, index) => {
+      item.classList.remove(
+        "scale-100", "scale-90", "scale-75",
+        "opacity-100", "opacity-70", "opacity-40",
+        "z-20", "z-10", "z-0",
+        "-translate-x-1/3", "translate-x-1/3"
+      );
 
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-slate-900/50 p-8 rounded-2xl border border-indigo-800/30 hover:border-indigo-500 transition-all duration-300">
-          <h3 class="text-2xl font-bold mb-4 text-indigo-300">Transparencia</h3>
-          <p class="text-slate-300">Todo visible: pagos, tiempos, reseñas y comunicación directa.</p>
-        </div>
+      const diff = index - current;
 
-        <div class="bg-slate-900/50 p-8 rounded-2xl border border-purple-800/30 hover:border-purple-500 transition-all duration-300">
-          <h3 class="text-2xl font-bold mb-4 text-purple-300">Seguridad</h3>
-          <p class="text-slate-300">Escrow inteligente, contratos claros y protección para ambas partes.</p>
-        </div>
-
-        <div class="bg-slate-900/50 p-8 rounded-2xl border border-blue-800/30 hover:border-blue-500 transition-all duration-300">
-          <h3 class="text-2xl font-bold mb-4 text-blue-300">Calidad</h3>
-          <p class="text-slate-300">Verificación de perfiles, reputación y soporte constante.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sección Satisfacción -->
-  <section id="satisfaccion" class="py-24 px-6 bg-slate-950">
-    <div class="max-w-6xl mx-auto">
-      <h2 class="text-5xl md:text-6xl font-bold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
-        Lo que dicen nuestros usuarios
-      </h2>
-
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-slate-900/70 rounded-2xl p-10 border border-purple-800/40 hover:border-purple-500 transition-all duration-500 hover:shadow-purple-900/30">
-          <div class="text-5xl mb-6">★★★★★</div>
-          <p class="text-lg italic mb-6 text-slate-200">"Helium cambió mi forma de trabajar. Clientes serios y pagos puntuales siempre."</p>
-          <p class="font-semibold text-purple-300 mt-4">— Laura M. • Diseñadora</p>
-        </div>
-
-        <div class="bg-slate-900/70 rounded-2xl p-10 border border-indigo-800/40 hover:border-indigo-500 transition-all duration-500 hover:shadow-indigo-900/30">
-          <div class="text-5xl mb-6">★★★★★</div>
-          <p class="text-lg italic mb-6 text-slate-200">"Encontré talento de alto nivel en menos de 48 horas. Plataforma increíble."</p>
-          <p class="font-semibold text-indigo-300 mt-4">— Carlos R. • Emprendedor</p>
-        </div>
-
-        <div class="bg-slate-900/70 rounded-2xl p-10 border border-blue-800/40 hover:border-blue-500 transition-all duration-500 hover:shadow-blue-900/30">
-          <div class="text-5xl mb-6">★★★★★</div>
-          <p class="text-lg italic mb-6 text-slate-200">"La mejor experiencia como empresa. Recomendaciones reales y soporte excelente."</p>
-          <p class="font-semibold text-blue-300 mt-4">— Tech Startup X</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</div>
-
-<style>
-  @keyframes gradient-x {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-  .animate-gradient-x {
-    background-size: 300% 300%;
-    animation: gradient-x 18s ease infinite;
+      if (diff === 0) {
+        item.classList.add("scale-100", "opacity-100", "z-20");
+      } else if (Math.abs(diff) === 1) {
+        item.classList.add("scale-90", "opacity-70", "z-10");
+        if (diff < 0) item.classList.add("-translate-x-1/3");
+        else item.classList.add("translate-x-1/3");
+      } else {
+        item.classList.add("scale-75", "opacity-40", "z-0");
+      }
+    });
   }
 
-  @keyframes pulse-slow {
-    0%, 100% { opacity: 0.4; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.12); }
-  }
-  .animate-pulse-slow {
-    animation: pulse-slow 12s ease-in-out infinite;
-  }
-</style>
+  document.getElementById("next").onclick = () => {
+    current = (current + 1) % total;
+    updateCarousel();
+  };
+
+  document.getElementById("prev").onclick = () => {
+    current = (current - 1 + total) % total;
+    updateCarousel();
+  };
+
+  items.forEach((item, index) => {
+    item.onclick = () => {
+      current = index;
+      updateCarousel();
+    };
+  });
+
+  // Inicializar
+  updateCarousel();
+
+  // Opcional: autoplay (descomenta si lo quieres)
+  /*
+  setInterval(() => {
+    current = (current + 1) % total;
+    updateCarousel();
+  }, 5000);
+  */
+</script>
 
 </PublicLayout>
