@@ -1,0 +1,134 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const stats = [
+  { label: "Usuarios", value: 1284 },
+  { label: "Freelancers", value: 342 },
+  { label: "Empresas", value: 120 },
+  { label: "Servicios activos", value: 510 },
+  { label: "Órdenes", value: 97 },
+  { label: "Reviews", value: 860 }
+];
+
+const recentUsers = [
+  { name: "Sara Lopez", role: "Freelancer" },
+  { name: "Carlos Perez", role: "Cliente" },
+  { name: "Empresa X", role: "Company" }
+];
+
+const recommendedServices = [
+  { title: "Landing Page Profesional", image: "/service1.jpg" },
+  { title: "Diseño de Logo", image: "/service2.jpg" },
+  { title: "SEO para empresas", image: "/service3.jpg" },
+  { title: "Ecommerce Shopify", image: "/service4.jpg" }
+];
+
+const activeOrders = [
+  { title: "Landing Page Startup", freelancer: "Sara Lopez", progress: 70 },
+  { title: "Diseño Logo Tech", freelancer: "Ana Martinez", progress: 40 },
+  { title: "SEO Blog", freelancer: "Juan Perez", progress: 90 }
+];
+---
+
+<DashboardLayout title="Admin" userRole="admin">
+  <section class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-12">
+    {stats.map(stat => (
+      <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+        <p class="text-slate-400 text-sm">
+          {stat.label}
+        </p>
+        <p class="text-3xl font-bold text-white mt-2">
+          {stat.value}
+        </p>
+      </div>
+    ))}
+  </section>
+
+  <section class="mb-14">
+    <h2 class="text-2xl font-bold text-white mb-6">
+      Usuarios recientes
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      {recentUsers.map(user => (
+        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+          <h3 class="text-lg font-bold text-white">
+            {user.name}
+          </h3>
+
+          <p class="text-slate-400">
+            {user.role}
+          </p>
+
+          <a
+            href="/dashboard/admin/usuarios"
+            class="mt-4 inline-block text-purple-400 hover:underline"
+          >
+            Ver usuarios
+          </a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+ 
+  <section class="mb-16">
+    <h2 class="text-2xl font-bold text-white mb-6">
+      Órdenes activas
+    </h2>
+
+    <div class="space-y-6">
+      {activeOrders.map(o => (
+        <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
+          <div class="flex justify-between items-center">
+            <div>
+              <h3 class="text-lg font-bold text-white">
+                {o.title}
+              </h3>
+              <p class="text-slate-400">
+                Freelancer: {o.freelancer}
+              </p>
+            </div>
+
+            <div class="w-56">
+              <div class="bg-slate-700 rounded-full h-3 overflow-hidden">
+                <div
+                  class="bg-purple-600 h-3"
+                  style={`width:${o.progress}%`}
+                ></div>
+              </div>
+
+              <p class="text-purple-400 text-right mt-1 text-sm">
+                {o.progress}%
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+ 
+  <section>
+    <h2 class="text-2xl font-bold text-white mb-6">
+      Servicios populares
+    </h2>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {recommendedServices.map(s => (
+        <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition">
+          <img
+            src={s.image}
+            class="w-full h-44 object-cover"
+          />
+
+          <div class="p-4 text-center">
+            <h3 class="text-white font-bold">
+              {s.title}
+            </h3>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</DashboardLayout>

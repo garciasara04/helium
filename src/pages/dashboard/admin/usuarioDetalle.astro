@@ -1,0 +1,67 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout title="Detalle usuario" userRole="admin">
+  <h1 class="text-2xl font-bold mb-6">Perfil de usuario</h1>
+
+  <div class="grid md:grid-cols-2 gap-8">
+    <!-- PERFIL -->
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <h2 class="text-xl font-semibold mb-4">Información</h2>
+
+      <p><strong>Nombre:</strong> Sara Lopez</p>
+      <p><strong>Email:</strong> sara@email.com</p>
+      <p><strong>Rol:</strong> Freelancer</p>
+      <p><strong>Estado:</strong> Activo</p>
+
+      <div class="flex gap-4 mt-6">
+        <button class="bg-green-600 px-4 py-2 rounded-lg">
+          Activar
+        </button>
+
+        <button class="bg-red-600 px-4 py-2 rounded-lg">
+          Desactivar
+        </button>
+
+        <button class="bg-yellow-600 px-4 py-2 rounded-lg">
+          Agregar Strike
+        </button>
+      </div>
+    </div>
+
+    <!-- SERVICIOS -->
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <h2 class="text-xl font-semibold mb-4">
+        Servicios publicados
+      </h2>
+
+      <ul class="space-y-3">
+        <li class="bg-slate-800 p-3 rounded">
+          Landing page profesional
+        </li>
+
+        <li class="bg-slate-800 p-3 rounded">
+          Diseño de logo
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- RESEÑAS -->
+  <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl mt-8">
+    <h2 class="text-xl font-semibold mb-4">
+      Reseñas recibidas
+    </h2>
+
+    <div class="space-y-4">
+      <div class="bg-slate-800 p-4 rounded">
+        ⭐ 4.5 — Excelente trabajo
+      </div>
+
+      <div class="bg-slate-800 p-4 rounded">
+        ⭐ 3.0 — Puede mejorar comunicación
+      </div>
+    </div>
+  </div>
+</DashboardLayout>

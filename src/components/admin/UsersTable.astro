@@ -1,0 +1,66 @@
+---
+const users = [
+  {
+    nombre: "Ana López",
+    correo: "ana@mail.com",
+    rol: "freelancer",
+    estado: "activo"
+  },
+  {
+    nombre: "Carlos Pérez",
+    correo: "carlos@mail.com",
+    rol: "cliente",
+    estado: "inactivo"
+  },
+  {
+    nombre: "Laura Gómez",
+    correo: "laura@mail.com",
+    rol: "company",
+    estado: "activo"
+  }
+];
+---
+
+<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+  <h2 class="text-xl font-bold mb-6">
+    Lista de usuarios
+  </h2>
+
+  <input
+    type="text"
+    placeholder="Buscar usuario..."
+    class="w-full mb-6 p-3 rounded-lg bg-slate-800 border border-slate-700"
+  />
+
+  <table class="w-full text-left">
+    <thead class="text-slate-400 border-b border-slate-700">
+      <tr>
+        <th class="py-3">Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Estado</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {users.map(user => (
+        <tr class="border-b border-slate-800">
+          <td class="py-3">{user.nombre}</td>
+          <td>{user.correo}</td>
+          <td>{user.rol}</td>
+          <td>{user.estado}</td>
+
+          <td>
+            <a
+              href="/dashboard/admin/usuarioDetalle"
+              class="text-purple-400 hover:underline"
+            >
+              Ver detalle
+            </a>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

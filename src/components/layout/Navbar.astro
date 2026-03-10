@@ -16,7 +16,7 @@ const dashboardBase = `/dashboard/${userRole}`;
       />
     </a>
 
-
+    <!-- Botones horizontales + Búsqueda (solo para cliente y company) -->
     <div class="hidden md:flex items-center gap-6 lg:gap-10 flex-1 justify-center">
       <div class="flex gap-3 lg:gap-5">
         {userRole === 'cliente' && (
@@ -136,7 +136,7 @@ const dashboardBase = `/dashboard/${userRole}`;
         )}
       </div>
 
-
+      <!-- Búsqueda - SOLO para cliente y company -->
       {(userRole === 'cliente' || userRole === 'company') && (
         <form action="/catalogo" method="get" class="relative max-w-md w-full">
           <input
@@ -162,7 +162,7 @@ const dashboardBase = `/dashboard/${userRole}`;
       )}
     </div>
 
-    
+    <!-- Avatar + Dropdown -->
     <div class="relative group">
       <button class="flex items-center gap-3 focus:outline-none">
         <div class="w-9 h-9 rounded-full bg-purple-700 flex items-center justify-center text-white font-bold border-2 border-purple-500/60 group-hover:border-purple-400 transition">

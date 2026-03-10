@@ -1,0 +1,62 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const orders = [
+{
+id:101,
+name:"Landing page startup",
+status:"En progreso",
+price:500
+},
+{
+id:102,
+name:"SEO empresa",
+status:"Completada",
+price:300
+}
+];
+---
+
+<DashboardLayout title="Órdenes" userRole="company">
+
+<a
+href="/dashboard/company/orden-detalle"
+class="mb-6 inline-block bg-purple-600 px-6 py-2 rounded-lg">
+
+Crear orden
+
+</a>
+
+<div class="space-y-6">
+
+{orders.map(order => (
+
+<div class="bg-slate-900 p-6 rounded-xl flex justify-between">
+
+<div>
+
+<h3 class="font-bold">{order.name}</h3>
+<p class="text-slate-400">Estado: {order.status}</p>
+
+</div>
+
+<div>
+
+<p class="text-purple-400">${order.price}</p>
+
+<a href="/dashboard/company/orden-detalle"
+class="text-sm text-purple-400">
+
+Ver detalle
+
+</a>
+
+</div>
+
+</div>
+
+))}
+
+</div>
+
+</DashboardLayout>

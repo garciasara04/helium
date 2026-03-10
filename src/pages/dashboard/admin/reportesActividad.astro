@@ -1,0 +1,22 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout title="Actividad de la plataforma" userRole="admin">
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <p class="text-slate-400">Logins hoy</p>
+      <p class="text-3xl font-bold">134</p>
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <p class="text-slate-400">Servicios publicados</p>
+      <p class="text-3xl font-bold">27</p>
+    </div>
+
+    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <p class="text-slate-400">Órdenes creadas</p>
+      <p class="text-3xl font-bold">19</p>
+    </div>
+  </div>
+</DashboardLayout>

@@ -1,0 +1,65 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const ordenes = [
+  {
+    id: "ORD-1021",
+    cliente: "Carlos R",
+    freelancer: "Sara Lopez",
+    servicio: "Landing Page",
+    estado: "En progreso",
+    precio: "$250"
+  },
+  {
+    id: "ORD-1022",
+    cliente: "Empresa X",
+    freelancer: "Ana Martinez",
+    servicio: "Diseño Logo",
+    estado: "Pendiente",
+    precio: "$120"
+  }
+];
+---
+
+<DashboardLayout title="Órdenes" userRole="admin">
+  <h1 class="text-2xl font-bold mb-6">
+    Órdenes
+  </h1>
+
+  <table class="w-full bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+    <thead class="bg-slate-800 text-slate-400">
+      <tr>
+        <th class="p-4">ID</th>
+        <th class="p-4">Cliente</th>
+        <th class="p-4">Freelancer</th>
+        <th class="p-4">Servicio</th>
+        <th class="p-4">Estado</th>
+        <th class="p-4">Precio</th>
+        <th class="p-4">Acción</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {ordenes.map(o => (
+        <tr class="border-t border-slate-800">
+          <td class="p-4">{o.id}</td>
+          <td class="p-4">{o.cliente}</td>
+          <td class="p-4">{o.freelancer}</td>
+          <td class="p-4">{o.servicio}</td>
+          <td class="p-4">{o.estado}</td>
+          <td class="p-4">{o.precio}</td>
+
+          <td class="p-4">
+            <button class="bg-blue-600 px-3 py-1 rounded">
+              Ver
+            </button>
+
+            <button class="bg-red-600 px-3 py-1 rounded ml-2">
+              Cancelar
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</DashboardLayout>

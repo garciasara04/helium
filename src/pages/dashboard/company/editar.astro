@@ -1,0 +1,55 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+---
+
+<DashboardLayout title="Editar Perfil" userRole="company">
+
+<section class="grid md:grid-cols-2 gap-10">
+
+<form class="bg-slate-900 p-8 rounded-xl space-y-4">
+
+<h2 class="text-xl font-bold mb-4">Editar información</h2>
+
+<input placeholder="Nombre empresa"
+class="w-full bg-slate-800 p-3 rounded"/>
+
+<input placeholder="Teléfono"
+class="w-full bg-slate-800 p-3 rounded"/>
+
+<input placeholder="NIT"
+class="w-full bg-slate-800 p-3 rounded"/>
+
+<input placeholder="Website"
+class="w-full bg-slate-800 p-3 rounded"/>
+
+<input placeholder="Dirección"
+class="w-full bg-slate-800 p-3 rounded"/>
+
+<button class="bg-purple-600 px-6 py-2 rounded-lg">
+
+Guardar cambios
+
+</button>
+
+</form>
+
+
+<div class="bg-slate-900 p-8 rounded-xl text-center">
+
+<h2 class="text-xl font-bold mb-4">
+Actualizar foto
+</h2>
+
+<img
+src="https://images.unsplash.com/photo-1560179707-f14e90ef3623"
+class="w-40 h-40 mx-auto rounded-full object-cover mb-6"
+/>
+
+<input type="file"
+class="text-sm"/>
+
+</div>
+
+</section>
+
+</DashboardLayout>
