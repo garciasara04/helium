@@ -1,21 +1,12 @@
 ---
 // src/pages/dashboard/cliente/editar-perfil.astro
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
-
-// Datos de ejemplo (en producción vendrán del backend o sesión)
-const user = {
-  names: "Sara",
-  last_names: "López",
-  email: "sara.lopez@example.com",
-  phone: "+57 312 456 7890",
-  photo: "", // URL de la foto del usuario
-};
 ---
+
 <DashboardLayout title="Editar perfil Cliente" userRole="cliente">
 
   <div class="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12 py-12">
     
-    <!-- Encabezado -->
     <div class="mb-10 text-center lg:text-left">
       <h1 class="text-3xl md:text-4xl font-bold text-white">
         Editar mi perfil
@@ -25,111 +16,103 @@ const user = {
       </p>
     </div>
 
-    <!-- Contenedor principal -->
-    <div class="bg-gray-900/70 backdrop-blur-sm border border-gray-800 rounded-2xl p-8 shadow-xl shadow-purple-900/20">
+    <div class="bg-slate-900/70 backdrop-blur-sm border border-slate-800 rounded-2xl p-8 shadow-xl shadow-purple-900/20">
 
-      <!-- Foto de perfil + botón cambiar -->
-      <div class="flex flex-col items-center mb-12">
-        <div class="relative mb-6">
-          <img
-            src={user.photo || 'https://via.placeholder.com/400'}
-            alt="Foto de perfil"
-            class="w-40 h-40 rounded-full object-cover border-4 border-purple-600 shadow-2xl"
-          />
-          <button 
-            type="button"
-            class="absolute bottom-0 right-0 bg-purple-700 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded-full shadow-md transition"
-            onclick="document.getElementById('photo-upload').click()"
-          >
-            Cambiar foto
-          </button>
-          <input 
-            type="file" 
-            id="photo-upload" 
-            accept="image/*" 
-            class="hidden"
-          />
+      <form id="editProfileForm" class="space-y-8">
+
+        <div class="flex flex-col items-center mb-12">
+          <div class="relative mb-6">
+            <img
+              id="profile-image-preview"
+              src="https://via.placeholder.com/400"
+              alt="Foto de perfil"
+              class="w-40 h-40 rounded-full object-cover border-4 border-purple-600 shadow-2xl"
+            />
+            <button 
+              type="button"
+              class="absolute bottom-0 right-0 bg-purple-700 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded-full shadow-md transition"
+              onclick="document.getElementById('photo-upload').click()"
+            >
+              Cambiar foto
+            </button>
+            <input 
+              type="file" 
+              id="photo-upload" 
+              name="photo"
+              accept="image/*" 
+              class="hidden"
+            />
+          </div>
+          <p class="text-sm text-slate-400">Tamaño recomendado: 400x400 px (máx 5MB)</p>
         </div>
-        <p class="text-sm text-gray-400">Tamaño recomendado: 400x400 px (máx 5MB)</p>
-      </div>
 
-      <!-- Formulario -->
-      <form class="space-y-8">
-
-        <!-- Nombres y Apellidos -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label for="names" class="block text-sm font-medium text-gray-300 mb-2">
+            <label for="names" class="block text-sm font-medium text-slate-300 mb-2">
               Nombres
             </label>
             <input 
               type="text" 
               id="names" 
               name="names"
-              value={user.names}
               required
-              class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
+              class="w-full px-5 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
             />
           </div>
           <div>
-            <label for="last_names" class="block text-sm font-medium text-gray-300 mb-2">
+            <label for="last_names" class="block text-sm font-medium text-slate-300 mb-2">
               Apellidos
             </label>
             <input 
               type="text" 
               id="last_names" 
               name="last_names"
-              value={user.last_names}
               required
-              class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
+              class="w-full px-5 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
             />
           </div>
         </div>
 
-        <!-- Correo -->
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
+          <label for="email" class="block text-sm font-medium text-slate-300 mb-2">
             Correo electrónico
           </label>
           <input 
             type="email" 
             id="email" 
             name="email"
-            value={user.email}
-            required
-            class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
+            readonly
+            class="w-full px-5 py-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-500 cursor-not-allowed outline-none"
           />
-          <p class="mt-1 text-xs text-gray-500">
-            Este es el correo con el que te registraste. Puedes cambiarlo si lo necesitas.
+          <p class="mt-1 text-xs text-slate-500">
+            El correo de registro no se puede modificar desde esta pantalla.
           </p>
         </div>
 
-        <!-- Teléfono -->
         <div>
-          <label for="phone" class="block text-sm font-medium text-gray-300 mb-2">
+          <label for="phone" class="block text-sm font-medium text-slate-300 mb-2">
             Teléfono / WhatsApp
           </label>
           <input 
             type="tel" 
             id="phone" 
             name="phone"
-            value={user.phone}
             placeholder="+57 300 123 4567"
-            class="w-full px-5 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
+            class="w-full px-5 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
           />
-          <p class="mt-1 text-xs text-gray-500">
+          <p class="mt-1 text-xs text-slate-500">
             Incluye el código de país (ej: +57)
           </p>
         </div>
 
-        <!-- Botones -->
-        <div class="flex flex-col sm:flex-row gap-4 justify-end mt-12 pt-8 border-t border-gray-800">
-          <a 
-            href="/dashboard/cliente/perfil"
-            class="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg transition text-center"
+        <div class="flex flex-col sm:flex-row gap-4 justify-end mt-12 pt-8 border-t border-slate-800">
+          <button 
+            type="button"
+            onclick="window.history.back()"
+            class="px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-lg transition text-center"
           >
             Cancelar
-          </a>
+          </button>
           <button 
             type="submit"
             class="px-10 py-3 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-lg transition shadow-lg shadow-purple-900/30"
@@ -143,3 +126,98 @@ const user = {
   </div>
 
 </DashboardLayout>
+
+<script>
+  const token = localStorage.getItem('token');
+  if (!token) {
+    window.location.href = '/login';
+  }
+
+  // 1. CARGAR DATOS AL INICIO
+  async function cargarDatos() {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/profile', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('No se pudo cargar el perfil');
+      }
+
+      const user = await response.json();
+      
+      // Llenar inputs
+      document.getElementById('names').value = user.names || '';
+      document.getElementById('last_names').value = user.last_names || '';
+      document.getElementById('email').value = user.email || '';
+      document.getElementById('phone').value = user.phone || '';
+
+      // Mostrar foto si existe
+      if (user.photo) {
+        const previewImg = document.getElementById('profile-image-preview');
+        previewImg.src = `http://127.0.0.1:8000/storage/${user.photo}`; 
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert('Error al cargar los datos de tu perfil.');
+    }
+  }
+
+  // 2. PREVISUALIZAR FOTO AL SELECCIONARLA
+  const photoInput = document.getElementById('photo-upload');
+  photoInput?.addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      const previewImg = document.getElementById('profile-image-preview');
+      
+      reader.onload = function(e) {
+        previewImg.src = e.target.result;
+      }
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // 3. GUARDAR LOS CAMBIOS
+  const form = document.getElementById('editProfileForm');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    try {
+      const formdata = new FormData(form);
+      formdata.append('_method', 'patch'); // Requerido por Laravel para subir archivos en actualización
+
+      const response = await fetch('http://127.0.0.1:8000/api/profile', {
+        method: 'POST', // POST porque enviamos FormData con _method: patch
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: formdata
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        alert("¡Perfil actualizado con éxito!");
+        // Opcional: Redirigir al perfil
+        // window.location.href = '/dashboard/cliente/perfil';
+      } else {
+        alert("Error: " + (data.message || "No se pudo actualizar"));
+        console.log(data);
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Error de conexión al guardar.");
+    }
+  });
+
+  // Iniciar la carga de datos
+  cargarDatos();
+</script>

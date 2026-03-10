@@ -3,87 +3,95 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 //en la linea 29 se debe hacer un script para la modificacion de la foto 
 
-const user = {
-  nombre: "Sara López",
-  email: "sara.lopez.bpo@gmail.com",
-  celular: "+57 310 555 9876",
-  nit: "900.123.456-1",
-  direccion: "Carrera A # 12-34, Barrio Centro, Ibagué",
-  pais: "Colombia",
-  ciudad: "Ibagué",
-  descripcion: "Ofrezco servicios de call center, atención al cliente bilingüe, gestión de leads y soporte técnico nivel 1.",
-  portafolioUrl: "https://portafolio.saralopez.co",
-  experiencia: "5 años en BPO • 3 años como supervisora de cuentas • Certificada en atención al cliente digital",
-  tarifaHora: "18",
-  idiomas: "Español (nativo), Inglés (B2)",
-};
+  const response = await fetch('http://127.0.0.1:8000/api/skills',{
+    method: 'get',
+    headers:{
+    }
+  }
+  );
+  const skills = await response.json();
+  console.log(skills);
 ---
 <DashboardLayout title="ensayo" userRole="freelance">
-<div class="relative max-w-4xl mx-auto px-5 py-12 md:py-16">
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.default.min.css" rel="stylesheet">
+    
+      <div class="relative max-w-4xl mx-auto px-5 py-12 md:py-16">
 
-    <div class="text-center mb-12">
-      <div class="relative inline-block mx-auto">
-        <div class="w-28 h-28 md:w-36 md:h-36 bg-purple-900/40 rounded-full flex items-center justify-center mx-auto mb-6">
-          <svg class="w-16 h-16 md:w-20 md:h-20 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        </div>
-        <button class="absolute -bottom-1 right-0 bg-purple-700 hover:bg-purple-600 text-white text-xs px-4 py-1.5 rounded-full shadow-md">
-          Cambiar foto
-        </button>
-      </div>
-
-      <h1 class="mt-8 text-4xl md:text-5xl font-bold tracking-tight">Editar Mi Perfil</h1>
+    <div class="text-center mb-8">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight">Editar Mi Perfil</h1>
       <p class="mt-3 text-indigo-300 text-lg">
         Para actualizar tu perfil, por favor ingresa o modifica los siguientes datos:
       </p>
     </div>
 
-    <form class="bg-gray-900/50 backdrop-blur-sm border border-indigo-800/30 rounded-2xl p-8 md:p-10 shadow-2xl space-y-7">
+    <form id="form" class="bg-gray-900/50 backdrop-blur-sm border border-indigo-800/30 rounded-2xl p-8 md:p-10 shadow-2xl space-y-7">
+
+      <div class="text-center mb-12">
+        <div class="relative inline-block mx-auto">
+          <div id="preview-container" class="w-28 h-28 md:w-36 md:h-36 bg-purple-900/40 rounded-full flex items-center justify-center mx-auto mb-6 overflow-hidden">
+            <svg id="default-avatar" class="w-16 h-16 md:w-20 md:h-20 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <img id="profile-image-preview" src="" class="hidden w-full h-full object-cover" alt="Foto de perfil">
+          </div>
+          
+          <label for="photo-input" class="absolute -bottom-1 right-0 bg-purple-700 hover:bg-purple-600 text-white text-xs px-4 py-1.5 rounded-full shadow-md cursor-pointer">
+            Cambiar foto
+            <input type="file" id="photo-input" name="photo" accept="image/png, image/jpeg, image/webp" class="hidden">
+          </label>
+        </div>
+      </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <div>
-          <label class="block text-sm font-medium text-indigo-200 mb-2">País</label>
-          <input type="text" value={user.pais} class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
+          <label class="block text-sm font-medium text-indigo-200 mb-2">Nombres</label>
+          <input type="text" id="names" value="" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-indigo-200 mb-2">Ciudad</label>
-          <input type="text" value={user.ciudad} class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
+          <label class="block text-sm font-medium text-indigo-200 mb-2">Apellidos</label>
+          <input type="text" id="last_names" value="" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
         </div>
 
       </div>
 
       <div>
         <label class="block text-sm font-medium text-indigo-200 mb-2">Descripción / Sobre mí</label>
-        <textarea rows="5" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500 resize-y">{user.descripcion}</textarea>
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium text-indigo-200 mb-2">Portafolio (URL)</label>
-        <input type="url" value={user.portafolioUrl} placeholder="https://..." class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
+        <textarea name="description" id="description" rows="5" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500 resize-y"></textarea>
       </div>
 
       <div>
         <label class="block text-sm font-medium text-indigo-200 mb-2">Experiencia laboral (resumen)</label>
-        <textarea rows="4" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500">{user.experiencia}</textarea>
+        <textarea name="experience" id="experience" rows="4" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500"></textarea>
       </div>
-
+ 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
         <div>
-          <label class="block text-sm font-medium text-indigo-200 mb-2">Tarifa por hora (USD)</label>
-          <input type="number" value={user.tarifaHora} min="1" step="0.5" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
-        </div>
-
-        <div>
-          <label class="block text-sm font-medium text-indigo-200 mb-2">Idiomas (separados por coma)</label>
-          <input type="text" value={user.idiomas} placeholder="Español (nativo), Inglés (B2), ..." class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
+          <label class="block text-sm font-medium text-indigo-200 mb-2">Profesion</label>
+          <input type="text" name="profession" id="profession" value="" placeholder="Desarrollador de software..." class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
         </div>
 
       </div>
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-indigo-200 mb-2">Tus Habilidades (Skills)</label>
+  
+          <select 
+          id="skills-select" 
+          multiple 
+          placeholder="Escribe para buscar skills..." 
+          class="w-full bg-gray-800/70 text-white rounded-xl"
+          autocomplete="off"
+          >
+          {skills.map((skill) => (
+            <option value={skill.id}>{skill.name}</option>
+          ))}
+        </select>
+      </div>
+      
+      
 
       <div class="pt-8 flex flex-col sm:flex-row gap-4 justify-center">
         <button
@@ -104,4 +112,136 @@ const user = {
     </form>
 
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+  
+  <script>
+    let miBuscador;
+    document.addEventListener('DOMContentLoaded', function() {
+      // Esto convierte tu <select> normal en el buscador interactivo
+        miBuscador= new TomSelect('#skills-select', {
+        plugins: ['remove_button'], // Agrega la 'X' para poder quitar skills
+        maxOptions: 100, // Permite ver las 70 skills al hacer scroll
+        placeholder: "Haz clic o escribe para buscar tus skills...",
+        closeAfterSelect: false, // Mantiene la lista abierta para elegir varias rápido
+        sortField: {
+          field: "text",
+          direction: "asc"
+        }
+      });
+    });
+
+    const form = document.getElementById('form');
+    const token = localStorage.getItem('token');
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      try{
+      const formdata = new FormData(form);
+      formdata.append('_method', 'patch');
+      const data = await fetch('http://127.0.0.1:8000/api/profile', {
+        method: 'POST',
+        headers: {
+          'authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+        },
+        body: formdata
+      });
+      const datas = await data.json();
+      
+      console.log(datas);
+      
+    }
+    
+    catch(error){
+      console.log('error de formulario sin skills: ' , error);
+    }
+    
+    try {
+      const selectedIds = miBuscador.getValue();
+      const skillsId = selectedIds.map(id => parseInt(id));
+
+      if (skillsId.length > 0) {
+        const response = await fetch('http://127.0.0.1:8000/api/profile/skills',{
+          method: 'PATCH',
+          headers: {
+            'Accept' : 'application/json',
+            'authorization': `Bearer ${token}`,
+            'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify({ skill_ids: skillsId})
+        });
+        const data = await response.json();
+        console.log(data);
+      }
+      
+      
+    } catch (error) {
+      console.log(error);
+    }
+  })
+  
+    async function cargarDatos() {
+      try{
+        const token = localStorage.getItem('token')
+
+        const response = await fetch('http://127.0.0.1:8000/api/profile',{
+          method: 'GET',
+          headers:{
+            'Accept' : 'application/json',
+            'Authorization' : `Bearer ${token}`
+          }
+        });
+        const user = await response.json();
+        document.getElementById('names').value = user.names || '';
+        document.getElementById('last_names').value = user.last_names || '';
+        document.getElementById('description').value = user.freelancer_profile.description || '';
+        document.getElementById('experience').value = user.freelancer_profile.experience || '';
+        document.getElementById('profession').value= user.freelancer_profile.profession || '';
+        if (user.freelancer_profile.skills){
+          const skillsSave = user.freelancer_profile.skills.map(skill=>skill.id);
+          miBuscador.setValue(skillsSave);
+        }
+
+        // --- CÓDIGO 1: MOSTRAR FOTO DE LA BASE DE DATOS ---
+        // Va adentro del try, donde 'user' sí existe
+        if (user.photo) {
+          const previewImg = document.getElementById('profile-image-preview');
+          const defaultAvatar = document.getElementById('default-avatar');
+          
+          previewImg.src = `http://127.0.0.1:8000/storage/${user.photo}`; 
+          previewImg.classList.remove('hidden');
+          defaultAvatar.classList.add('hidden');
+        }
+
+      }
+      catch(error){
+        console.log(error);
+      }
+    }
+    
+    cargarDatos();
+    const photoInput = document.getElementById('photo-input');
+    photoInput?.addEventListener('change', function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        const previewImg = document.getElementById('profile-image-preview');
+        const defaultAvatar = document.getElementById('default-avatar');
+        
+        reader.onload = function(e) {
+          previewImg.src = e.target.result;
+          previewImg.classList.remove('hidden'); 
+          defaultAvatar.classList.add('hidden'); 
+        }
+        reader.readAsDataURL(file);
+      }
+    });
+
+  </script>
+
+    
+  </script>
+
+
+
+
 </DashboardLayout>

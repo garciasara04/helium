@@ -1,35 +1,28 @@
 ---
 // src/pages/dashboard/cliente/perfil.astro
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
-
-// Datos de ejemplo (luego vendrán del backend)
-const user = {
-  name: "Sara López",
-  email: "sara.lopez@example.com",
-  photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=400&q=80"
-};
 ---
 
 <DashboardLayout title="Panel Cliente" userRole="cliente">
-  <div class="min-h-screen bg-linear-to-b from-gray-950 via-gray-900 to-gray-950 py-12 px-4 sm:px-6 lg:px-8">
+  <div class="min-h-screen bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
-      <div class="bg-gray-900/80 backdrop-blur-md border border-gray-800 rounded-2xl shadow-2xl shadow-purple-900/20 overflow-hidden">
+      <div class="bg-slate-900/80 backdrop-blur-md border border-slate-800 rounded-2xl shadow-2xl shadow-purple-900/20 overflow-hidden">
         <div class="relative h-48 bg-linear-to-r from-purple-900/40 to-indigo-900/40">
           <div class="absolute -bottom-16 left-1/2 -translate-x-1/2">
             <div class="relative">
-              <img src={user.photo} alt={user.name}
+              <img id="profile-photo" src="https://via.placeholder.com/400" alt="Foto de perfil"
               class="w-32 h-32 rounded-full object-cover border-4 border-purple-600 shadow-xl shadow-purple-900/40"/>
-              <div class="absolute -bottom-1 -right-1 bg-green-500 w-6 h-6 rounded-full border-4 border-gray-900">
+              <div class="absolute -bottom-1 -right-1 bg-green-500 w-6 h-6 rounded-full border-4 border-slate-900">
               </div>
             </div>
           </div>
         </div>
         <div class="pt-20 pb-10 px-6 sm:px-10 text-center">
-          <h1 class="text-3xl sm:text-4xl font-bold text-white mb-2">
-            {user.name}
+          <h1 id="profile-name" class="text-3xl sm:text-4xl font-bold text-white mb-2">
+            Cargando...
           </h1>
-          <p class="text-lg text-purple-400 font-medium mb-8">
-            {user.email}
+          <p id="profile-email" class="text-lg text-purple-400 font-medium mb-8">
+            ...
           </p>
           <a
           href="/dashboard/cliente/editar-perfil"
@@ -40,33 +33,36 @@ const user = {
           Actualizar perfil
         </a>
         <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
-          <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
+          <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
             <h3 class="text-lg font-semibold text-purple-300 mb-3">
               Datos básicos
             </h3>
-            <p class="text-gray-300">
-              <span class="font-medium text-white">Nombre:</span> {user.name}
+            <p class="text-slate-300 leading-relaxed">
+              <span class="font-medium text-white">Nombre:</span> <span id="basic-name">...</span>
               <br>
-              <span class="font-medium text-white">Correo:</span> {user.email}
+              <span class="font-medium text-white">Correo:</span> <span id="basic-email">...</span>
+              <br>
+              <span class="font-medium text-white">Teléfono:</span> <span id="basic-phone">...</span>
             </p>
           </div>
-          <div class="bg-gray-800/50 p-6 rounded-xl border border-gray-700">
+          <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
             <h3 class="text-lg font-semibold text-purple-300 mb-3">
               Estado de cuenta
             </h3>
-            <p class="text-gray-300">
+            <p class="text-slate-300 leading-relaxed">
               Cuenta verificada ✓
               <br>
-              Miembro desde febrero 2026
+              Miembro activo
               <br>
-              Rol: Usuario
+              Rol: Cliente
             </p>
           </div>
         </div>
       </div>
     </div>
+    
     <div class="mt-10 text-center">
-      <button onclick="if(confirm('¿Cerrar sesión?')) window.location.href = '/login';"
+      <button onclick="cerrarSesion()"
       class="text-red-400 hover:text-red-300 font-medium text-lg transition flex items-center justify-center gap-2 mx-auto">
       
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -78,5 +74,54 @@ const user = {
 </div>
 
 </div>
+
+<script>
+  async function cargarPerfil() {
+    const token = localStorage.getItem('token');
+    
+    if(!token){
+      window.location.href = '/login';
+      return;
+    }
+
+    try {
+      const response = await fetch('http://127.0.0.1:8000/api/profile', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const user = await response.json();
+      const fullName = `${user.names || ''} ${user.last_names || ''}`.trim() || 'Sin nombre';
+
+      document.getElementById('profile-name').innerText = fullName;
+      document.getElementById('basic-name').innerText = fullName;
+      document.getElementById('profile-email').innerText = user.email || 'Sin correo';
+      document.getElementById('basic-email').innerText = user.email || 'Sin correo';
+      document.getElementById('basic-phone').innerText = user.phone || 'No registrado';
+
+  
+      if (user.photo) {
+        document.getElementById('profile-photo').src = `http://127.0.0.1:8000/storage/${user.photo}`;
+      }
+      
+    } catch (error) {
+      console.log("Error cargando perfil:", error);
+      document.getElementById('profile-name').innerText = "Error al cargar";
+    }
+  }
+
+  cargarPerfil();
+
+  window.cerrarSesion = function() {
+    if(confirm('¿Seguro que deseas cerrar sesión?')) {
+      
+      localStorage.removeItem('token');
+      // Lo mandamos al login
+      window.location.href = '/login';
+    }
+  }
+</script>
 
 </DashboardLayout>

@@ -22,6 +22,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
         Título del servicio
       </label>
       <input
+        name="title"
         id="title"
         type="text"
         class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
@@ -32,6 +33,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
         Descripción
       </label>
       <textarea
+        name="description"
         id="description"
         rows="4"
         class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
@@ -46,6 +48,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
       <select
         id="category_id"
+        name="category_id"
         class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
       >
         <option value="1">Desarrollo Web</option>
@@ -65,6 +68,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       </label>
       <input
         id="price"
+        name="price"
         type="number"
         class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
       />
@@ -75,6 +79,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
         Días de entrega
       </label>
       <input
+        name="delivery_time"
         id="delivery_time"
         type="number"
         class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
@@ -87,8 +92,20 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
         Revisiones
       </label>
       <input
+        name="revisions"
         id="revisions"
         type="number"
+        class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
+      />
+    </div>
+    <div>
+      <label class="block text-sm text-slate-400 mb-2">
+        photo
+      </label>
+      <input
+        id="photo"
+        name="photo"
+        type="file"
         class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
       />
     </div>
@@ -99,6 +116,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
         Requisitos del cliente
       </label>
       <textarea
+        name="requirements"
         id="requirements"
         rows="3"
         class="w-full bg-slate-800 border border-slate-700 rounded-xl p-3"
@@ -116,79 +134,36 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 </div>
 
+<script>
+  const form = document.getElementById('editServiceForm');
+  const token = localStorage.getItem('token');
+  const parametros = new URLSearchParams(window.location.search);
+  const serviceId= parametros.get('id');
+  if (!token) {
+    window.location.href = ('/login')
+  }
+  form?.addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    try {
+      const formdata = new FormData(form);
+      formdata.append('_method', 'put');
+      const response = await fetch(`http://127.0.0.1:8000/api/services/${serviceId}`,{
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formdata
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error)
+    }
+
+  })
+</script>
+
 </DashboardLayout>
 
 
-<!-- <script>
-
-const id = document.getElementById("serviceId").value;
-
-/* Cargar servicio */
-
-async function loadService(){
-
-  const response = await fetch(`http://localhost:8000/api/services/${id}`);
-
-  const data = await response.json();
-
-  document.getElementById("title").value = data.title;
-  document.getElementById("description").value = data.description;
-  document.getElementById("category_id").value = data.category_id;
-  document.getElementById("price").value = data.price;
-  document.getElementById("delivery_time").value = data.delivery_time;
-  document.getElementById("revisions").value = data.revisions;
-  document.getElementById("requirements").value = data.requirements;
-
-}
-
-loadService();
-
-
-
-/* Actualizar servicio */
-
-document.getElementById("editServiceForm")
-.addEventListener("submit", async (e)=>{
-
-e.preventDefault();
-
-const body = {
-
-title: document.getElementById("title").value,
-description: document.getElementById("description").value,
-category_id: document.getElementById("category_id").value,
-price: document.getElementById("price").value,
-delivery_time: document.getElementById("delivery_time").value,
-revisions: document.getElementById("revisions").value,
-requirements: document.getElementById("requirements").value
-
-};
-
-const response = await fetch(`http://localhost:8000/api/services/${id}`,{
-
-method:"PUT",
-
-headers:{
-"Content-Type":"application/json",
-"Authorization":"Bearer "+localStorage.getItem("token")
-},
-
-body: JSON.stringify(body)
-
-});
-
-if(response.ok){
-
-alert("Servicio actualizado");
-
-window.location.href="/dashboard/freelance/servicios";
-
-}else{
-
-alert("Error al actualizar servicio");
-
-}
-
-});
-
-</script> -->

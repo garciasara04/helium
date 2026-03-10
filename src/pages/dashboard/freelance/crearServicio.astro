@@ -14,6 +14,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
     <input
       type="text"
       id="title"
+      name="title"
       placeholder="Ej: Desarrollo de API REST con Laravel"
       class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
       required
@@ -25,6 +26,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
     <label class="block text-sm mb-2">Descripción</label>
     <textarea
       id="description"
+      name="description"
       rows="4"
       placeholder="Describe que incluye tu servicio..."
       class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
@@ -38,6 +40,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
     <select
       id="category_id"
+      name="category_id"
       class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
     >
       <option value="1">Desarrollo Web</option>
@@ -56,6 +59,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
     <input
       type="number"
       id="price"
+      name="price"
       placeholder="450000"
       class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
       required
@@ -68,6 +72,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
     <input
       type="number"
       id="delivery_time"
+      name="delivery_time"
       placeholder="7"
       class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
       required
@@ -80,21 +85,34 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
     <input
       type="number"
       id="revisions"
+      name="revisions"
       placeholder="2"
       class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
       required
     />
   </div>
-
+  
   <!-- Requisitos -->
   <div>
     <label class="block text-sm mb-2">Requisitos del cliente</label>
     <textarea
       id="requirements"
       rows="3"
+      name="requirements"
       placeholder="Ej: Comparte alcance del proyecto..."
       class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
     ></textarea>
+  </div>
+  <div>
+    <label class="block text-sm mb-2">Foto de portada (Obligatoria)</label>
+    <input
+      type="file"
+      id="photo"
+      name="photo"
+      accept="image/png, image/jpeg, image/webp"
+      class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-slate-300 focus:outline-none focus:border-purple-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700 transition"
+      required
+    />
   </div>
 
   <!-- Botón -->
@@ -102,6 +120,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
     type="submit" 
     class="w-full bg-purple-600 hover:bg-purple-700 transition py-3 rounded-lg font-semibold"
   >
+  
     Publicar Servicio
   </button>
 
@@ -109,69 +128,33 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 </div>
 
+<script>
+  const createService = document.getElementById('serviceForm');
+  
+  createService?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formdata = new FormData(createService);
+    const token = localStorage.getItem('token');
+    
+    try{
+      const response = await fetch('http://127.0.0.1:8000/api/services', {
+        method: 'POST',
+        headers: {
+          'authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+        },
+        body: formdata
+      })
+      const data = await response.json();
+      console.log(data);
+      }
 
-<!-- <script>
-
-const form = document.getElementById("serviceForm");
-
-form.addEventListener("submit", async (e) => {
-
-  e.preventDefault();
-
-  const data = {
-
-    title: document.getElementById("title").value,
-
-    description: document.getElementById("description").value,
-
-    category_id: Number(document.getElementById("category_id").value),
-
-    price: Number(document.getElementById("price").value),
-
-    delivery_time: Number(document.getElementById("delivery_time").value),
-
-    revisions: Number(document.getElementById("revisions").value),
-
-    requirements: document.getElementById("requirements").value
-
-  };
-
-  console.log("JSON enviado:", data);
-
-  try {
-
-    const response = await fetch("http://localhost:8000/api/services", {
-
-      method: "POST",
-
-      headers: {
-
-        "Content-Type": "application/json",
-
-        "Authorization": "Bearer TU_TOKEN"
-
-      },
-
-      body: JSON.stringify(data)
-
-    });
-
-    const result = await response.json();
-
-    alert("Servicio creado correctamente");
-
-    console.log(result);
-
-  } catch (error) {
-
-    console.error(error);
-
-    alert("Error al crear servicio");
-
-  }
-
-});
-
-</script> -->
+    catch(error){
+      console.log('error', error)
+    }  
+    })
+    
+</script>
 
 </DashboardLayout>

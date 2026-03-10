@@ -100,7 +100,22 @@ const Title = "Login";
         console.log(data);
         if(data.token){
           localStorage.setItem('token', data.token);
-          window.location.href=('/home');
+          localStorage.setItem('user', JSON.stringify(data.user));
+          
+          if (data.user.role_id===1) {
+            window.location.href=('dashboard/cliente');
+          }
+
+          if (data.user.role_id === 2) {
+            window.location.href=('dashboard/freelance');
+          }
+
+          if (data.user.role_id === 3) {
+            window.location.href=('dashboard/company');
+          }
+          if (data.user.role_id === 4) {
+            window.location.href=('dashboard/admin');
+          }
         }
         else{
           alert('Credenciales incorrecta')

@@ -1,140 +1,174 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const freelancer = {
-  name: "Ana Martínez",
-  profession: "Desarrolladora de paginas wed y moviles ",
-  rating: 4.9,
-  reviews: 47,
-  country: "Colombia",
-  city: "Bogotá D.C.",
-  languages: "Español (nativo), Inglés (C1), Portugués (intermedio)",
-  hourlyRate: 28,
-  photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop",
-};
-
-const portfolio = [
-  {
-    title: "Implementación de lenguajes para el desarrollo del aprendizaje",
-    description: "Configuración completa de sistema de call center con integración CRM, IVR personalizado y reportes en tiempo real para empresa de telecomunicaciones. Reducción de costos operativos en 42%.",
-    image: "https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800",
-    technologies: "Asterisk • FreePBX • React • Node.js • PostgreSQL",
-  },
-  {
-    title: "Automatización de IA en páginas web",
-    description: "Desarrollo de chatbot + dashboard para gestión de leads y tickets. Soporte en español e inglés. +35% mejora en tiempo de respuesta.",
-    image: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800",
-    technologies: "Dialogflow • WhatsApp Business API • Next.js • Tailwind",
-  },
-  {
-    title: "Desarrollo de páginas web",
-    description: "Sistema con desarrollo con HTML, CSS y JavaScript",
-    image: "https://images.unsplash.com/photo-1551288049-b1f4d2e39abf?w=800",
-    technologies: "HTML • CSS • JavaScript",
-  },
-]
 ---
-<DashboardLayout title="Catalogo Cliente" userRole="cliente">
 
-<div class="min-h-screen bg-linear-to-b from-gray-950 to-gray-900 text-gray-100">
-  <!-- Contenedor principal -->
+<DashboardLayout title="Detalle del Servicio" userRole="cliente">
+
+<div class="min-h-screen bg-linear-to-b from-slate-950 to-slate-900 text-slate-100">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-    <!-- Sección superior: Foto + Info básica -->
     <div class="flex flex-col md:flex-row gap-10 items-start md:items-center">
       <div class="shrink-0 mx-auto md:mx-0">
         <div class="relative">
           <img
-            src={freelancer.photo}
-            alt={freelancer.name}
+            id="f-photo"
+            src="https://via.placeholder.com/400"
+            alt="Foto Freelancer"
             class="w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full object-cover border-4 border-purple-600 shadow-2xl shadow-purple-900/30"
           />
-          <div class="absolute -bottom-3 -right-3 bg-green-500 w-8 h-8 rounded-full border-4 border-gray-900"></div>
+          <div class="absolute -bottom-3 -right-3 bg-green-500 w-8 h-8 rounded-full border-4 border-slate-900"></div>
         </div>
       </div>
 
       <div class="flex-1 text-center md:text-left">
-        <h1 class="text-3xl sm:text-4xl font-bold text-white">
-          {freelancer.name}
+        <h1 id="f-name" class="text-3xl sm:text-4xl font-bold text-white">
+          Cargando...
         </h1>
         
-        <p class="mt-2 text-xl sm:text-2xl text-purple-400 font-medium">
-          {freelancer.profession}
+        <p id="f-profession" class="mt-2 text-xl sm:text-2xl text-purple-400 font-medium">
+          ...
         </p>
 
         <div class="mt-4 flex items-center justify-center md:justify-start gap-6 flex-wrap">
           <div class="flex items-center gap-2">
             <span class="text-yellow-400 text-3xl">★</span>
-            <span class="text-2xl font-bold">{freelancer.rating}</span>
-            <span class="text-gray-400">({freelancer.reviews} reseñas)</span>
+            <span class="text-2xl font-bold">5.0</span>
+            <span class="text-slate-400">(Nuev@)</span>
           </div>
-
-          <div class="flex items-center gap-2 text-gray-300">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-            </svg>
-            <span>{freelancer.country} • {freelancer.city}</span>
-          </div>
-        </div>
-
-        <div class="mt-4 text-lg text-gray-300">
-          Idiomas: <span class="text-purple-300">{freelancer.languages}</span>
         </div>
 
         <div class="mt-6 inline-block bg-purple-700/30 backdrop-blur-sm px-6 py-3 rounded-full border border-purple-500/30">
-          <span class="text-2xl font-bold text-purple-300">${freelancer.hourlyRate}</span>
-          <span class="text-gray-300"> / hora</span>
+          <span class="text-2xl font-bold text-purple-300" id="s-price">$...</span>
+          <span class="text-slate-300"> por este servicio</span>
         </div>
       </div>
     </div>
 
-    <!-- Descripción -->
     <section class="mt-16">
       <h2 class="text-2xl sm:text-3xl font-bold text-white mb-6 border-b border-purple-800/50 pb-4">
-        Sobre mí y mis servicios
+        Sobre el servicio
       </h2>
-      <p class="text-lg leading-relaxed text-gray-300">
-        Profesional con más de 6 años de experiencia en servicios BPO, atención al cliente bilingüe, gestión de leads y desarrollo de soluciones tecnológicas para call centers y procesos de soporte técnico nivel 1-2.<br><br>
-        Especializada en optimizar operaciones de contacto con el cliente, automatización de procesos repetitivos y mejora continua de indicadores de satisfacción y eficiencia. He trabajado con empresas de telecomunicaciones, e-commerce y servicios financieros en Colombia y Latam.
+      <p id="s-description" class="text-lg leading-relaxed text-slate-300 whitespace-pre-line">
+        Cargando descripción del servicio...
       </p>
     </section>
 
-    <!-- Portafolio / Proyectos -->
     <section class="mt-20">
       <h2 class="text-2xl sm:text-3xl font-bold text-white mb-10 text-center">
-        Proyectos y servicios destacados
+        Servicio a contratar
       </h2>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {portfolio.map((project) => (
-            <div
-            class="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden hover:border-purple-600/50 transition-all duration-300 group"
-            >
-            <div class="aspect-video relative overflow-hidden">
-                <img
-                src={project.image}
-                alt={project.title}
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div class="absolute inset-0 bg-linear-to-t from-black/70 to-transparent"></div>
-                <div class="absolute bottom-4 left-4 right-4">
-                <h3 class="text-lg font-bold text-white line-clamp-2 drop-shadow-md">
-                    {project.title}
-                </h3>
-                </div>
-            </div>
-            </div>
-        ))}
+      <div id="service-card-container" class="max-w-md mx-auto">
         </div>
     </section>
 
-    <!-- Botón de acción -->
     <div class="mt-16 text-center">
-      <button class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg px-10 py-5 rounded-xl shadow-lg shadow-purple-900/30 transition-all duration-300 transform hover:scale-105">
-        Contratar servicios →
+      <button 
+        id="btn-contratar"
+        class="bg-purple-600 hover:bg-purple-700 text-white font-bold text-lg px-10 py-5 rounded-xl shadow-lg shadow-purple-900/30 transition-all duration-300 transform hover:scale-105"
+      >
+        Contratar servicio →
       </button>
     </div>
 
   </div>
 </div>
+
+<script>
+
+  const params = new URLSearchParams(window.location.search);
+  const serviceId = params.get('id');
+
+  async function cargarDetalleServicio() {
+    if (!serviceId) {
+      alert("No se especificó un servicio.");
+      window.location.href = '/dashboard/cliente/catalogo'; 
+      return;
+    }
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/services/${serviceId}`, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) throw new Error("Servicio no encontrado");
+
+      const service = await response.json();
+      
+      const profile = service.freelancer_profile; 
+      const user = profile.user;
+
+      document.getElementById('f-name').innerText = `${user.names} ${user.last_names}`;
+      document.getElementById('f-profession').innerText = profile.profession || 'Freelancer Independiente';
+      if (user.photo) {
+        document.getElementById('f-photo').src = `http://127.0.0.1:8000/storage/${user.photo}`;
+      }
+
+      document.getElementById('s-price').innerText = `$${service.price}`;
+      document.getElementById('s-description').innerText = service.description;
+
+      const serviceContainer = document.getElementById('service-card-container');
+      const serviceImage = service.photo ? `http://127.0.0.1:8000/storage/${service.photo}` : 'https://placehold.co/800x400';
+      
+      serviceContainer.innerHTML = `
+        <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-2xl overflow-hidden hover:border-purple-600/50 transition-all duration-300 group shadow-xl">
+          <div class="aspect-video relative overflow-hidden">
+              <img
+                src="${serviceImage}"
+                alt="${service.title}"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div class="absolute inset-0 bg-linear-to-t from-black/80 via-black/30 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 right-4">
+                <span class="text-xs font-bold text-purple-400 uppercase tracking-wider mb-1 block">${service.category?.name || 'Servicio'}</span>
+                <h3 class="text-xl font-bold text-white line-clamp-2 drop-shadow-md">
+                    ${service.title}
+                </h3>
+              </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('btn-contratar').onclick = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          if(!token) return window.location.href = '/login'; 
+          
+          const response = await fetch('http://127.0.0.1:8000/api/orders', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+              service_id: serviceId 
+            })
+          });
+
+          const data = await response.json();
+          console.log(data);
+
+          if(response.ok) {
+            console.log('pedido creado con exito')
+          }
+          
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+    } catch (error) {
+      console.error(error);
+      document.getElementById('f-name').innerText = "Error al cargar";
+      document.getElementById('s-description').innerText = "No se pudo cargar la información de este servicio.";
+    }
+  }
+
+  cargarDetalleServicio();
+</script>
+
 </DashboardLayout>
