@@ -1,0 +1,105 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const completedProjects = [
+  {
+    freelancer: "Darshan",
+    service: "Diseño de página web",
+    imageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"
+  },
+  {
+    freelancer: "Matías",
+    service: "Logo profesional",
+    imageUrl: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400"
+  }
+];
+---
+
+<DashboardLayout title="Cliente" userRole="cliente">
+
+<section id="calificar" class="max-w-6xl mx-auto px-6 py-10">
+
+<h2 class="text-3xl font-bold text-violet-300 mb-8">
+Calificar servicios realizados
+</h2>
+
+{completedProjects.length > 0 ? (
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+{completedProjects.map(p => (
+
+<form class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-4">
+
+<!-- Freelancer -->
+<div class="flex items-center gap-4">
+<img 
+src={p.imageUrl} 
+class="w-12 h-12 rounded-full object-cover"
+/>
+
+<div>
+<h3 class="font-semibold text-white">
+{p.freelancer}
+</h3>
+
+<p class="text-sm text-slate-400">
+{p.service}
+</p>
+</div>
+</div>
+
+<!-- Selector estrellas -->
+<div>
+
+<label class="text-sm text-slate-400 mb-2 block">
+Calificación
+</label>
+
+<select class="w-full bg-slate-800 border border-slate-700 p-3 rounded-lg text-yellow-400">
+
+<option value="5">⭐⭐⭐⭐⭐ Excelente</option>
+<option value="4">⭐⭐⭐⭐ Muy bueno</option>
+<option value="3">⭐⭐⭐ Bueno</option>
+<option value="2">⭐⭐ Regular</option>
+<option value="1">⭐ Malo</option>
+
+</select>
+
+</div>
+
+<!-- Comentario -->
+<div>
+
+<label class="text-sm text-slate-400 mb-2 block">
+Comentario
+</label>
+
+<textarea
+placeholder="Escribe tu opinión sobre el servicio..."
+class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3 text-sm focus:outline-none focus:border-violet-500"
+></textarea>
+
+</div>
+
+<button class="w-full bg-violet-600 hover:bg-violet-500 transition rounded-lg py-2 font-semibold">
+Enviar reseña
+</button>
+
+</form>
+
+))}
+
+</div>
+
+) : (
+
+<div class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
+No tienes servicios pendientes por calificar.
+</div>
+
+)}
+
+</section>
+
+</DashboardLayout>

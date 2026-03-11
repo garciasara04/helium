@@ -1,24 +1,98 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const services = [
+  {
+    id: 1,
+    title: "Diseño de página web moderna",
+    freelancer: "Carlos Dev",
+    price: 250,
+    rating: 4.9,
+    category: "Desarrollo Web",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6"
+  },
+  {
+    id: 2,
+    title: "Diseño de logo profesional",
+    freelancer: "Ana Design",
+    price: 80,
+    rating: 4.8,
+    category: "Diseño",
+    image: "https://images.unsplash.com/photo-1634942537034-2531766767d1"
+  },
+  {
+    id: 3,
+    title: "Automatización con Python",
+    freelancer: "Luis Code",
+    price: 150,
+    rating: 5.0,
+    category: "Programación",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475"
+  },
+  {
+    id: 4,
+    title: "Marketing Digital para empresas",
+    freelancer: "Laura Marketing",
+    price: 120,
+    rating: 4.7,
+    category: "Marketing",
+    image: "https://images.unsplash.com/photo-1557838923-2985c318be48"
+  }
+];
 ---
 
 <DashboardLayout title="Servicios" userRole="company">
+  <section class="max-w-7xl mx-auto px-6 py-10">
+    <div class="mb-12 text-center">
+      <h1 class="text-3xl md:text-4xl font-bold text-white">
+        Servicios de Freelancers
+      </h1>
+      <p class="text-slate-400 mt-3">
+        Explora los servicios disponibles en Helium
+      </p>
+    </div>
 
-<div class="grid md:grid-cols-3 gap-6">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      {
+        services.map(service => (
+          <div 
+            class="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-500 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl"
+          >
+            <div class="relative h-44 overflow-hidden">
+              <img 
+                src={service.image}
+                class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+              />
+              <div class="absolute top-3 left-3 bg-black/60 backdrop-blur text-xs text-white px-3 py-1 rounded-full">
+                {service.category}
+              </div>
+            </div>
 
-<a href="/dashboard/company/servicio-detalle"
-class="bg-slate-900 p-6 rounded-xl">
+            <div class="p-5">
+              <h3 class="text-white font-semibold text-lg mb-2 group-hover:text-indigo-400 transition">
+                {service.title}
+              </h3>
 
-<h3 class="font-bold">
-SEO Profesional
-</h3>
+              <p class="text-slate-400 text-sm mb-4">
+                Freelancer: {service.freelancer}
+              </p>
 
-<p class="text-purple-400">
-$300
-</p>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1 text-yellow-400 text-sm">
+                  ⭐ {service.rating}
+                </div>
+                <div class="text-indigo-400 font-bold">
+                  ${service.price}
+                </div>
+              </div>
 
-</a>
-
-</div>
-
+              <button class="mt-5 w-full bg-indigo-600 hover:bg-indigo-500 transition text-white py-2 rounded-lg text-sm">
+                Ver servicio
+              </button>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
 </DashboardLayout>
