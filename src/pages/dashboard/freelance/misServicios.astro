@@ -22,22 +22,22 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 </div>
 
+
 <script>
   async function cargarServicios(){
     const token = localStorage.getItem('token');
     
     if(!token){
       window.location.href = '/login';
-      return; // Importante poner el return para detener la ejecución
+      return; 
     }
 
     try {
-      // Método GET y ruta correcta
       const response = await fetch('http://127.0.0.1:8000/api/personaServices', {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
-          'Authorization': `Bearer ${token}` // Tipeo corregido
+          'Authorization': `Bearer ${token}` 
         },
       });
 
@@ -45,14 +45,13 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       const servicios = data.services;
       
       const contenedor = document.getElementById('contenedor-mis-servicios');
-      contenedor.innerHTML = ''; // Limpiamos el contenedor antes de inyectar
+      contenedor.innerHTML = ''; 
 
       if (!servicios || servicios.length === 0) {
         contenedor.innerHTML = '<p class="text-slate-400 col-span-full">Aún no tienes servicios publicados.</p>';
         return;
       }
 
-      // Dibujamos las tarjetas respetando tu diseño
       servicios.forEach(service => {
         contenedor.innerHTML += `
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
@@ -74,14 +73,14 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
             <div class="flex gap-3">
               <a
                 href="/dashboard/freelance/editarServicio?id=${service.id}"
-                class="flex-1 text-center bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm"
+                class="flex-1 text-center bg-slate-800 hover:bg-slate-700 py-2 rounded-lg text-sm transition-colors"
               >
                 Editar
               </a>
 
               <button
                 onclick="deleteService(${service.id})"
-                class="flex-1 bg-red-600 hover:bg-red-700 py-2 rounded-lg text-sm"
+                class="flex-1 bg-red-600/20 text-red-500 hover:bg-red-600 hover:text-white py-2 rounded-lg text-sm transition-colors border border-red-500/50"
               >
                 Eliminar
               </button>
@@ -99,27 +98,33 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
   cargarServicios();
 
-  window.deleteService = async function(id){
+  window.deleteService = async function(id) {
+    const seguro = confirm("¿Estás seguro de que deseas eliminar este servicio? Esta acción no se puede deshacer.");
+    if (!seguro) return;
 
-    const token = localStorage.getItem('token')
-    try{
+    const token = localStorage.getItem('token');
+    
+    try {
       const response = await fetch(`http://127.0.0.1:8000/api/services/${id}`, {
-      method: 'Delete',
-      headers: {
-        'Accept' : 'Application/json',
-        'Authorization' : `Bearer ${token}`,
+        method: 'DELETE', 
+        headers: {
+          'Accept' : 'application/json',
+          'Authorization' : `Bearer ${token}`,
+        }
+      });
+
+    
+      if (response.ok) {
+        cargarServicios();
+      } else {
+        alert("Hubo un problema al eliminar el servicio.");
       }
-    });
-    const data = await response.json();
-    if (data.ok) {
-      cargarServicios();
+
+    } catch (error) {
+      console.log('Error al eliminar:', error);
+      alert("Error de conexión al intentar eliminar.");
     }
   }
-  catch(error){
-    console.log('error');
-  }
-  }
-  
 </script>
 
 </DashboardLayout>
