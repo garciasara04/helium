@@ -1,14 +1,6 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
-const companyName = "Helium Tech";
-
-const stats = [
-  { label: "Órdenes activas", value: 5 },
-  { label: "Freelancers contratados", value: 12 },
-  { label: "Servicios comprados", value: 18 },
-  { label: "Reviews dadas", value: 7 },
-];
 
 const recommendedFreelancers = [
   { id:1, name:"Ana Martínez", rating:4.9, reviews:342, image:"https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"},
@@ -42,7 +34,7 @@ style="background-image:url('https://images.unsplash.com/photo-1557804506-669a67
 <div class="relative z-10 flex flex-col justify-center h-full px-10 max-w-3xl">
 
 <h2 class="text-4xl font-black mb-4">
-Bienvenido {companyName}
+Bienvenido Helium
 </h2>
 
 <p class="text-slate-200 mb-6">
@@ -66,15 +58,15 @@ Explorar marketplace →
 
 <section class="grid md:grid-cols-3 lg:grid-cols-5 gap-6 mb-16">
 
-<a href="/dashboard/company/perfil"
+<a href="/dashboard/company/servicios"
 class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500 transition">
 
 <h3 class="text-lg font-bold mb-1">
-Perfil
+Servicios
 </h3>
 
 <p class="text-slate-400 text-sm">
-Ver información empresa
+Explorar Servicios
 </p>
 
 </a>
@@ -137,28 +129,6 @@ Actividad reciente
 
 </section>
 
-
-<!-- STATS -->
-
-<section class="grid md:grid-cols-4 gap-6 mb-16">
-
-{stats.map(s => (
-
-<div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
-
-<p class="text-slate-400 text-sm">
-{s.label}
-</p>
-
-<p class="text-3xl font-bold">
-{s.value}
-</p>
-
-</div>
-
-))}
-
-</section>
 
 
 <!-- FREELANCERS -->
