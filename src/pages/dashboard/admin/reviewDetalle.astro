@@ -1,0 +1,117 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const review = {
+  usuario: "Carlos Perez",
+  servicio: "Landing Page Profesional",
+  freelancer: "Sara Lopez",
+  rating: 2,
+  comentario: "El freelancer tardó más de lo acordado en entregar el proyecto. El diseño final fue aceptable pero la comunicación fue lenta.",
+  fecha: "2024-05-12"
+};
+---
+
+<DashboardLayout userRole="admin">
+
+<h1 class="text-2xl font-bold mb-8">
+Detalle de Review
+</h1>
+
+<div class="grid md:grid-cols-2 gap-8">
+
+<!-- Información principal -->
+<div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+
+<h2 class="text-lg font-semibold text-slate-300 mb-6">
+Información de la review
+</h2>
+
+<div class="space-y-4">
+
+<div>
+<p class="text-slate-400 text-sm">Usuario</p>
+<p class="text-white font-semibold">
+{review.usuario}
+</p>
+</div>
+
+<div>
+<p class="text-slate-400 text-sm">Freelancer</p>
+<p class="text-white font-semibold">
+{review.freelancer}
+</p>
+</div>
+
+<div>
+<p class="text-slate-400 text-sm">Servicio</p>
+<p class="text-white">
+{review.servicio}
+</p>
+</div>
+
+<div>
+<p class="text-slate-400 text-sm">Fecha</p>
+<p class="text-white">
+{review.fecha}
+</p>
+</div>
+
+<div>
+<p class="text-slate-400 text-sm">Rating</p>
+
+<span class={
+review.rating >= 4
+? "text-green-400 font-bold"
+: review.rating === 3
+? "text-yellow-400 font-bold"
+: "text-red-400 font-bold"
+}>
+
+{"⭐".repeat(review.rating)}
+
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- Comentario -->
+<div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+
+<h2 class="text-lg font-semibold text-slate-300 mb-6">
+Comentario
+</h2>
+
+<p class="text-slate-300 leading-relaxed">
+{review.comentario}
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Acciones admin -->
+<div class="mt-10 flex gap-4">
+
+<button class="bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-lg">
+Marcar como revisada
+</button>
+
+<button class="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg">
+Eliminar review
+</button>
+
+<a
+href="/dashboard/admin/reviews"
+class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg"
+>
+Volver
+</a>
+
+</div>
+
+</DashboardLayout>

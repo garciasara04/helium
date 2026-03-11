@@ -1,0 +1,219 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const freelancer = {
+  nombre: "Sara Lopez",
+  rol: "Freelancer",
+  email: "sara@email.com",
+  pais: "España",
+  miembroDesde: "Febrero 2023",
+  avatar: "https://i.pravatar.cc/150?img=5"
+};
+
+const stats = [
+  { label: "Servicios", value: 8 },
+  { label: "Órdenes completadas", value: 52 },
+  { label: "Reviews", value: 40 },
+  { label: "Ingresos generados", value: "$6,200" }
+];
+
+const servicios = [
+  {
+    titulo: "Landing Page moderna",
+    precio: "$250",
+    rating: 4.8,
+    image: "/service1.jpg"
+  },
+  {
+    titulo: "Diseño de logo profesional",
+    precio: "$120",
+    rating: 4.7,
+    image: "/service2.jpg"
+  },
+  {
+    titulo: "Optimización SEO",
+    precio: "$300",
+    rating: 4.6,
+    image: "/service3.jpg"
+  }
+];
+
+const reviews = [
+  {
+    rating: 5,
+    text: "Excelente freelancer, comunicación perfecta.",
+    cliente: "Carlos Perez"
+  },
+  {
+    rating: 4.5,
+    text: "Muy buen diseño y rápido.",
+    cliente: "Empresa X"
+  }
+];
+---
+
+<DashboardLayout userRole="admin">
+
+<h1 class="text-2xl font-bold text-white mb-8">
+Perfil del freelancer
+</h1>
+
+<!-- PERFIL -->
+<div class="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-10 flex items-center gap-6">
+
+<img
+src={freelancer.avatar}
+class="w-20 h-20 rounded-full object-cover"
+/>
+
+<div>
+
+<h2 class="text-xl font-bold text-white">
+{freelancer.nombre}
+</h2>
+
+<p class="text-purple-400 text-sm">
+{freelancer.rol}
+</p>
+
+<p class="text-slate-400 text-sm mt-1">
+{freelancer.email}
+</p>
+
+<p class="text-slate-500 text-xs mt-1">
+{freelancer.pais} • Miembro desde {freelancer.miembroDesde}
+</p>
+
+</div>
+
+</div>
+
+
+<!-- ESTADISTICAS -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+
+{stats.map(stat => (
+
+<div class="bg-slate-900 border border-slate-800 p-6 rounded-xl text-center">
+
+<p class="text-slate-400 text-sm">
+{stat.label}
+</p>
+
+<p class="text-2xl font-bold text-white mt-2">
+{stat.value}
+</p>
+
+</div>
+
+))}
+
+</section>
+
+
+<!-- SERVICIOS DEL FREELANCER -->
+<section class="mb-14">
+
+<h2 class="text-xl font-bold text-white mb-6">
+Servicios publicados
+</h2>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+{servicios.map(servicio => (
+
+<div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-purple-500 transition">
+
+<img
+src={servicio.image}
+class="w-full h-40 object-cover"
+/>
+
+<div class="p-4">
+
+<h3 class="text-white font-bold text-sm mb-1">
+{servicio.titulo}
+</h3>
+
+<p class="text-green-400 font-semibold">
+{servicio.precio}
+</p>
+
+<div class="flex justify-between items-center mt-3">
+
+<span class="text-yellow-400">
+⭐ {servicio.rating}
+</span>
+
+<a
+href="/dashboard/admin/servicios"
+class="text-purple-400 text-sm hover:underline"
+>
+Ver
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+))}
+
+</div>
+
+</section>
+
+
+<!-- REVIEWS -->
+<section>
+
+<h2 class="text-xl font-bold text-white mb-6">
+Reviews recibidas
+</h2>
+
+<div class="grid md:grid-cols-2 gap-6">
+
+{reviews.map(review => (
+
+<div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+
+<p class="text-yellow-400 font-bold mb-2">
+⭐ {review.rating}
+</p>
+
+<p class="text-slate-300 text-sm mb-3">
+"{review.text}"
+</p>
+
+<p class="text-slate-400 text-xs">
+Cliente: {review.cliente}
+</p>
+
+</div>
+
+))}
+
+</div>
+
+</section>
+
+
+<!-- ACCIONES ADMIN -->
+<div class="mt-12 flex gap-4">
+
+<button class="bg-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
+Editar perfil
+</button>
+
+<button class="bg-yellow-500 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-600 transition">
+Suspender freelancer
+</button>
+
+<button class="bg-red-500 px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition">
+Eliminar cuenta
+</button>
+
+</div>
+
+</DashboardLayout>

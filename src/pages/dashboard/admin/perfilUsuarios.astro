@@ -1,0 +1,214 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const usuario = {
+  nombre: "Carlos Perez",
+  rol: "Cliente",
+  email: "carlos@email.com",
+  pais: "México",
+  miembroDesde: "Marzo 2024",
+  avatar: "https://i.pravatar.cc/150?img=12"
+};
+
+
+const ordenes = [
+  {
+    id: "ORD-1021",
+    servicio: "Landing Page Startup",
+    freelancer: "Sara Lopez",
+    estado: "Completado",
+    precio: "$250"
+  },
+  {
+    id: "ORD-1022",
+    servicio: "Diseño Logo",
+    freelancer: "Ana Martinez",
+    estado: "En progreso",
+    precio: "$120"
+  },
+  {
+    id: "ORD-1023",
+    servicio: "SEO Web",
+    freelancer: "Juan Perez",
+    estado: "Pendiente",
+    precio: "$300"
+  }
+];
+
+const reviews = [
+  {
+    servicio: "Landing Page Startup",
+    rating: 5,
+    text: "Excelente trabajo y comunicación."
+  },
+  {
+    servicio: "Diseño Logo",
+    rating: 4,
+    text: "Buen diseño y entrega rápida."
+  }
+];
+---
+
+<DashboardLayout userRole="admin">
+
+<h1 class="text-2xl font-bold text-white mb-8">
+Perfil del cliente
+</h1>
+
+<!-- PERFIL -->
+<div class="bg-slate-900 border border-slate-800 rounded-xl p-6 mb-10 flex items-center gap-6">
+
+<img
+src={usuario.avatar}
+class="w-20 h-20 rounded-full object-cover"
+/>
+
+<div>
+
+<h2 class="text-xl font-bold text-white">
+{usuario.nombre}
+</h2>
+
+<p class="text-purple-400 text-sm">
+{usuario.rol}
+</p>
+
+<p class="text-slate-400 text-sm mt-1">
+{usuario.email}
+</p>
+
+<p class="text-slate-500 text-xs mt-1">
+{usuario.pais} • Miembro desde {usuario.miembroDesde}
+</p>
+
+</div>
+
+</div>
+
+
+
+
+<!-- ORDENES DEL CLIENTE -->
+<section class="mb-14">
+
+<h2 class="text-xl font-bold text-white mb-6">
+Órdenes del cliente
+</h2>
+
+<div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+
+<table class="w-full text-left">
+
+<thead class="bg-slate-800 text-slate-400">
+<tr>
+<th class="p-4">ID</th>
+<th class="p-4">Servicio</th>
+<th class="p-4">Freelancer</th>
+<th class="p-4">Estado</th>
+<th class="p-4">Precio</th>
+</tr>
+</thead>
+
+<tbody>
+
+{ordenes.map(o => (
+
+<tr class="border-t border-slate-800 hover:bg-slate-800/40">
+
+<td class="p-4 font-semibold">
+{o.id}
+</td>
+
+<td class="p-4">
+{o.servicio}
+</td>
+
+<td class="p-4">
+{o.freelancer}
+</td>
+
+<td class="p-4">
+
+<span class={
+o.estado === "Completado"
+? "text-green-400"
+: o.estado === "Pendiente"
+? "text-yellow-400"
+: "text-blue-400"
+}>
+
+{o.estado}
+
+</span>
+
+</td>
+
+<td class="p-4">
+{o.precio}
+</td>
+
+</tr>
+
+))}
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- REVIEWS DEL CLIENTE -->
+<section>
+
+<h2 class="text-xl font-bold text-white mb-6">
+Reviews del cliente
+</h2>
+
+<div class="grid md:grid-cols-2 gap-6">
+
+{reviews.map(r => (
+
+<div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+
+<p class="text-yellow-400 font-bold mb-2">
+⭐ {r.rating}
+</p>
+
+<p class="text-slate-300 text-sm mb-3">
+"{r.text}"
+</p>
+
+<p class="text-slate-400 text-xs">
+Servicio: {r.servicio}
+</p>
+
+</div>
+
+))}
+
+</div>
+
+</section>
+
+
+<!-- ACCIONES ADMIN -->
+<div class="mt-12 flex gap-4">
+
+<button class="bg-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
+Editar cliente
+</button>
+
+<button class="bg-yellow-400 px-6 py-3 rounded-lg font-semibold hover:bg-amber-300 transition">
+Suspender cuenta
+</button>
+
+<button class="bg-red-500 px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition">
+Eliminar cliente
+</button>
+
+</div>
+
+</DashboardLayout>

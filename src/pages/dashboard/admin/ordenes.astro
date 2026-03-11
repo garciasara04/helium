@@ -17,49 +17,129 @@ const ordenes = [
     servicio: "Diseño Logo",
     estado: "Pendiente",
     precio: "$120"
+  },
+  {
+    id: "ORD-1023",
+    cliente: "Luis Gomez",
+    freelancer: "Juan Perez",
+    servicio: "SEO Web",
+    estado: "Completado",
+    precio: "$300"
   }
 ];
 ---
 
-<DashboardLayout  userRole="admin">
-  <h1 class="text-2xl font-bold mb-6">
-    Órdenes
-  </h1>
+<DashboardLayout userRole="admin">
 
-  <table class="w-full bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-    <thead class="bg-slate-800 text-slate-400">
-      <tr>
-        <th class="p-4">ID</th>
-        <th class="p-4">Cliente</th>
-        <th class="p-4">Freelancer</th>
-        <th class="p-4">Servicio</th>
-        <th class="p-4">Estado</th>
-        <th class="p-4">Precio</th>
-        <th class="p-4">Acción</th>
-      </tr>
-    </thead>
+<h1 class="text-2xl font-bold mb-6">
+Gestión de órdenes
+</h1>
 
-    <tbody>
-      {ordenes.map(o => (
-        <tr class="border-t border-slate-800">
-          <td class="p-4">{o.id}</td>
-          <td class="p-4">{o.cliente}</td>
-          <td class="p-4">{o.freelancer}</td>
-          <td class="p-4">{o.servicio}</td>
-          <td class="p-4">{o.estado}</td>
-          <td class="p-4">{o.precio}</td>
 
-          <td class="p-4">
-            <button class="bg-blue-600 px-3 py-1 rounded">
-              Ver
-            </button>
+<!-- FILTROS -->
+<div class="flex flex-wrap gap-4 mb-6">
 
-            <button class="bg-red-600 px-3 py-1 rounded ml-2">
-              Cancelar
-            </button>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
+<input
+type="text"
+placeholder="Buscar orden..."
+class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2"
+/>
+
+<select class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
+<option>Estado</option>
+<option>Pendiente</option>
+<option>En progreso</option>
+<option>Completado</option>
+<option>Cancelado</option>
+</select>
+
+<select class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
+<option>Precio</option>
+<option>Mayor a menor</option>
+<option>Menor a mayor</option>
+</select>
+
+</div>
+
+
+<!-- TABLA -->
+<div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+
+<table class="w-full text-left">
+
+<thead class="bg-slate-800 text-slate-400">
+<tr>
+<th class="p-4">ID</th>
+<th class="p-4">Cliente</th>
+<th class="p-4">Freelancer</th>
+<th class="p-4">Servicio</th>
+<th class="p-4">Estado</th>
+<th class="p-4">Precio</th>
+<th class="p-4">Acción</th>
+</tr>
+</thead>
+
+<tbody>
+
+{ordenes.map(o => (
+
+<tr class="border-t border-slate-800">
+
+<td class="p-4 font-semibold">
+{o.id}
+</td>
+
+<td class="p-4">
+{o.cliente}
+</td>
+
+<td class="p-4">
+{o.freelancer}
+</td>
+
+<td class="p-4">
+{o.servicio}
+</td>
+
+<td class="p-4">
+
+<span class={
+o.estado === "Completado"
+? "text-green-400"
+: o.estado === "Pendiente"
+? "text-yellow-400"
+: "text-blue-400"
+}>
+
+{o.estado}
+
+</span>
+
+</td>
+
+<td class="p-4">
+{o.precio}
+</td>
+
+<td class="p-4">
+
+<a
+href="/dashboard/admin/ordenDetalle"
+class="text-purple-400 hover:underline"
+>
+Ver detalle
+</a>
+
+</td>
+
+</tr>
+
+))}
+
+</tbody>
+
+</table>
+
+</div>
+
 </DashboardLayout>

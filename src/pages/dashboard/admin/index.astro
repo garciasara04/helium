@@ -2,12 +2,12 @@
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 const stats = [
-  { label: "Usuarios", value: 1284 },
-  { label: "Freelancers", value: 342 },
-  { label: "Empresas", value: 120 },
-  { label: "Servicios activos", value: 510 },
-  { label: "Órdenes", value: 97 },
-  { label: "Reviews", value: 860 }
+  { label: "Usuarios", value: 1284, href: "/dashboard/admin/usuarios" },
+  { label: "Freelancers", value: 342, href: "/dashboard/admin/usuarios" },
+  { label: "Empresas", value: 120, href: "/dashboard/admin/usuarios" },
+  { label: "Servicios activos", value: 510, href: "/dashboard/admin/servicios" },
+  { label: "Órdenes", value: 97, href: "/dashboard/admin/ordenes" },
+  { label: "Reviews", value: 860, href: "/dashboard/admin/reviews" }
 ];
 
 const recentUsers = [
@@ -16,119 +16,347 @@ const recentUsers = [
   { name: "Empresa X", role: "Company" }
 ];
 
-const recommendedServices = [
-  { title: "Landing Page Profesional", image: "/service1.jpg" },
-  { title: "Diseño de Logo", image: "/service2.jpg" },
-  { title: "SEO para empresas", image: "/service3.jpg" },
-  { title: "Ecommerce Shopify", image: "/service4.jpg" }
+const recentOrders = [
+  {
+    id: "ORD-1021",
+    cliente: "Carlos R",
+    freelancer: "Sara Lopez",
+    servicio: "Landing Page",
+    estado: "En progreso",
+    precio: "$250"
+  },
+  {
+    id: "ORD-1022",
+    cliente: "Empresa X",
+    freelancer: "Ana Martinez",
+    servicio: "Diseño Logo",
+    estado: "Pendiente",
+    precio: "$120"
+  },
+  {
+    id: "ORD-1023",
+    cliente: "Luis Gomez",
+    freelancer: "Juan Perez",
+    servicio: "SEO Web",
+    estado: "Completado",
+    precio: "$300"
+  }
 ];
 
-const activeOrders = [
-  { title: "Landing Page Startup", freelancer: "Sara Lopez", progress: 70 },
-  { title: "Diseño Logo Tech", freelancer: "Ana Martinez", progress: 40 },
-  { title: "SEO Blog", freelancer: "Juan Perez", progress: 90 }
+const lowRatedServices = [
+  {
+    title: "Landing Page Startup",
+    freelancer: "Carlos Dev",
+    rating: 2.1,
+    reviews: 12,
+    image: "/service1.jpg"
+  },
+  {
+    title: "Diseño Logo Minimalista",
+    freelancer: "Ana Design",
+    rating: 2.4,
+    reviews: 8,
+    image: "/service2.jpg"
+  },
+  {
+    title: "SEO Básico",
+    freelancer: "Juan SEO",
+    rating: 2.0,
+    reviews: 20,
+    image: "/service3.jpg"
+  },
+  {
+    title: "Tienda Shopify",
+    freelancer: "Luis Ecommerce",
+    rating: 1.9,
+    reviews: 15,
+    image: "/service4.jpg"
+  }
+];
+
+const negativeReviews = [
+  {
+    rating: 1.8,
+    text: "El freelancer no entregó el proyecto a tiempo.",
+    service: "Landing Page Startup"
+  },
+  {
+    rating: 2.0,
+    text: "El diseño no fue lo que esperaba.",
+    service: "Diseño Logo Minimalista"
+  },
+  {
+    rating: 1.9,
+    text: "Comunicación muy lenta con el freelancer.",
+    service: "SEO Básico"
+  }
 ];
 ---
 
-<DashboardLayout  userRole="admin">
-  <section class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-12">
-    {stats.map(stat => (
-      <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
-        <p class="text-slate-400 text-sm">
-          {stat.label}
-        </p>
-        <p class="text-3xl font-bold text-white mt-2">
-          {stat.value}
-        </p>
-      </div>
-    ))}
-  </section>
+<DashboardLayout userRole="admin">
 
-  <section class="mb-14">
-    <h2 class="text-2xl font-bold text-white mb-6">
-      Usuarios recientes
-    </h2>
+<!-- Estadísticas -->
+<section class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-12">
 
-    <div class="grid md:grid-cols-3 gap-6">
-      {recentUsers.map(user => (
-        <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
-          <h3 class="text-lg font-bold text-white">
-            {user.name}
-          </h3>
+{stats.map(stat => (
 
-          <p class="text-slate-400">
-            {user.role}
-          </p>
+<a
+href={stat.href}
+class="bg-slate-900 border border-slate-800 p-6 rounded-xl hover:border-purple-500 transition block group"
+>
 
-          <a
-            href="/dashboard/admin/usuarios"
-            class="mt-4 inline-block text-purple-400 hover:underline"
-          >
-            Ver usuarios
-          </a>
-        </div>
-      ))}
-    </div>
-  </section>
+<p class="text-slate-400 text-sm">
+{stat.label}
+</p>
 
- 
-  <section class="mb-16">
-    <h2 class="text-2xl font-bold text-white mb-6">
-      Órdenes activas
-    </h2>
+<p class="text-3xl font-bold text-white mt-2 group-hover:text-purple-400 transition">
+{stat.value}
+</p>
 
-    <div class="space-y-6">
-      {activeOrders.map(o => (
-        <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
-          <div class="flex justify-between items-center">
-            <div>
-              <h3 class="text-lg font-bold text-white">
-                {o.title}
-              </h3>
-              <p class="text-slate-400">
-                Freelancer: {o.freelancer}
-              </p>
-            </div>
+<span class="text-purple-400 text-sm mt-3 inline-block">
+Gestionar →
+</span>
 
-            <div class="w-56">
-              <div class="bg-slate-700 rounded-full h-3 overflow-hidden">
-                <div
-                  class="bg-purple-600 h-3"
-                  style={`width:${o.progress}%`}
-                ></div>
-              </div>
+</a>
 
-              <p class="text-purple-400 text-right mt-1 text-sm">
-                {o.progress}%
-              </p>
-            </div>
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
+))}
 
- 
-  <section>
-    <h2 class="text-2xl font-bold text-white mb-6">
-      Servicios populares
-    </h2>
+</section>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-      {recommendedServices.map(s => (
-        <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition">
-          <img
-            src={s.image}
-            class="w-full h-44 object-cover"
-          />
 
-          <div class="p-4 text-center">
-            <h3 class="text-white font-bold">
-              {s.title}
-            </h3>
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
+<!-- Usuarios recientes -->
+<section class="mb-14">
+
+<h2 class="text-2xl font-bold text-white mb-6">
+Usuarios recientes
+</h2>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+{recentUsers.map(user => (
+
+<div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+
+<h3 class="text-lg font-bold text-white">
+{user.name}
+</h3>
+
+<p class="text-slate-400">
+{user.role}
+</p>
+
+<a
+href="/dashboard/admin/usuarios"
+class="mt-4 inline-block text-purple-400 hover:underline"
+>
+Ver usuarios
+</a>
+
+</div>
+
+))}
+
+</div>
+
+</section>
+
+
+<!-- Órdenes recientes -->
+<section class="mb-16">
+
+<h2 class="text-2xl font-bold text-white mb-6">
+Órdenes recientes
+</h2>
+
+<div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+
+<table class="w-full text-left">
+
+<thead class="bg-slate-800 text-slate-400">
+<tr>
+<th class="p-4">ID</th>
+<th class="p-4">Cliente</th>
+<th class="p-4">Freelancer</th>
+<th class="p-4">Servicio</th>
+<th class="p-4">Estado</th>
+<th class="p-4">Precio</th>
+<th class="p-4">Acción</th>
+</tr>
+</thead>
+
+<tbody>
+
+{recentOrders.map(o => (
+
+<tr class="border-t border-slate-800 hover:bg-slate-800/40 transition">
+
+<td class="p-4 font-semibold">
+{o.id}
+</td>
+
+<td class="p-4">
+{o.cliente}
+</td>
+
+<td class="p-4">
+{o.freelancer}
+</td>
+
+<td class="p-4">
+{o.servicio}
+</td>
+
+<td class="p-4">
+
+<span class={
+o.estado === "Completado"
+? "text-green-400"
+: o.estado === "Pendiente"
+? "text-yellow-400"
+: "text-blue-400"
+}>
+
+{o.estado}
+
+</span>
+
+</td>
+
+<td class="p-4">
+{o.precio}
+</td>
+
+<td class="p-4">
+
+<a
+href="/dashboard/admin/ordenDetalle"
+class="text-purple-400 hover:underline"
+>
+Ver detalle
+</a>
+
+</td>
+
+</tr>
+
+))}
+
+</tbody>
+
+</table>
+
+</div>
+
+<div class="mt-4 text-right">
+
+<a
+href="/dashboard/admin/ordenes"
+class="text-purple-400 hover:underline"
+>
+Ver todas las órdenes →
+</a>
+
+</div>
+
+</section>
+
+
+<!-- Servicios con peor puntuación -->
+<section>
+
+<h2 class="text-2xl font-bold text-white mb-6">
+Servicios con peor puntuación
+</h2>
+
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+{lowRatedServices.map(service => (
+
+<div class="bg-slate-900 rounded-xl overflow-hidden border border-red-500/30 hover:border-red-500 transition">
+
+<img
+src={service.image}
+class="w-full h-44 object-cover"
+/>
+
+<div class="p-4">
+
+<h3 class="text-white font-bold text-sm mb-1">
+{service.title}
+</h3>
+
+<p class="text-slate-400 text-sm">
+{service.freelancer}
+</p>
+
+<div class="flex justify-between items-center mt-3">
+
+<span class="text-red-400 font-bold">
+⭐ {service.rating}
+</span>
+
+<span class="text-slate-500 text-xs">
+{service.reviews} reviews
+</span>
+
+</div>
+
+<a
+href="/dashboard/admin/servicios"
+class="block text-center mt-4 text-purple-400 hover:underline text-sm"
+>
+Revisar servicio
+</a>
+
+</div>
+
+</div>
+
+))}
+
+</div>
+
+</section>
+
+
+<!-- Reviews negativas recientes -->
+<section class="mt-16">
+
+<h2 class="text-2xl font-bold text-white mb-6">
+Reviews negativas recientes
+</h2>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+{negativeReviews.map(review => (
+
+<div class="bg-slate-900 border border-red-500/30 p-6 rounded-xl">
+
+<p class="text-red-400 font-bold mb-2">
+⭐ {review.rating}
+</p>
+
+<p class="text-slate-300 text-sm mb-3">
+"{review.text}"
+</p>
+
+<p class="text-slate-400 text-xs">
+Servicio: {review.service}
+</p>
+
+<a
+href="/dashboard/admin/reviews"
+class="text-purple-400 hover:underline text-sm mt-3 inline-block"
+>
+Revisar review
+</a>
+
+</div>
+
+))}
+
+</div>
+
+</section>
+
 </DashboardLayout>

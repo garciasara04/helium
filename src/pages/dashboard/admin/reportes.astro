@@ -1,37 +1,244 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const stats = [
+  { label: "Ingresos totales", value: "$24,500" },
+  { label: "Órdenes este mes", value: 142 },
+  { label: "Usuarios nuevos", value: 38 },
+  { label: "Freelancers activos", value: 76 }
+];
+
+const topServices = [
+  {
+    title: "Landing Page Startup",
+    freelancer: "Carlos Dev",
+    ventas: 24,
+    ingresos: "$6,000"
+  },
+  {
+    title: "Diseño Logo Profesional",
+    freelancer: "Ana Design",
+    ventas: 18,
+    ingresos: "$2,160"
+  },
+  {
+    title: "SEO Web",
+    freelancer: "Juan SEO",
+    ventas: 15,
+    ingresos: "$4,500"
+  }
+];
+
+const recentOrders = [
+  {
+    id: "ORD-1040",
+    cliente: "Empresa X",
+    freelancer: "Sara Lopez",
+    precio: "$250",
+    estado: "En progreso"
+  },
+  {
+    id: "ORD-1041",
+    cliente: "Carlos R",
+    freelancer: "Ana Martinez",
+    precio: "$120",
+    estado: "Completado"
+  },
+  {
+    id: "ORD-1042",
+    cliente: "Luis Gomez",
+    freelancer: "Juan Perez",
+    precio: "$300",
+    estado: "Pendiente"
+  }
+];
+
+const alerts = [
+  "Un servicio tiene rating menor a 2 ⭐",
+  "Un freelancer recibió 3 reviews negativas",
+  "Un cliente abrió una disputa"
+];
 ---
 
-<DashboardLayout  userRole="admin">
-  <div class="grid md:grid-cols-3 gap-6">
-    <a
-      href="/dashboard/admin/reportesVentas"
-      class="bg-slate-900 border border-slate-800 p-8 rounded-xl hover:border-indigo-500 transition"
-    >
-      <h2 class="text-xl font-bold mb-2">💰 Reportes de ventas</h2>
-      <p class="text-slate-400">
-        Ingresos, órdenes completadas y rendimiento financiero.
-      </p>
-    </a>
+<DashboardLayout userRole="admin">
 
-    <a
-      href="/dashboard/admin/reportesActividad"
-      class="bg-slate-900 border border-slate-800 p-8 rounded-xl hover:border-indigo-500 transition"
-    >
-      <h2 class="text-xl font-bold mb-2">📈 Reportes de actividad</h2>
-      <p class="text-slate-400">
-        Actividad de la plataforma y comportamiento de usuarios.
-      </p>
-    </a>
+<h1 class="text-2xl font-bold text-white mb-10">
+Reportes del sistema
+</h1>
 
-    <a
-      href="/dashboard/admin/reportesUsuarios"
-      class="bg-slate-900 border border-slate-800 p-8 rounded-xl hover:border-indigo-500 transition"
-    >
-      <h2 class="text-xl font-bold mb-2">👥 Reportes de usuarios</h2>
-      <p class="text-slate-400">
-        Crecimiento, registros y comportamiento de usuarios.
-      </p>
-    </a>
-  </div>
+
+<!-- ESTADISTICAS -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+
+{stats.map(stat => (
+
+<div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+
+<p class="text-slate-400 text-sm">
+{stat.label}
+</p>
+
+<p class="text-2xl font-bold text-white mt-2">
+{stat.value}
+</p>
+
+</div>
+
+))}
+
+</section>
+
+
+<!-- SERVICIOS MAS VENDIDOS -->
+<section class="mb-14">
+
+<h2 class="text-xl font-bold text-white mb-6">
+Servicios más vendidos
+</h2>
+
+<div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+
+<table class="w-full text-left">
+
+<thead class="bg-slate-800 text-slate-400">
+<tr>
+<th class="p-4">Servicio</th>
+<th class="p-4">Freelancer</th>
+<th class="p-4">Ventas</th>
+<th class="p-4">Ingresos</th>
+</tr>
+</thead>
+
+<tbody>
+
+{topServices.map(service => (
+
+<tr class="border-t border-slate-800 hover:bg-slate-800/40">
+
+<td class="p-4 font-semibold">
+{service.title}
+</td>
+
+<td class="p-4">
+{service.freelancer}
+</td>
+
+<td class="p-4">
+{service.ventas}
+</td>
+
+<td class="p-4 text-green-400 font-semibold">
+{service.ingresos}
+</td>
+
+</tr>
+
+))}
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- ORDENES RECIENTES -->
+<section class="mb-14">
+
+<h2 class="text-xl font-bold text-white mb-6">
+Órdenes recientes
+</h2>
+
+<div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+
+<table class="w-full text-left">
+
+<thead class="bg-slate-800 text-slate-400">
+<tr>
+<th class="p-4">ID</th>
+<th class="p-4">Cliente</th>
+<th class="p-4">Freelancer</th>
+<th class="p-4">Precio</th>
+<th class="p-4">Estado</th>
+</tr>
+</thead>
+
+<tbody>
+
+{recentOrders.map(o => (
+
+<tr class="border-t border-slate-800 hover:bg-slate-800/40">
+
+<td class="p-4 font-semibold">
+{o.id}
+</td>
+
+<td class="p-4">
+{o.cliente}
+</td>
+
+<td class="p-4">
+{o.freelancer}
+</td>
+
+<td class="p-4 text-green-400">
+{o.precio}
+</td>
+
+<td class="p-4">
+
+<span class={
+o.estado === "Completado"
+? "text-green-400"
+: o.estado === "Pendiente"
+? "text-yellow-400"
+: "text-blue-400"
+}>
+
+{o.estado}
+
+</span>
+
+</td>
+
+</tr>
+
+))}
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- ALERTAS -->
+<section>
+
+<h2 class="text-xl font-bold text-white mb-6">
+Alertas del sistema
+</h2>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+{alerts.map(alert => (
+
+<div class="bg-slate-900 border border-red-500/30 p-6 rounded-xl">
+
+<p class="text-red-400 font-semibold">
+⚠ {alert}
+</p>
+
+</div>
+
+))}
+
+</div>
+
+</section>
+
 </DashboardLayout>
