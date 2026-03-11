@@ -1,153 +1,96 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const order = {
-  freelancer: "Carlos Dev",
-  service: "Desarrollo de página web",
-  price: "$800",
-  status: "En progreso",
-  date: "20 Jun 2026",
-  image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400",
-  description:
-    "Desarrollo de un sitio web corporativo moderno para la empresa. Incluye diseño responsive, optimización SEO y panel administrativo.",
-  deliveryDate: "30 Jun 2026"
-};
 ---
 
 <DashboardLayout  userRole="company">
 
 <section class="max-w-6xl mx-auto px-6 py-10">
 
-<!-- Header -->
-<div class="flex items-center justify-between mb-10">
-
-<div>
-<h1 class="text-3xl font-bold text-white">
-Detalle del servicio
-</h1>
-
-<p class="text-slate-400 mt-1">
-Información completa del servicio contratado
-</p>
+<div id="orderLoading" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
+  Cargando detalle...
 </div>
 
-<span class={`px-3 py-1 rounded-lg text-sm ${
-order.status === "Completado"
-? "bg-green-600/20 text-green-400"
-: order.status === "En progreso"
-? "bg-yellow-600/20 text-yellow-400"
-: "bg-red-600/20 text-red-400"
-}`}>
-{order.status}
-</span>
-
+<div id="orderEmpty" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl hidden">
+  No se encontro la orden.
 </div>
 
+<div id="orderContent" class="hidden">
 
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+  <!-- Header -->
+  <div class="flex items-center justify-between mb-10">
+    <div>
+      <h1 class="text-3xl font-bold text-white">Detalle del servicio</h1>
+      <p class="text-slate-400 mt-1">Informacion completa del servicio contratado</p>
+    </div>
 
-<!-- INFORMACIÓN PRINCIPAL -->
-<div class="lg:col-span-2 space-y-6">
+    <span id="orderStatus" class="px-3 py-1 rounded-lg text-sm"></span>
+  </div>
 
-<!-- Servicio -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-<h2 class="text-xl font-semibold text-white mb-4">
-Servicio contratado
-</h2>
+    <!-- INFORMACION PRINCIPAL -->
+    <div class="lg:col-span-2 space-y-6">
 
-<p class="text-slate-300">
-{order.service}
-</p>
+      <!-- Servicio -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-xl font-semibold text-white mb-4">Servicio contratado</h2>
+        <p id="orderServiceTitle" class="text-slate-300"></p>
+      </div>
 
-</div>
+      <!-- Descripcion -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-xl font-semibold text-white mb-4">Descripcion del proyecto</h2>
+        <p id="orderRequirements" class="text-slate-400 leading-relaxed"></p>
+      </div>
 
+    </div>
 
-<!-- Descripción -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+    <!-- SIDEBAR -->
+    <div class="space-y-6">
 
-<h2 class="text-xl font-semibold text-white mb-4">
-Descripción del proyecto
-</h2>
+      <!-- Freelancer -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-lg font-semibold text-white mb-4">Freelancer</h2>
+        <div class="flex items-center gap-4">
+          <img id="orderFreelancerPhoto" src="https://via.placeholder.com/200" class="w-14 h-14 rounded-full object-cover" />
+          <div>
+            <p id="orderFreelancerName" class="text-white font-medium"></p>
+            <p class="text-sm text-slate-400">Freelancer</p>
+          </div>
+        </div>
+      </div>
 
-<p class="text-slate-400 leading-relaxed">
-{order.description}
-</p>
+      <!-- Informacion -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-400">Precio</span>
+          <span id="orderPrice" class="text-white"></span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-400">Fecha de inicio</span>
+          <span id="orderStartDate" class="text-white"></span>
+        </div>
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-400">Entrega estimada</span>
+          <span id="orderDeliveredDate" class="text-white"></span>
+        </div>
+      </div>
 
-</div>
+      <!-- Acciones -->
+      <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <a id="orderFreelancerLink" href="#" class="block w-full text-center bg-slate-800 hover:bg-slate-700 transition py-2 rounded-lg">
+          Ver perfil
+        </a>
+      </div>
 
-</div>
+    </div>
 
-
-<!-- SIDEBAR -->
-<div class="space-y-6">
-
-<!-- Freelancer -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-
-<h2 class="text-lg font-semibold text-white mb-4">
-Freelancer
-</h2>
-
-<div class="flex items-center gap-4">
-
-<img
-src={order.image}
-class="w-14 h-14 rounded-full object-cover"
-/>
-
-<div>
-<p class="text-white font-medium">
-{order.freelancer}
-</p>
-
-<p class="text-sm text-slate-400">
-Desarrollador web
-</p>
-</div>
-
-</div>
-
-</div>
-
-
-<!-- Información -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-6 space-y-3">
-
-<div class="flex justify-between text-sm">
-<span class="text-slate-400">Precio</span>
-<span class="text-white">{order.price}</span>
-</div>
-
-<div class="flex justify-between text-sm">
-<span class="text-slate-400">Fecha de inicio</span>
-<span class="text-white">{order.date}</span>
-</div>
-
-<div class="flex justify-between text-sm">
-<span class="text-slate-400">Entrega estimada</span>
-<span class="text-white">{order.deliveryDate}</span>
-</div>
-
-</div>
-
-
-<!-- Acciones -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-
-<a
-href="/dashboard/company/freelancer"
-class="block w-full text-center bg-slate-800 hover:bg-slate-700 transition py-2 rounded-lg"
->
-Ver perfil
-</a>
-
-</div>
-
-</div>
+  </div>
 
 </div>
 
 </section>
 
 </DashboardLayout>
+
+<script type="module" src="/src/js/company/order-detail.js"></script>

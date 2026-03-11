@@ -18,6 +18,7 @@ const freelancerProfessionEl = document.getElementById("freelancerProfession");
 const freelancerPhotoEl = document.getElementById("freelancerPhoto");
 const freelancerRatingEl = document.getElementById("freelancerRating");
 const freelancerLinkEl = document.getElementById("freelancerLink");
+const contractLinkEl = document.getElementById("contractServiceLink");
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -61,6 +62,7 @@ function renderRequirements(value) {
 async function fetchService() {
   const params = new URLSearchParams(window.location.search);
   const id = params.get("id");
+  const serviceId = id;
 
   if (!id) {
     loadingEl?.classList.add("hidden");
@@ -115,6 +117,9 @@ async function fetchService() {
 
     if (freelancerLinkEl && freelancerProfileId) {
       freelancerLinkEl.setAttribute("href", `/dashboard/company/freelancer?id=${freelancerProfileId}`);
+    }
+    if (contractLinkEl && serviceId) {
+      contractLinkEl.setAttribute("href", `/dashboard/company/contratarServicio?service_id=${serviceId}`);
     }
   } catch (err) {
     loadingEl?.classList.add("hidden");

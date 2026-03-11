@@ -205,4 +205,47 @@ const dashboardBase = `/dashboard/${userRole}`;
       </div>
     </div>
   </nav>
+
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+
+  const nameEl = document.getElementById("navbarUserName");
+  const avatarEl = document.getElementById("navbarAvatar");
+
+  function setUserName(name) {
+    if (!name) return;
+    if (nameEl) nameEl.textContent = name;
+    if (avatarEl) avatarEl.textContent = name.charAt(0).toUpperCase();
+  }
+
+  async function loadProfileName() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/profile`, {
+        headers: {
+          "Accept": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (!res.ok) return;
+      const profile = await res.json();
+
+      const name =
+        profile?.company?.name ||
+        profile?.company_name ||
+        [profile?.names, profile?.last_names].filter(Boolean).join(" ") ||
+        profile?.name;
+
+      setUserName(name);
+    } catch (err) {
+      console.error("No se pudo cargar el perfil", err);
+    }
+  }
+
+  loadProfileName();
+</script>
 </header>
+

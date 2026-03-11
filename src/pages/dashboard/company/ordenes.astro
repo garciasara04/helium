@@ -1,141 +1,34 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const orders = [
-  {
-    id: 1,
-    freelancer: "Carlos Dev",
-    service: "Desarrollo de página web",
-    price: "$800",
-    status: "En progreso",
-    date: "20 Jun 2026",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"
-  },
-  {
-    id: 2,
-    freelancer: "Ana Design",
-    service: "Diseño de logo corporativo",
-    price: "$150",
-    status: "Completado",
-    date: "15 Jun 2026",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400"
-  },
-  {
-    id: 3,
-    freelancer: "Luis Code",
-    service: "Automatización con Python",
-    price: "$400",
-    status: "Pendiente",
-    date: "25 Jun 2026",
-    image: "https://images.unsplash.com/photo-1552058544-f2b08422138a?w=400"
-  }
-];
 ---
 
-<DashboardLayout  userRole="company">
+<DashboardLayout userRole="company">
 
 <section class="max-w-7xl mx-auto px-6 py-10">
 
 <!-- Header -->
 <div class="mb-10">
   <h1 class="text-3xl font-bold text-white">
-    Órdenes de servicios
+    Ordenes de servicios
   </h1>
 
   <p class="text-slate-400 mt-2">
-    Aquí puedes ver todos los servicios que tu empresa ha solicitado a freelancers.
+    Aqui puedes ver todos los servicios que tu empresa ha solicitado a freelancers.
   </p>
 </div>
 
-<!-- Grid de órdenes -->
-{orders.length > 0 ? (
+<div id="ordersGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
 
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-
-{orders.map(order => (
-
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-indigo-500 transition flex flex-col justify-between">
-
-  <!-- Freelancer -->
-  <div>
-
-    <div class="flex items-center gap-4 mb-5">
-
-      <img
-        src={order.image}
-        class="w-14 h-14 rounded-full object-cover"
-      />
-
-      <div>
-        <h3 class="text-white font-semibold">
-          {order.freelancer}
-        </h3>
-
-        <p class="text-sm text-slate-400">
-          {order.service}
-        </p>
-      </div>
-
-    </div>
-
-    <!-- Información -->
-    <div class="space-y-2 text-sm text-slate-400">
-
-      <div class="flex justify-between">
-        <span>Precio</span>
-        <span class="text-white">{order.price}</span>
-      </div>
-
-      <div class="flex justify-between">
-        <span>Fecha</span>
-        <span class="text-white">{order.date}</span>
-      </div>
-
-      <div class="flex justify-between">
-        <span>Estado</span>
-
-        <span class={`px-2 py-1 rounded text-xs ${
-          order.status === "Completado"
-            ? "bg-green-600/20 text-green-400"
-            : order.status === "En progreso"
-            ? "bg-yellow-600/20 text-yellow-400"
-            : "bg-red-600/20 text-red-400"
-        }`}>
-          {order.status}
-        </span>
-
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- Botón -->
-  <div class="mt-6">
-
-    <a 
-      href="/dashboard/company/orden-detalle"
-      class="block text-center bg-indigo-600 hover:bg-indigo-500 transition py-2 rounded-lg text-sm font-semibold"
-    >
-      Ver detalles
-    </a>
-
-  </div>
-
+<div id="ordersEmpty" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl hidden">
+  No tienes ordenes de servicios todavia.
 </div>
 
-))}
-
+<div id="ordersLoading" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
+  Cargando ordenes...
 </div>
-
-) : (
-
-<div class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
-  No tienes órdenes de servicios todavía.
-</div>
-
-)}
 
 </section>
 
 </DashboardLayout>
+
+<script type="module" src="/src/js/company/orders.js"></script>

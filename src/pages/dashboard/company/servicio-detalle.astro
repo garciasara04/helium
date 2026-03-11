@@ -2,12 +2,8 @@
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
-<<<<<<< HEAD
-<DashboardLayout userRole="company">
-=======
-<DashboardLayout title="Detalle del Servicio" userRole="company">
+<DashboardLayout  userRole="company">
   <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 py-10 md:py-12">
->>>>>>> 92030450c571afbb7474a08d4e17cd7f3f5145cd
 
     <div id="serviceLoading" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
       Cargando servicio...
@@ -20,7 +16,9 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
     <div id="serviceContent" class="hidden">
       <!-- Hero / Imagen principal + Titulo -->
       <div class="mb-10 md:mb-14">
-      <div class="relative rounded-2xl overflow-hidden aspect-video bg-linear-to-br from-slate-900 to-slate-800 border border-slate-700 shadow-2xl">
+
+        <div class="relative max-w-3xl mx-auto rounded-2xl overflow-hidden aspect-video bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 shadow-2xl">
+
           <img
             id="serviceImage"
             src="https://via.placeholder.com/1200x675"
@@ -31,7 +29,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
             decoding="async"
             loading="eager"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/30 to-transparent" />
           <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10">
             <h1 id="serviceTitle" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-lg">
               Servicio
@@ -99,17 +97,17 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
                 <span id="freelancerRating" class="text-sm font-medium text-slate-300">Sin calificacion</span>
               </div>
 
-              <a                id="freelancerLink"                href="#"                class="mt-6 inline-block text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+              <a
+                id="freelancerLink"
+                href="#"
+                class="mt-6 inline-block text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
               >
                 Ver perfil completo ?
               </a>
             </div>
 
             <div class="border-t border-slate-800 px-7 py-6 bg-slate-950/50">
-              <a
-                href="#"
-                class="block w-full bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium text-center py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-500/20 active:scale-[0.98]"
-              >
+              <a id="contractServiceLink" href="#" class="block w-full bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium text-center py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-500/20 active:scale-[0.98]">
                 Contratar este servicio
               </a>
               <p class="text-center text-xs text-slate-500 mt-4">
@@ -125,6 +123,11 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 </DashboardLayout>
 
 <script type="module" src="/src/js/company/service-detail.js"></script>
+
+
+
+
+
 
 
 

@@ -3,39 +3,21 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
 <DashboardLayout  userRole="company">
-    <form class="bg-slate-900 p-8 rounded-xl max-w-xl space-y-6">
-        <h2 class="text-xl font-bold">
-            Calificar servicio
-        </h2>
-        <div>
-            <label>Estrellas</label>
-            <select class="w-full bg-slate-800 p-3 rounded">
+  <section class="max-w-6xl mx-auto px-6 py-10">
+    <h2 class="text-3xl font-bold text-violet-300 mb-8">
+      Calificar servicios realizados
+    </h2>
 
-<option>⭐⭐⭐⭐⭐</option>
-<option>⭐⭐⭐⭐</option>
-<option>⭐⭐⭐</option>
-<option>⭐⭐</option>
-<option>⭐</option>
-</select>
+    <div id="companyReviewsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
 
-</div>
+    <div id="companyReviewsEmpty" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl hidden">
+      No tienes servicios pendientes por calificar.
+    </div>
 
-<div>
-
-<label>Comentario</label>
-
-<textarea
-class="w-full bg-slate-800 p-3 rounded h-32">
-</textarea>
-
-</div>
-
-<button class="bg-purple-600 px-6 py-2 rounded-lg">
-
-Enviar review
-
-</button>
-
-</form>
-
+    <div id="companyReviewsLoading" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
+      Cargando servicios...
+    </div>
+  </section>
 </DashboardLayout>
+
+<script type="module" src="/src/js/company/reviews.js"></script>
