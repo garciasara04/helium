@@ -1,16 +1,8 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const freelancer = {
-  name: "Carlos Dev",
-  service: "Desarrollo de página web",
-  rating: 4.9,
-  price: 250,
-  image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"
-};
 ---
 
-<DashboardLayout  userRole="company">
+<DashboardLayout title="Contratar servicio" userRole="company">
 
 <section class="max-w-6xl mx-auto px-6 py-10">
 
@@ -32,21 +24,22 @@ Completa los detalles para iniciar el proyecto con el freelancer
 
 <div class="flex items-center gap-4 mb-6">
 <img
-src={freelancer.image}
+id="contractFreelancerImage"
+src="https://via.placeholder.com/200"
 class="w-16 h-16 rounded-full object-cover"
 />
 
 <div>
-<h3 class="text-lg font-semibold text-white">
-{freelancer.name}
+<h3 id="contractFreelancerName" class="text-lg font-semibold text-white">
+Freelancer
 </h3>
 
-<p class="text-slate-400 text-sm">
-{freelancer.service}
+<p id="contractServiceTitle" class="text-slate-400 text-sm">
+Servicio
 </p>
 
-<div class="text-yellow-400 text-sm mt-1">
-⭐ {freelancer.rating}
+<div id="contractFreelancerRating" class="text-yellow-400 text-sm mt-1">
+Sin calificacion
 </div>
 </div>
 </div>
@@ -55,8 +48,8 @@ class="w-16 h-16 rounded-full object-cover"
 
 <div class="flex justify-between text-sm text-slate-400 mb-2">
 <span>Precio base</span>
-<span class="text-white font-semibold">
-${freelancer.price}
+<span id="contractServicePrice" class="text-white font-semibold">
+$0
 </span>
 </div>
 
@@ -72,7 +65,7 @@ El precio final puede cambiar dependiendo de los requisitos del proyecto.
 <!-- Formulario -->
 <div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-8">
 
-<form class="space-y-6">
+<form id="contractForm" class="space-y-6">
 
 <!-- Nombre del proyecto -->
 <div>
@@ -81,6 +74,7 @@ Nombre del proyecto
 </label>
 
 <input
+id="projectName"
 type="text"
 placeholder="Ej: Desarrollo de sitio web corporativo"
 class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -88,13 +82,14 @@ class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-whi
 </div>
 
 
-<!-- Descripción -->
+<!-- Descripcion / Requerimientos -->
 <div>
 <label class="block text-sm text-slate-400 mb-2">
-Descripción del proyecto
+Descripcion del proyecto
 </label>
 
 <textarea
+id="requirements"
 rows="4"
 placeholder="Describe los objetivos y requerimientos del proyecto..."
 class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -111,6 +106,7 @@ Presupuesto
 </label>
 
 <input
+id="budget"
 type="number"
 placeholder="Ej: 500"
 class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -120,10 +116,11 @@ class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-whi
 
 <div>
 <label class="block text-sm text-slate-400 mb-2">
-Fecha límite
+Fecha limite
 </label>
 
 <input
+id="deadline"
 type="date"
 class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
 />
@@ -139,16 +136,19 @@ Adjuntar archivos
 </label>
 
 <input
+id="attachments"
 type="file"
 class="w-full text-sm text-slate-400 file:bg-indigo-600 file:text-white file:border-none file:px-4 file:py-2 file:rounded-lg"
 />
 </div>
 
+<div id="contractMessage" class="text-sm text-slate-400"></div>
 
-<!-- Botón -->
+<!-- Boton -->
 <div class="pt-4">
 
 <button
+id="contractSubmit"
 type="submit"
 class="w-full bg-indigo-600 hover:bg-indigo-500 transition py-3 rounded-lg text-white font-semibold"
 >
@@ -166,3 +166,5 @@ Enviar solicitud al freelancer
 </section>
 
 </DashboardLayout>
+
+<script type="module" src="/src/js/company/contract-service.js"></script>
