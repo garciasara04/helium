@@ -1,149 +1,90 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const freelancer = {
-  name: "Ana Martínez",
-  profession: "Desarrolladora Web y Mobile",
-  rating: 4.9,
-  reviews: 47,
-  country: "Colombia",
-  city: "Bogotá",
-  languages: "Español, Inglés",
-  hourlyRate: 28,
-  photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400",
-};
-
-const portfolio = [
-{
-title:"Sistema CRM",
-image:"https://images.unsplash.com/photo-1551288049-b1f4d2e39abf?w=800"
-},
-{
-title:"Automatización IA",
-image:"https://images.unsplash.com/photo-1557804506-669a67965ba0?w=800"
-},
-{
-title:"Landing Page Startup",
-image:"https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800"
-}
-];
 ---
 
 <DashboardLayout userRole="company">
 
 <div class="max-w-6xl mx-auto">
 
-<!-- HEADER -->
-
-<div class="flex flex-col md:flex-row gap-10 items-center">
-
-<img
-src={freelancer.photo}
-class="w-48 h-48 rounded-full border-4 border-purple-600 object-cover"
-/>
-
-<div>
-
-<h1 class="text-3xl font-bold">
-{freelancer.name}
-</h1>
-
-<p class="text-purple-400 text-xl">
-{freelancer.profession}
-</p>
-
-<p class="text-yellow-400 mt-2">
-★ {freelancer.rating} ({freelancer.reviews} reviews)
-</p>
-
-<p class="text-slate-400 mt-2">
-{freelancer.country} • {freelancer.city}
-</p>
-
-<p class="text-slate-400 mt-1">
-Idiomas: {freelancer.languages}
-</p>
-
-<div class="mt-4 text-2xl text-purple-400 font-bold">
-${freelancer.hourlyRate}/hora
+<div id="freelancerLoading" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
+  Cargando perfil...
 </div>
 
+<div id="freelancerEmpty" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl hidden">
+  No se encontro el perfil.
 </div>
 
-</div>
+<div id="freelancerContent" class="hidden">
 
+  <!-- HEADER -->
+  <div class="flex flex-col md:flex-row gap-10 items-center">
 
-<!-- STATS -->
+    <img
+      id="freelancerPhoto"
+      src="https://via.placeholder.com/400"
+      class="w-48 h-48 rounded-full border-4 border-purple-600 object-cover"
+    />
 
-<div class="grid grid-cols-3 gap-6 text-center mt-12">
+    <div>
 
-<div>
-<p class="text-3xl font-bold text-purple-400">126</p>
-<p class="text-slate-400 text-sm">Proyectos</p>
-</div>
+      <h1 id="freelancerName" class="text-3xl font-bold">
+        Freelancer
+      </h1>
 
-<div>
-<p class="text-3xl font-bold text-purple-400">98%</p>
-<p class="text-slate-400 text-sm">Satisfacción</p>
-</div>
+      <p id="freelancerProfession" class="text-purple-400 text-xl">
+        Profesion
+      </p>
 
-<div>
-<p class="text-3xl font-bold text-purple-400">6 años</p>
-<p class="text-slate-400 text-sm">Experiencia</p>
-</div>
+      <p id="freelancerRating" class="text-yellow-400 mt-2">
+        Sin calificacion
+      </p>
 
-</div>
+      <p id="freelancerLocation" class="text-slate-400 mt-2">
+        -
+      </p>
 
+      <p id="freelancerLanguages" class="text-slate-400 mt-1">
+        Idiomas: -
+      </p>
 
-<!-- PORTFOLIO -->
+      <div id="freelancerRate" class="mt-4 text-2xl text-purple-400 font-bold">
+        
+      </div>
 
-<section class="mt-16">
+    </div>
 
-<h2 class="text-2xl font-bold mb-8">
-Portafolio
-</h2>
+  </div>
 
-<div class="grid md:grid-cols-3 gap-6">
+  <!-- SKILLS -->
+  <section class="mt-12">
+    <h2 class="text-2xl font-bold mb-6">Skills</h2>
+    <div id="freelancerSkills" class="flex flex-wrap gap-3"></div>
+  </section>
 
-{portfolio.map(p => (
+  <!-- SERVICIOS ACTIVOS -->
+  <section class="mt-16">
+    <h2 class="text-2xl font-bold mb-8">Servicios activos</h2>
+    <div id="freelancerServices" class="grid md:grid-cols-3 gap-6"></div>
+    <div id="freelancerServicesEmpty" class="text-center text-slate-400 py-12 border border-slate-800 rounded-xl hidden">
+      No hay servicios activos.
+    </div>
+  </section>
 
-<div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition">
-
-<img src={p.image} class="h-48 w-full object-cover"/>
-
-<div class="p-4 text-center">
-
-<h3 class="font-bold">
-{p.title}
-</h3>
-
-</div>
-
-</div>
-
-))}
-
-</div>
-
-</section>
-
-
-<!-- ACTIONS -->
-
-<div class="mt-16 flex gap-6 justify-center">
-
-<a
-href="/dashboard/company/orden-detalle"
-class="bg-purple-600 hover:bg-purple-700 px-10 py-4 rounded-xl font-bold">
-
-Contratar servicio
-
-</a>
-
-
+  <!-- ACTIONS -->
+  <div class="mt-16 flex gap-6 justify-center">
+    <a
+      href="/dashboard/company/orden-detalle"
+      class="bg-purple-600 hover:bg-purple-700 px-10 py-4 rounded-xl font-bold"
+    >
+      Contratar servicio
+    </a>
+  </div>
 
 </div>
 
 </div>
 
 </DashboardLayout>
+
+<script type="module" src="/src/js/company/freelancer-profile.js"></script>
+
