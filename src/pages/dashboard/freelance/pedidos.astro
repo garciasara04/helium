@@ -1,136 +1,171 @@
 ---
-
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const orders = [
-  {
-    id: 1,
-    client: "TechCorp",
-    service: "Desarrollo API REST",
-    price: 450000,
-    status: "En progreso",
-    date: "20 Mar 2026"
-  },
-  {
-    id: 2,
-    client: "StartUp Inc",
-    service: "Diseño de Landing Page",
-    price: 300000,
-    status: "Pendiente",
-    date: "18 Mar 2026"
-  },
-  {
-    id: 3,
-    client: "Agencia Pixel",
-    service: "Soporte TI remoto",
-    price: 150000,
-    status: "Entregado",
-    date: "15 Mar 2026"
-  }
-];
 ---
 
 <DashboardLayout title="Pedidos Activos" userRole="freelance">
 
-<div class="max-w-7xl mx-auto">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-  <!-- Encabezado -->
-  <div class="flex justify-between items-center mb-8">
-
-    <h2 class="text-2xl font-bold text-white">
-      Pedidos del Freelancer
-    </h2>
-
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+    <div>
+      <h2 class="text-2xl font-bold text-white">Pedidos Activos</h2>
+      <p class="text-slate-400 text-sm mt-1">Gestiona los servicios que tus clientes han contratado.</p>
+    </div>
+    
     <a
       href="/dashboard/freelance"
-      class="bg-slate-800 hover:bg-slate-700 px-5 py-2 rounded-lg text-sm transition"
+      class="bg-slate-800 border border-slate-700 hover:bg-slate-700 text-slate-300 px-5 py-2.5 rounded-lg text-sm font-medium transition-colors shadow-sm"
     >
       Volver al Dashboard
     </a>
-
   </div>
 
-  <!-- Tabla de pedidos -->
-  <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+  <div class="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+    
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
 
-    <table class="w-full text-left">
-
-      <thead class="bg-slate-800 text-slate-300 text-sm">
-
-        <tr>
-          <th class="px-6 py-4">Cliente</th>
-          <th class="px-6 py-4">Servicio</th>
-          <th class="px-6 py-4">Precio</th>
-          <th class="px-6 py-4">Estado</th>
-          <th class="px-6 py-4">Fecha</th>
-          <th class="px-6 py-4">Acciones</th>
-        </tr>
-
-      </thead>
-
-      <tbody class="divide-y divide-slate-800">
-
-        {orders.map(order => (
-
-          <tr class="hover:bg-slate-800/60 transition">
-
-            <td class="px-6 py-4">{order.client}</td>
-
-            <td class="px-6 py-4">{order.service}</td>
-
-            <td class="px-6 py-4 text-purple-400 font-semibold">
-              ${order.price}
-            </td>
-
-            <td class="px-6 py-4">
-
-              <span class={`px-3 py-1 text-xs rounded-full font-medium
-                ${
-                  order.status === "Pendiente"
-                    ? "bg-yellow-900/60 text-yellow-300"
-                    : order.status === "En progreso"
-                    ? "bg-blue-900/60 text-blue-300"
-                    : "bg-green-900/60 text-green-300"
-                }`}>
-
-                {order.status}
-
-              </span>
-
-            </td>
-
-            <td class="px-6 py-4 text-slate-400">
-              {order.date}
-            </td>
-
-            <td class="px-6 py-4 flex gap-3">
-
-              <a
-                href={`/dashboard/freelance/pedido/${order.id}`}
-                class="text-purple-400 hover:text-purple-300 text-sm"
-              >
-                Ver
-              </a>
-
-              <a
-                href={`/dashboard/freelance/chat/${order.id}`}
-                class="text-blue-400 hover:text-blue-300 text-sm"
-              >
-                Chat
-              </a>
-
-            </td>
-
+        <thead class="bg-slate-800/50 border-b border-slate-800">
+          <tr>
+            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Cliente</th>
+            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Servicio</th>
+            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Precio</th>
+            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Estado</th>
+            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider">Fecha</th>
+            <th class="px-6 py-4 text-xs font-semibold text-slate-400 uppercase tracking-wider text-right">Acciones</th>
           </tr>
+        </thead>
 
-        ))}
+        <tbody id="tabla-pedidos" class="divide-y divide-slate-800/60">
+          <tr>
+            <td colspan="6" class="px-6 py-10 text-center text-slate-400">
+              Cargando pedidos...
+            </td>
+          </tr>
+        </tbody>
 
-      </tbody>
-
-    </table>
+      </table>
+    </div>
 
   </div>
 
 </div>
+
+<script>
+  const tbody = document.getElementById('tabla-pedidos');
+
+  // Función para darle color y texto en español a los estados de Laravel
+  const obtenerEstiloEstado = (status) => {
+    switch(status) {
+      case 'pending': 
+        return { texto: 'Pendiente', clases: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' };
+      case 'in_progress': 
+        return { texto: 'En progreso', clases: 'bg-blue-500/10 text-blue-400 border-blue-500/20' };
+      case 'delivered': 
+        return { texto: 'Entregado', clases: 'bg-purple-500/10 text-purple-400 border-purple-500/20' };
+      case 'completed': 
+        return { texto: 'Completado', clases: 'bg-green-500/10 text-green-400 border-green-500/20' };
+      case 'cancelled': 
+        return { texto: 'Cancelado', clases: 'bg-red-500/10 text-red-400 border-red-500/20' };
+      default: 
+        return { texto: status, clases: 'bg-slate-500/10 text-slate-400 border-slate-500/20' };
+    }
+  };
+
+  async function cargarPedidosTabla() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login';
+      return;
+    }
+
+    try {
+      const respuesta = await fetch('http://127.0.0.1:8000/api/orders', {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const datos = await respuesta.json();
+      const ordenes = datos.data; // Los datos vienen paginados en .data
+
+      tbody.innerHTML = ''; // Limpiamos el "Cargando..."
+
+      if (!ordenes || ordenes.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="px-6 py-10 text-center text-slate-400">
+              Aún no tienes pedidos registrados.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      ordenes.forEach(order => {
+        const clienteNombre = order.user ? `${order.user.names} ${order.user.last_names}` : 'Cliente Desconocido';
+        const servicioNombre = order.service ? order.service.title : 'Servicio no disponible';
+        const estado = obtenerEstiloEstado(order.status);
+        const fechaFormat = new Date(order.created_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+        const precioFormat = Number(order.amount).toLocaleString('es-CO');
+
+        const filaHTML = `
+          <tr class="hover:bg-slate-800/40 transition-colors group">
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="font-medium text-slate-200">${clienteNombre}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm text-slate-300 max-w-[200px] truncate" title="${servicioNombre}">${servicioNombre}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="text-sm font-semibold text-purple-400">$${precioFormat}</div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap">
+              <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border ${estado.clases}">
+                ${estado.texto}
+              </span>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">
+              ${fechaFormat}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+              <div class="flex items-center justify-end gap-2">
+                <a
+                  href="/dashboard/freelance/seguimiento" 
+                  class="px-3 py-1.5 bg-purple-500/10 text-purple-400 hover:bg-purple-500 hover:text-white rounded-md transition-colors"
+                >
+                  Ver detalle
+                </a>
+                <a
+                  href="/dashboard/freelance/chat/${order.id}"
+                  class="px-3 py-1.5 bg-slate-700/50 text-slate-300 hover:bg-slate-700 hover:text-white rounded-md transition-colors"
+                >
+                  Chat
+                </a>
+              </div>
+            </td>
+          </tr>
+        `;
+
+        tbody.innerHTML += filaHTML;
+      });
+
+    } catch (error) {
+      console.error("Error al cargar los pedidos:", error);
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="6" class="px-6 py-10 text-center text-red-400">
+            Hubo un error al cargar los datos. Revisa tu conexión.
+          </td>
+        </tr>
+      `;
+    }
+  }
+
+  // Ejecutamos la función al cargar la página
+  cargarPedidosTabla();
+</script>
 
 </DashboardLayout>
