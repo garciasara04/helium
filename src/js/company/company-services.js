@@ -13,11 +13,18 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function formatRating(value) {
+  if (value === null || value === undefined) return "Sin calificacion";
+  const num = Number(value);
+  if (!Number.isFinite(num) || num <= 0) return "Sin calificacion";
+  return `&#9733; ${num}`;
+}
+
 function buildCard(service) {
   const title = service?.title || service?.name || "Servicio";
   const freelancer = service?.freelancer?.name || service?.freelancer_name || "Freelancer";
   const price = service?.price || service?.amount || "";
-  const rating = service?.avg_rating ?? service?.rating ?? "-";
+  const rating = service?.avg_rating ?? service?.rating ?? null;
   const category = service?.category?.name || service?.category_name || service?.category || "";
   const image = service?.image || service?.image_url || "https://via.placeholder.com/600";
 
@@ -39,16 +46,14 @@ function buildCard(service) {
 
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-1 text-yellow-400 text-sm">
-            ${rating !== "-" ? `? ${escapeHtml(rating)}` : "? -"}
+            ${formatRating(rating)}
           </div>
           <div class="text-indigo-400 font-bold">
             ${price ? `$${escapeHtml(price)}` : ""}
           </div>
         </div>
 
-        <button class="mt-5 w-full bg-indigo-600 hover:bg-indigo-500 transition text-white py-2 rounded-lg text-sm">
-          Ver servicio
-        </button>
+        <a href="/dashboard/company/servicio-detalle?id=${escapeHtml(service.id)}" class="mt-5 block w-full bg-indigo-600 hover:bg-indigo-500 transition text-white py-2 rounded-lg text-sm text-center">Ver servicio</a>
       </div>
     </div>
   `;
@@ -110,3 +115,5 @@ async function fetchServices() {
 }
 
 fetchServices();
+
+
