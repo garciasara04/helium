@@ -2,31 +2,125 @@
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
-<DashboardLayout title="Servicio" userRole="company">
+<DashboardLayout title="Detalle del Servicio" userRole="company">
+  <div class="max-w-6xl mx-auto px-5 sm:px-6 lg:px-8 py-10 md:py-12">
 
-<div class="bg-slate-900 p-8 rounded-xl">
+    <div id="serviceLoading" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
+      Cargando servicio...
+    </div>
 
-<h2 class="text-2xl font-bold mb-4">
-Landing Page Profesional
-</h2>
+    <div id="serviceEmpty" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl hidden">
+      No se encontro el servicio.
+    </div>
 
-<p class="text-slate-400 mb-6">
-Servicio de desarrollo web
-</p>
+    <div id="serviceContent" class="hidden">
+      <!-- Hero / Imagen principal + Titulo -->
+      <div class="mb-10 md:mb-14">
+        <div class="relative rounded-2xl overflow-hidden aspect-video bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700 shadow-2xl">
+          <img
+            id="serviceImage"
+            src="https://via.placeholder.com/1200x675"
+            alt="Servicio"
+            class="w-full h-full object-cover opacity-90"
+            width="1200"
+            height="675"
+            decoding="async"
+            loading="eager"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+          <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+            <h1 id="serviceTitle" class="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight drop-shadow-lg">
+              Servicio
+            </h1>
+            <p id="serviceDescription" class="mt-3 text-lg md:text-xl text-slate-200 max-w-3xl">
+              Descripcion del servicio.
+            </p>
+          </div>
+        </div>
+      </div>
 
-<a
-href="/dashboard/company/freelancer"
-class="text-purple-400 underline"
->
-Ver freelancer
-</a>
+      <div class="grid lg:grid-cols-3 gap-8 xl:gap-10">
 
-<button
-class="block mt-6 bg-purple-600 px-6 py-2 rounded-lg"
->
-Contratar servicio
-</button>
+        <!-- Columna principal: Detalles del servicio -->
+        <div class="lg:col-span-2 space-y-10">
 
-</div>
+          <!-- Descripcion -->
+          <section class="bg-slate-900 border border-slate-800 rounded-2xl p-7 md:p-9">
+            <h2 class="text-2xl font-bold text-white mb-5">Descripcion del servicio</h2>
+            <div class="prose prose-slate prose-invert max-w-none text-slate-300 space-y-4">
+              <p id="serviceLongDescription"></p>
+              <ul id="serviceRequirements" class="list-disc pl-5 space-y-2 text-slate-300"></ul>
+            </div>
+          </section>
 
+          <!-- Precio y caracteristicas rapidas -->
+          <section class="bg-slate-900/70 border border-slate-800 rounded-2xl p-7 md:p-9">
+            <div class="flex flex-wrap items-center justify-between gap-6">
+              <div>
+                <p class="text-sm text-slate-400">Precio fijo</p>
+                <p id="servicePrice" class="text-4xl font-bold text-white mt-1">$0</p>
+              </div>
+              <div class="flex gap-6">
+                <div>
+                  <p class="text-sm text-slate-400">Duracion</p>
+                  <p id="serviceDelivery" class="text-xl font-semibold text-white">-</p>
+                </div>
+                <div>
+                  <p class="text-sm text-slate-400">Revision</p>
+                  <p id="serviceRevisions" class="text-xl font-semibold text-white">-</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Sidebar: Info del freelancer + Accion -->
+        <aside class="space-y-8 lg:sticky lg:top-10 lg:self-start">
+
+          <!-- Tarjeta del freelancer -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+            <div class="p-7 md:p-8 text-center">
+              <img
+                id="freelancerPhoto"
+                src="https://via.placeholder.com/400"
+                alt="Perfil freelancer"
+                class="w-24 h-24 mx-auto rounded-full object-cover border-4 border-indigo-500/30 shadow-lg"
+                width="96"
+                height="96"
+              />
+              <h3 id="freelancerName" class="mt-5 text-xl font-bold text-white">Freelancer</h3>
+              <p id="freelancerProfession" class="text-slate-400 mt-1">Profesional</p>
+
+              <div class="flex items-center justify-center gap-1.5 mt-3 text-yellow-400">
+                <span id="freelancerRating" class="text-sm font-medium text-slate-300">Sin calificacion</span>
+              </div>
+
+              <a                id="freelancerLink"                href="#"                class="mt-6 inline-block text-indigo-400 hover:text-indigo-300 font-medium transition-colors"
+              >
+                Ver perfil completo ?
+              </a>
+            </div>
+
+            <div class="border-t border-slate-800 px-7 py-6 bg-slate-950/50">
+              <a
+                href="#"
+                class="block w-full bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-medium text-center py-3.5 rounded-xl transition-all shadow-lg shadow-indigo-500/20 active:scale-[0.98]"
+              >
+                Contratar este servicio
+              </a>
+              <p class="text-center text-xs text-slate-500 mt-4">
+                Pago seguro • Entrega garantizada
+              </p>
+            </div>
+          </div>
+
+        </aside>
+      </div>
+    </div>
+  </div>
 </DashboardLayout>
+
+<script type="module" src="/src/js/company/service-detail.js"></script>
+
+
+

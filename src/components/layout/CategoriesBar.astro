@@ -12,141 +12,141 @@ const showCategories = userRole === 'cliente' || userRole === 'company';
     <div class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-3 flex justify-center gap-8 text-sm md:text-base font-medium text-slate-300 overflow-x whitespace-nowrap">
 
       <div class="relative group">
-        <a href={`/dashboard/${userRole}/catalogo?category_id=1`} id="1" class="hover:text-purple-400 transition font-bold">
+        <a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?category_id=1`} id="1" class="hover:text-purple-400 transition font-bold">
           Desarrollo Web
         </a>
         <div class="absolute left-0 mt-3 w-72 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
           <ul class="grid grid-cols-2 gap-2 text-sm text-slate-400">
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=1`} class="hover:text-purple-300 transition block">Laravel</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=2`} class="hover:text-purple-300 transition block">PHP</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=3`} class="hover:text-purple-300 transition block">JavaScript</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=4`} class="hover:text-purple-300 transition block">React</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=5`} class="hover:text-purple-300 transition block">Vue.js</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=6`} class="hover:text-purple-300 transition block">Node.js</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=7`} class="hover:text-purple-300 transition block">PostgreSQL</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=8`} class="hover:text-purple-300 transition block">MySQL</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=9`} class="hover:text-purple-300 transition block">HTML5</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=10`} class="hover:text-purple-300 transition block">CSS3</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=1`} class="hover:text-purple-300 transition block">Laravel</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=2`} class="hover:text-purple-300 transition block">PHP</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=3`} class="hover:text-purple-300 transition block">JavaScript</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=4`} class="hover:text-purple-300 transition block">React</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=5`} class="hover:text-purple-300 transition block">Vue.js</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=6`} class="hover:text-purple-300 transition block">Node.js</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=7`} class="hover:text-purple-300 transition block">PostgreSQL</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=8`} class="hover:text-purple-300 transition block">MySQL</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=9`} class="hover:text-purple-300 transition block">HTML5</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=10`} class="hover:text-purple-300 transition block">CSS3</a></li>
           </ul>
         </div>
       </div>
 
       <div class="relative group">
-        <a href={`/dashboard/${userRole}/catalogo?category_id=2`} id="2" class="hover:text-purple-400 transition font-bold">
+        <a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?category_id=2`} id="2" class="hover:text-purple-400 transition font-bold">
           Desarrollo Móvil
         </a>
         <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
           <ul class="grid grid-cols-2 gap-2 text-sm text-slate-400">
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=11`} class="hover:text-purple-300 transition block">Flutter</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=12`} class="hover:text-purple-300 transition block">React Native</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=13`} class="hover:text-purple-300 transition block">Kotlin</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=14`} class="hover:text-purple-300 transition block">Swift</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=15`} class="hover:text-purple-300 transition block">Android Studio</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=16`} class="hover:text-purple-300 transition block">Firebase</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=17`} class="hover:text-purple-300 transition block">API REST</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=18`} class="hover:text-purple-300 transition block">UI/UX móvil</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=19`} class="hover:text-purple-300 transition block">Play Store</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=20`} class="hover:text-purple-300 transition block">App Store</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=11`} class="hover:text-purple-300 transition block">Flutter</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=12`} class="hover:text-purple-300 transition block">React Native</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=13`} class="hover:text-purple-300 transition block">Kotlin</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=14`} class="hover:text-purple-300 transition block">Swift</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=15`} class="hover:text-purple-300 transition block">Android Studio</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=16`} class="hover:text-purple-300 transition block">Firebase</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=17`} class="hover:text-purple-300 transition block">API REST</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=18`} class="hover:text-purple-300 transition block">UI/UX móvil</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=19`} class="hover:text-purple-300 transition block">Play Store</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=20`} class="hover:text-purple-300 transition block">App Store</a></li>
           </ul>
         </div>
       </div>
 
       <div class="relative group">
-        <a href={`/dashboard/${userRole}/catalogo?category_id=3`} id="3" class="hover:text-purple-400 transition font-bold">
+        <a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?category_id=3`} id="3" class="hover:text-purple-400 transition font-bold">
           Diseño Gráfico
         </a>
         <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
           <ul class="grid grid-cols-2 gap-2 text-sm text-slate-400">
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=21`} class="hover:text-purple-300 transition block">Photoshop</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=22`} class="hover:text-purple-300 transition block">Illustrator</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=23`} class="hover:text-purple-300 transition block">Figma</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=24`} class="hover:text-purple-300 transition block">Diseño de Logos</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=25`} class="hover:text-purple-300 transition block">Branding</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=26`} class="hover:text-purple-300 transition block">Diseño Publicitario</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=27`} class="hover:text-purple-300 transition block">Edición de imágenes</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=28`} class="hover:text-purple-300 transition block">Diseño UX/UI</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=29`} class="hover:text-purple-300 transition block">Canva Pro</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=30`} class="hover:text-purple-300 transition block">Prototipado</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=21`} class="hover:text-purple-300 transition block">Photoshop</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=22`} class="hover:text-purple-300 transition block">Illustrator</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=23`} class="hover:text-purple-300 transition block">Figma</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=24`} class="hover:text-purple-300 transition block">Diseño de Logos</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=25`} class="hover:text-purple-300 transition block">Branding</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=26`} class="hover:text-purple-300 transition block">Diseño Publicitario</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=27`} class="hover:text-purple-300 transition block">Edición de imágenes</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=28`} class="hover:text-purple-300 transition block">Diseño UX/UI</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=29`} class="hover:text-purple-300 transition block">Canva Pro</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=30`} class="hover:text-purple-300 transition block">Prototipado</a></li>
           </ul>
         </div>
       </div>
 
       <div class="relative group">
-        <a href={`/dashboard/${userRole}/catalogo?category_id=4`} id="4" class="hover:text-purple-400 transition font-bold">
+        <a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?category_id=4`} id="4" class="hover:text-purple-400 transition font-bold">
           Marketing Digital
         </a>
         <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
           <ul class="grid grid-cols-2 gap-2 text-sm text-slate-400">
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=31`} class="hover:text-purple-300 transition block">SEO</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=32`} class="hover:text-purple-300 transition block">SEM</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=33`} class="hover:text-purple-300 transition block">Google Ads</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=34`} class="hover:text-purple-300 transition block">Facebook Ads</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=35`} class="hover:text-purple-300 transition block">Email Marketing</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=36`} class="hover:text-purple-300 transition block">Copywriting</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=37`} class="hover:text-purple-300 transition block">Analytics</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=38`} class="hover:text-purple-300 transition block">Embudos de venta</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=39`} class="hover:text-purple-300 transition block">Automatización</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=40`} class="hover:text-purple-300 transition block">Estrategia digital</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=31`} class="hover:text-purple-300 transition block">SEO</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=32`} class="hover:text-purple-300 transition block">SEM</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=33`} class="hover:text-purple-300 transition block">Google Ads</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=34`} class="hover:text-purple-300 transition block">Facebook Ads</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=35`} class="hover:text-purple-300 transition block">Email Marketing</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=36`} class="hover:text-purple-300 transition block">Copywriting</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=37`} class="hover:text-purple-300 transition block">Analytics</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=38`} class="hover:text-purple-300 transition block">Embudos de venta</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=39`} class="hover:text-purple-300 transition block">Automatización</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=40`} class="hover:text-purple-300 transition block">Estrategia digital</a></li>
           </ul>
         </div>
       </div>
 
       <div class="relative group">
-        <a href={`/dashboard/${userRole}/catalogo?category_id=5`} id="5" class="hover:text-purple-400 transition font-bold">
+        <a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?category_id=5`} id="5" class="hover:text-purple-400 transition font-bold">
           Redacción y Traducción
         </a>
         <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
           <ul class="grid grid-cols-2 gap-2 text-sm text-slate-400">
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=41`} class="hover:text-purple-300 transition block">Redacción SEO</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=42`} class="hover:text-purple-300 transition block">Copy publicitario</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=43`} class="hover:text-purple-300 transition block">Traducción Inglés</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=44`} class="hover:text-purple-300 transition block">Traducción Español</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=45`} class="hover:text-purple-300 transition block">Corrección de estilo</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=46`} class="hover:text-purple-300 transition block">Artículos de blog</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=47`} class="hover:text-purple-300 transition block">Escritura técnica</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=48`} class="hover:text-purple-300 transition block">Ghostwriting</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=49`} class="hover:text-purple-300 transition block">Transcripción</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=50`} class="hover:text-purple-300 transition block">Storytelling</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=41`} class="hover:text-purple-300 transition block">Redacción SEO</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=42`} class="hover:text-purple-300 transition block">Copy publicitario</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=43`} class="hover:text-purple-300 transition block">Traducción Inglés</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=44`} class="hover:text-purple-300 transition block">Traducción Español</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=45`} class="hover:text-purple-300 transition block">Corrección de estilo</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=46`} class="hover:text-purple-300 transition block">Artículos de blog</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=47`} class="hover:text-purple-300 transition block">Escritura técnica</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=48`} class="hover:text-purple-300 transition block">Ghostwriting</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=49`} class="hover:text-purple-300 transition block">Transcripción</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=50`} class="hover:text-purple-300 transition block">Storytelling</a></li>
           </ul>
         </div>
       </div>
 
       <div class="relative group">
-        <a href={`/dashboard/${userRole}/catalogo?category_id=6`} id="6" class="hover:text-purple-400 transition font-bold">
+        <a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?category_id=6`} id="6" class="hover:text-purple-400 transition font-bold">
           Edición de Video
         </a>
         <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
           <ul class="grid grid-cols-2 gap-2 text-sm text-slate-400">
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=51`} class="hover:text-purple-300 transition block">Premiere Pro</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=52`} class="hover:text-purple-300 transition block">After Effects</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=53`} class="hover:text-purple-300 transition block">CapCut</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=54`} class="hover:text-purple-300 transition block">Edición YouTube</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=55`} class="hover:text-purple-300 transition block">Motion Graphics</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=56`} class="hover:text-purple-300 transition block">Animación 2D</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=57`} class="hover:text-purple-300 transition block">Animación 3D</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=58`} class="hover:text-purple-300 transition block">Producción audiovisual</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=59`} class="hover:text-purple-300 transition block">Colorización</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=60`} class="hover:text-purple-300 transition block">Diseño Sonoro</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=51`} class="hover:text-purple-300 transition block">Premiere Pro</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=52`} class="hover:text-purple-300 transition block">After Effects</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=53`} class="hover:text-purple-300 transition block">CapCut</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=54`} class="hover:text-purple-300 transition block">Edición YouTube</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=55`} class="hover:text-purple-300 transition block">Motion Graphics</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=56`} class="hover:text-purple-300 transition block">Animación 2D</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=57`} class="hover:text-purple-300 transition block">Animación 3D</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=58`} class="hover:text-purple-300 transition block">Producción audiovisual</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=59`} class="hover:text-purple-300 transition block">Colorización</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=60`} class="hover:text-purple-300 transition block">Diseño Sonoro</a></li>
           </ul>
         </div>
       </div>
 
       <div class="relative group">
-        <a href={`/dashboard/${userRole}/catalogo?category_id=7`} id="7" class="hover:text-purple-400 transition font-bold">
+        <a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?category_id=7`} id="7" class="hover:text-purple-400 transition font-bold">
           Soporte TI
         </a>
         <div class="absolute left-0 mt-3 w-80 bg-slate-800 border border-slate-700 rounded-xl shadow-xl p-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50">
           <ul class="grid grid-cols-2 gap-2 text-sm text-slate-400">
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=61`} class="hover:text-purple-300 transition block">Soporte remoto</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=62`} class="hover:text-purple-300 transition block">Redes</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=63`} class="hover:text-purple-300 transition block">Linux</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=64`} class="hover:text-purple-300 transition block">Windows Server</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=65`} class="hover:text-purple-300 transition block">Ciberseguridad</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=66`} class="hover:text-purple-300 transition block">Mantenimiento PC</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=67`} class="hover:text-purple-300 transition block">Docker</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=68`} class="hover:text-purple-300 transition block">DevOps básico</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=69`} class="hover:text-purple-300 transition block">AWS</a></li>
-            <li><a href={`/dashboard/${userRole}/catalogo?skill_id=70`} class="hover:text-purple-300 transition block">Backup y recuperación</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=61`} class="hover:text-purple-300 transition block">Soporte remoto</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=62`} class="hover:text-purple-300 transition block">Redes</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=63`} class="hover:text-purple-300 transition block">Linux</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=64`} class="hover:text-purple-300 transition block">Windows Server</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=65`} class="hover:text-purple-300 transition block">Ciberseguridad</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=66`} class="hover:text-purple-300 transition block">Mantenimiento PC</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=67`} class="hover:text-purple-300 transition block">Docker</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=68`} class="hover:text-purple-300 transition block">DevOps básico</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=69`} class="hover:text-purple-300 transition block">AWS</a></li>
+            <li><a href={`/dashboard/${userRole}/${userRole === "company" ? "servicios" : "catalogo"}?skill_id=70`} class="hover:text-purple-300 transition block">Backup y recuperación</a></li>
           </ul>
         </div>
       </div>
