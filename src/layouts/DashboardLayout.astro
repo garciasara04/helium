@@ -8,19 +8,18 @@ import Footer from "../components/layout/Footer.astro";
 
 
 interface Props {
-  title: string;
   userRole: 'cliente' | 'freelance' | 'company' | 'admin';
   userName?: string;
 }
 
-const { title, userRole, userName = "Sara Lopez" } = Astro.props;
+const {  userRole, userName = "Sara Lopez" } = Astro.props;
 ---
 
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} - Helium</title>
+    <title> Helium</title>
   </head>
 
   <body class="bg-slate-950 text-white antialiased">
@@ -35,7 +34,6 @@ const { title, userRole, userName = "Sara Lopez" } = Astro.props;
 
         <!-- Contenido principal -->
         <main class="flex-1 p-6 md:p-8 lg:p-10 overflow-auto">
-          <h1 class="text-2xl md:text-3xl font-bold mb-6 text-white">{title}</h1>
           <slot />
         </main>
       </div>

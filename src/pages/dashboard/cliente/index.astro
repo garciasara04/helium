@@ -1,51 +1,27 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const userName = "helium_user"; // Esto vendría de la sesión o base de datos
-
-// Datos de ejemplo
-const recommendedFreelancers = [
-  { id: 1, name: "Ana Martínez", rating: 4.9, reviews: 342, image: "/ana.jpg" },
-  { id: 2, name: "Carlos Gómez", rating: 4.8, reviews: 215, image: "/images/carlos.jpg" },
-  { id: 3, name: "Laura Herrera", rating: 5.0, reviews: 189, image: "/images/laura.jpg" },
-  { id: 4, name: "Diego Torres", rating: 4.7, reviews: 456, image: "/images/diego.jpg" },
-];
-
-const activeProjects = [
-  { title: "Rediseño sitio web Helium", freelancer: "Ana Martínez", progress: 68 },
-  { title: "Contenido blog + SEO 2026", freelancer: "Laura Herrera", progress: 92 },
-];
-
-const popularServices = [
-  { title: "Logo Profesional", image: "/images/logo-service.jpg" },
-  { title: "Edición de Video", image: "/images/video-service.jpg" },
-  { title: "Posicionamiento SEO", image: "/images/seo-service.jpg" },
-  { title: "Diseño Web Moderno", image: "/images/web-service.jpg" },
-];
 ---
 
+<DashboardLayout userRole="cliente">
 
-<DashboardLayout title="Cliente" userRole="cliente">
-
-<!-- HERO -->
 <section 
-  class="relative h-105 rounded-2xl overflow-hidden bg-cover bg-center mb-14"
-  style="background-image: url('/hero.jpg');"
+  class="relative h-[400px] rounded-2xl overflow-hidden bg-cover bg-center mb-14"
+  style="background-image: url('https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80');"
 >
-  <div class="absolute inset-0 bg-black/50"></div>
+  <div class="absolute inset-0 bg-black/60"></div>
 
   <div class="relative z-10 flex flex-col justify-center h-full px-10 max-w-3xl">
     <h2 class="text-4xl font-black text-white mb-4">
       Encuentra el talento perfecto
     </h2>
 
-    <p class="text-slate-200 mb-6">
+    <p class="text-slate-200 mb-6 text-lg">
       Conecta con freelancers profesionales y lleva tu proyecto al siguiente nivel.
     </p>
 
     <a 
       href="/dashboard/cliente/catalogo"
-      class="bg-purple-700 hover:bg-purple-600 px-8 py-3 rounded-xl font-bold text-white w-fit"
+      class="bg-purple-700 hover:bg-purple-600 px-8 py-3 rounded-xl font-bold text-white w-fit transition-all shadow-lg shadow-purple-900/50"
     >
       Explorar servicios →
     </a>
@@ -53,106 +29,213 @@ const popularServices = [
 </section>
 
 
-<!-- FREELANCERS RECOMENDADOS -->
 <section class="mb-16">
-
-  <h2 class="text-2xl font-bold text-white mb-6">
-    Recomendados para ti
-  </h2>
-
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-
-    {recommendedFreelancers.map(f => (
-
-      <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition group">
-
-        <img 
-          src={f.image} 
-          alt={f.name}
-          class="w-full h-60 object-cover"
-        />
-
-        <div class="p-5 text-center">
-
-          <h3 class="text-lg font-bold text-white group-hover:text-purple-400">
-            {f.name}
-          </h3>
-
-          <p class="text-yellow-400 text-sm mt-1">
-            ★ {f.rating} ({f.reviews})
-          </p>
-
-          <a 
-            href="/dashboard/cliente/perfilFreelance"
-            class="mt-4 block w-full py-2 bg-purple-700 hover:bg-purple-600 text-white rounded-lg"
-          >
-            Ver perfil
-          </a>
-
-        </div>
-
-      </div>
-
-    ))}
-
+  <h2 class="text-2xl font-bold text-white mb-6">Recomendados para ti</h2>
+  <div id="contenedor-freelancers" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <p class="text-slate-400">Cargando freelancers recomendados...</p>
   </div>
-
 </section>
 
 
-<!-- PROYECTOS ACTIVOS -->
 <section class="mb-16">
-  <h2 class="text-2xl font-bold text-white mb-6">
-    Tus proyectos activos
-  </h2>
+  <div class="flex justify-between items-end mb-6">
+    <h2 class="text-2xl font-bold text-white">Tus proyectos activos</h2>
+    <a href="/dashboard/cliente/red" class="text-purple-400 hover:text-purple-300 text-sm font-medium">Ver todos →</a>
+  </div>
   
-  <div class="space-y-6">
-    {activeProjects.map(p => (
-      <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
-        <div class="flex justify-between items-center">
-          <div>
-            
-            <h3 class="text-lg font-bold text-white">
-              {p.title}
-            </h3>
-            <p class="text-slate-400">
-              con {p.freelancer}
-            </p>
-        </div>
-        
-        <div class="w-56">
+  <div id="contenedor-proyectos" class="space-y-6">
+    <p class="text-slate-400">Cargando tus proyectos...</p>
+  </div>
+</section>
+
+
+<section class="mb-16">
+  <h2 class="text-2xl font-bold text-white mb-6">Servicios populares</h2>
+  <div id="contenedor-servicios" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <p class="text-slate-400">Cargando servicios populares...</p>
+  </div>
+</section>
+
+</DashboardLayout>
+
+<script>
+  // ELEMENTOS DEL DOM
+  const contenedorFreelancers = document.getElementById('contenedor-freelancers');
+  const contenedorProyectos = document.getElementById('contenedor-proyectos');
+  const contenedorServicios = document.getElementById('contenedor-servicios');
+
+  // URL BASE API
+  const API_BASE = 'http://127.0.0.1:8000/api';
+  const STORAGE_BASE = 'http://127.0.0.1:8000/storage/';
+
+  // FUNCIÓN PARA CARGAR SERVICIOS Y FREELANCERS
+  // FUNCIÓN PARA CARGAR SERVICIOS Y FREELANCERS
+  async function cargarExploracion() {
+    try {
+      const response = await fetch(`${API_BASE}/services`);
+      const data = await response.json();
+      const todosLosServicios = data.services || data.data || [];
+
+      // 1. SERVICIOS POPULARES (Los primeros 4)
+      const serviciosPopulares = todosLosServicios.slice(0, 4);
+      contenedorServicios.innerHTML = '';
+      
+      if(serviciosPopulares.length === 0) {
+        contenedorServicios.innerHTML = '<p class="text-slate-500 col-span-full">No hay servicios disponibles.</p>';
+      } else {
+        serviciosPopulares.forEach(s => {
+          const imagen = s.photo ? STORAGE_BASE + s.photo : 'https://placehold.co/600x400';
+          contenedorServicios.innerHTML += `
+            <a href="/dashboard/cliente/detalleServicio?id=${s.id}" class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition block group shadow-lg">
+              <img src="${imagen}" class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500" alt="${s.title}" />
+              <div class="p-5 text-center">
+                <span class="text-xs text-purple-400 font-bold mb-1 block uppercase tracking-wider">${s.category?.name || s.category || 'Servicio'}</span>
+                <h3 class="text-white font-bold line-clamp-1">${s.title}</h3>
+                <p class="text-slate-400 mt-2 font-medium">$${s.price}</p>
+              </div>
+            </a>
+          `;
+        });
+      }
+
+      // 2. FREELANCERS RECOMENDADOS (A prueba de balas)
+      contenedorFreelancers.innerHTML = '';
+      const freelancersUnicos = [];
+      const idsVistos = new Set();
+
+      for (const s of todosLosServicios) {
+        // Detectamos dónde viene la info del freelancer (dependiendo de cómo lo envíe tu Laravel)
+        const infoFreelancer = s.freelancer || s.freelancer_profile?.user || s.user;
+        const profileId = s.freelancer_id || s.freelancer_profile?.id || (infoFreelancer ? infoFreelancer.id : null);
+
+        if (infoFreelancer && profileId && !idsVistos.has(profileId)) {
+          idsVistos.add(profileId);
           
-          <div class="bg-slate-700 rounded-full h-3 overflow-hidden">
-            <div class="bg-purple-600 h-3"
-            style={`width:${p.progress}%`}></div>
+          // Extraemos los datos normalizados
+          const nombre = infoFreelancer.name || infoFreelancer.names || 'Freelancer';
+          const apellido = infoFreelancer.last_names || '';
+          const profesion = infoFreelancer.profession || s.freelancer_profile?.profession || 'Profesional Independiente';
+          const foto = infoFreelancer.photo ? (STORAGE_BASE + infoFreelancer.photo) : 'https://placehold.co/400';
+
+          freelancersUnicos.push({ id: profileId, nombre, apellido, profesion, foto });
+        }
+        
+        if (freelancersUnicos.length >= 4) break; // Solo queremos 4 tarjetas
+      }
+
+      if(freelancersUnicos.length === 0) {
+        contenedorFreelancers.innerHTML = '<p class="text-slate-500 col-span-full">Aún no hay freelancers registrados o no se pudieron cargar.</p>';
+      } else {
+        freelancersUnicos.forEach(f => {
+          contenedorFreelancers.innerHTML += `
+            <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition group shadow-lg flex flex-col">
+              <div class="h-48 bg-linear-to-br from-slate-800 to-slate-900 relative">
+                <img src="${f.foto}" alt="${f.nombre}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100" />
+              </div>
+              <div class="p-5 text-center flex-1 flex flex-col">
+                <h3 class="text-lg font-bold text-white group-hover:text-purple-400 line-clamp-1">
+                  ${f.nombre} ${f.apellido}
+                </h3>
+                <p class="text-slate-400 text-sm mt-1 line-clamp-1">${f.profesion}</p>
+                <div class="mt-auto pt-4">
+                  <a href="/dashboard/cliente/perfilFreelance?id=${f.id}" class="block w-full py-2.5 bg-purple-700/20 text-purple-400 hover:bg-purple-600 hover:text-white border border-purple-700/50 rounded-lg transition-colors font-medium text-sm">
+                    Ver perfil
+                  </a>
+                </div>
+              </div>
             </div>
-            <p class="text-purple-400 text-right mt-1 text-sm">
-              {p.progress}%
-              </p>
+          `;
+        });
+      }
+
+    } catch (error) {
+      console.error("Error cargando explorador:", error);
+      contenedorServicios.innerHTML = '<p class="text-red-500 col-span-full">Error al cargar servicios.</p>';
+      contenedorFreelancers.innerHTML = '<p class="text-red-500 col-span-full">Error al cargar freelancers.</p>';
+    }
+  }
+
+  // FUNCIÓN PARA CARGAR PROYECTOS ACTIVOS (ÓRDENES)
+  async function cargarProyectosActivos() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      contenedorProyectos.innerHTML = '<p class="text-yellow-500">Inicia sesión para ver tus proyectos activos.</p>';
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE}/orders`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      const data = await response.json();
+      const ordenes = data.data || [];
+
+      // Filtramos para no mostrar los cancelados (opcional, pero buena práctica)
+      const ordenesActivas = ordenes.filter(o => o.status !== 'cancelled').slice(0, 3); // Mostramos max 3
+      
+      contenedorProyectos.innerHTML = '';
+
+      if (ordenesActivas.length === 0) {
+        contenedorProyectos.innerHTML = `
+          <div class="bg-slate-900/50 border border-slate-800 border-dashed rounded-xl p-8 text-center">
+            <p class="text-slate-400 mb-2">No tienes proyectos activos en este momento.</p>
+            <a href="/dashboard/cliente/catalogo" class="text-purple-400 hover:text-purple-300 font-medium">Empieza a explorar servicios →</a>
+          </div>
+        `;
+        return;
+      }
+
+      // Mapa de porcentajes lógicos y colores según el estado
+      const progresoEstado = {
+        'pending': { porcentaje: 10, color: 'bg-yellow-500', texto: 'Pendiente de inicio' },
+        'in_progress': { porcentaje: 50, color: 'bg-blue-500', texto: 'En desarrollo' },
+        'delivered': { porcentaje: 90, color: 'bg-purple-500', texto: 'En revisión (Entregado)' },
+        'completed': { porcentaje: 100, color: 'bg-green-500', texto: 'Completado' }
+      };
+
+      ordenesActivas.forEach(order => {
+        const estadoConfig = progresoEstado[order.status] || { porcentaje: 0, color: 'bg-slate-500', texto: 'Desconocido' };
+        const freelancerNombre = order.service?.freelancer_profile?.user ? 
+          `${order.service.freelancer_profile.user.names} ${order.service.freelancer_profile.user.last_names}` : 'Freelancer';
+        const servicioTitulo = order.service?.title || 'Servicio';
+
+        contenedorProyectos.innerHTML += `
+          <div class="bg-slate-900 p-6 rounded-xl border border-slate-800 shadow-md hover:border-slate-700 transition">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-1">
+                  <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Orden #${order.id}</span>
+                  <span class="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">${estadoConfig.texto}</span>
+                </div>
+                <h3 class="text-lg font-bold text-white line-clamp-1" title="${servicioTitulo}">${servicioTitulo}</h3>
+                <p class="text-slate-400 text-sm">con <span class="text-slate-300 font-medium">${freelancerNombre}</span></p>
+              </div>
+              
+              <div class="w-full md:w-64 shrink-0">
+                <div class="flex justify-between text-sm mb-1.5">
+                  <span class="text-slate-400">Progreso</span>
+                  <span class="text-white font-bold">${estadoConfig.porcentaje}%</span>
+                </div>
+                <div class="bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                  <div class="h-2.5 rounded-full ${estadoConfig.color} transition-all duration-1000 ease-out" style="width: ${estadoConfig.porcentaje}%"></div>
+                </div>
+              </div>
+
             </div>
           </div>
-         </div>
-        ))}
-      </div>
-    </section>
-    <section>
-      <h2 class="text-2xl font-bold text-white mb-6">
-        Servicios populares
-      </h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        {popularServices.map(s => (
-        <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition">
-          <img src={s.image} class="w-full h-44 object-cover" />
-          <div class="p-4 text-center">
-            
-            <h3 class="text-white font-bold">
-              {s.title}
-            </h3>
-          </div>
-         </div>
-        ))}
-      </div>
-    </section>
-    
-  
-</D>
+        `;
+      });
+
+    } catch (error) {
+      console.error("Error cargando proyectos:", error);
+      contenedorProyectos.innerHTML = '<p class="text-red-500">Error al cargar tus proyectos activos.</p>';
+    }
+  }
+
+  // INICIALIZAR TODAS LAS PETICIONES AL ENTRAR
+  document.addEventListener("DOMContentLoaded", () => {
+    cargarExploracion();
+    cargarProyectosActivos();
+  });
+</script>

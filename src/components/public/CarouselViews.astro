@@ -1,0 +1,63 @@
+---
+const views = [
+  {
+    title: "Panel de Cliente",
+    image: "/images/vista-cliente.png",
+    desc: "Desde el panel de cliente puedes explorar servicios, revisar perfiles de freelancers, ver portafolios, gestionar tus pedidos y comunicarte directamente con los profesionales que contrates."
+  },
+  {
+    title: "Panel de Freelancer",
+    image: "/images/vista-freelancer.png",
+    desc: "Los freelancers pueden publicar sus servicios, gestionar pedidos, responder mensajes de clientes, mostrar su portafolio y administrar sus ingresos desde un panel centralizado."
+  },
+  {
+    title: "Panel de Empresa",
+    image: "/images/vista-company.png",
+    desc: "Las empresas pueden crear proyectos, contratar talento especializado, administrar equipos y supervisar el progreso de sus trabajos desde un solo lugar."
+  }
+];
+---
+
+<section class="bg-slate-950 py-20">
+
+  <div class="max-w-7xl mx-auto px-6">
+
+    <h2 class="text-4xl font-bold text-center text-slate-100 mb-16">
+      Paneles de la plataforma Helium
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      {
+        views.map((view) => (
+
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-purple-500 transition group">
+
+            <img
+              src={view.image}
+              alt={view.title}
+              class="w-full h-64 object-cover group-hover:scale-105 transition duration-500"
+            />
+
+            <div class="p-6">
+
+              <h3 class="text-xl font-semibold text-slate-100 mb-2">
+                {view.title}
+              </h3>
+
+              <p class="text-slate-400">
+                {view.desc}
+              </p>
+
+            </div>
+
+          </div>
+
+        ))
+      }
+
+    </div>
+
+  </div>
+
+</section>
