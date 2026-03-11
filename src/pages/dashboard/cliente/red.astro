@@ -87,11 +87,9 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
     const status = order?.status || "pending";
     const price = order?.price || order?.total || order?.amount || "Sin precio";
     const imageUrl = order?.freelancer?.profile_photo_url || order?.freelancer?.photo || "";
-    const canReview = status === "completed";
+    const reviewed = order?.review_exists === true;    const canReview = status === "completed" && !reviewed;
 
-    const reviewButton = canReview
-      ? `<button data-order-id="${escapeHtml(order.id)}" class="review-btn px-6 py-2 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-xl transition shadow-md shadow-purple-900/30">Dejar resena</button>`
-      : `<button disabled class="px-6 py-2 bg-slate-700 text-slate-300 font-medium rounded-xl cursor-not-allowed">Resena no disponible</button>`;
+    const reviewButton = canReview      ? `<a href="/dashboard/cliente/reviews?order_id=${escapeHtml(order.id)}" class="px-6 py-2 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-xl transition shadow-md shadow-purple-900/30">Dejar resena</a>`      : reviewed        ? `<button disabled class="px-6 py-2 bg-emerald-700 text-white font-medium rounded-xl cursor-not-allowed">Resena enviada</button>`        : `<button disabled class="px-6 py-2 bg-slate-700 text-slate-300 font-medium rounded-xl cursor-not-allowed">Resena no disponible</button>`;
 
     return `
       <div class="bg-gray-900/70 border border-gray-800 rounded-2xl p-6 shadow-lg shadow-purple-900/20 hover:shadow-purple-700/30 transition-all">
@@ -157,54 +155,10 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
       elAllEmpty.textContent = "Error al cargar contrataciones.";
       console.error(err);
     }
-  }
-
-  async function submitReview(orderId) {
-    const ratingRaw = prompt("Calificacion (1-5):");
-    if (ratingRaw === null) return;
-    const rating = Number(ratingRaw);
-    if (!Number.isFinite(rating) || rating < 1 || rating > 5) {
-      alert("La calificacion debe estar entre 1 y 5.");
-      return;
-    }
-
-    const comment = prompt("Comentario (opcional):") || "";
-    const token = localStorage.getItem("token");
-    if (!token) {
-      alert("No hay sesion activa.");
-      return;
-    }
-
-    try {
-      const response = await fetch(`${API_BASE}/api/orders/${orderId}/review`, {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`
-        },
-        body: JSON.stringify({ rating, comment })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
-
-      alert("Resena enviada.");
-    } catch (err) {
-      console.error(err);
-      alert("No se pudo enviar la resena.");
-    }
-  }
-
-  document.addEventListener("click", (event) => {
-    const target = event.target;
-    if (!(target instanceof HTMLElement)) return;
-    if (target.classList.contains("review-btn")) {
-      const orderId = target.getAttribute("data-order-id");
-      if (orderId) submitReview(orderId);
-    }
-  });
-
-  fetchOrders();
+  }  fetchOrders();
 </script>
+
+
+
+
+

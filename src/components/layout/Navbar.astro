@@ -165,10 +165,10 @@ const dashboardBase = `/dashboard/${userRole}`;
     <!-- Avatar + Dropdown -->
     <div class="relative group">
       <button class="flex items-center gap-3 focus:outline-none">
-        <div class="w-9 h-9 rounded-full bg-purple-700 flex items-center justify-center text-white font-bold border-2 border-purple-500/60 group-hover:border-purple-400 transition">
+                <div id="navbarAvatar" class="w-9 h-9 rounded-full bg-purple-700 flex items-center justify-center text-white font-bold border-2 border-purple-500/60 group-hover:border-purple-400 transition">
           {avatarLetter}
         </div>
-        <span class="font-medium text-slate-200 group-hover:text-purple-400 transition hidden sm:block">
+                <span id="navbarUserName" class="font-medium text-slate-200 group-hover:text-purple-400 transition hidden sm:block">
           {userName}
         </span>
         <svg
@@ -224,4 +224,47 @@ const dashboardBase = `/dashboard/${userRole}`;
       </div>
     </div>
   </nav>
+<script>
+  const API_BASE = "http://127.0.0.1:8000";
+
+  const nameEl = document.getElementById("navbarUserName");
+  const avatarEl = document.getElementById("navbarAvatar");
+
+  function setUserName(name) {
+    if (!name) return;
+    if (nameEl) nameEl.textContent = name;
+    if (avatarEl) avatarEl.textContent = name.charAt(0).toUpperCase();
+  }
+
+  async function loadProfileName() {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/api/profile`, {
+        headers: {
+          "Accept": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (!res.ok) return;
+      const profile = await res.json();
+
+      const name =
+        profile?.company?.name ||
+        profile?.company_name ||
+        [profile?.names, profile?.last_names].filter(Boolean).join(" ") ||
+        profile?.name;
+
+      setUserName(name);
+    } catch (err) {
+      console.error("No se pudo cargar el perfil", err);
+    }
+  }
+
+  loadProfileName();
+</script>
 </header>
+
+
