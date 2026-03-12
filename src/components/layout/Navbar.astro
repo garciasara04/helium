@@ -8,13 +8,14 @@ const dashboardBase = `/dashboard/${userRole}`;
 
 <header class="bg-slate-900/80 backdrop-blur-md border-b border-slate-800/60 sticky top-0 z-50 w-full">
   <nav class="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 py-3.5 flex items-center justify-between gap-6">
-   <a href={dashboardBase} class="flex items-center gap-2 group">
-  <img
-    src="/logo.jpg"
-    alt="Helium"
-    class="h-9 w-auto block"
-  />
-</a>
+    <a href={dashboardBase} class="flex items-center">
+      <img
+        src="/logo.jpeg"
+        alt="Helium Logo"
+        class="h-9 w-auto object-contain hover:opacity-80 transition"
+      />
+    </a>
+
     <!-- Botones horizontales + Búsqueda (solo para cliente y company) -->
     <div class="hidden md:flex items-center gap-6 lg:gap-10 flex-1 justify-center">
       <div class="flex gap-3 lg:gap-5">
@@ -93,13 +94,25 @@ const dashboardBase = `/dashboard/${userRole}`;
           </>
         )}
 
-             {userRole === 'admin' && (
+        {userRole === 'admin' && (
           <>
             <a
               href="/dashboard/admin"
               class="px-5 py-2.5 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition shadow-sm shadow-purple-900/30"
             >
               Inicio
+            </a>
+            <a
+              href="/dashboard/admin/usuarios"
+              class="px-5 py-2.5 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition shadow-sm shadow-purple-900/30"
+            >
+              Usuarios
+            </a>
+            <a
+              href="/dashboard/admin/ordenes"
+              class="px-5 py-2.5 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition shadow-sm shadow-purple-900/30"
+            >
+              Ordenes
             </a>
             <a
               href="/dashboard/admin/reportes"
@@ -113,10 +126,16 @@ const dashboardBase = `/dashboard/${userRole}`;
             >
               Reputacion
             </a>
-        
+            <a
+              href="/dashboard/admin/servicios"
+              class="px-5 py-2.5 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition shadow-sm shadow-purple-900/30"
+            >
+              Servicios
+            </a>
           </>
         )}
       </div>
+
       <!-- Búsqueda - SOLO para cliente y company -->
       {(userRole === 'cliente' || userRole === 'company') && (
         <form action="/catalogo" method="get" class="relative max-w-md w-full">
@@ -146,10 +165,10 @@ const dashboardBase = `/dashboard/${userRole}`;
     <!-- Avatar + Dropdown -->
     <div class="relative group">
       <button class="flex items-center gap-3 focus:outline-none">
-        <div class="w-9 h-9 rounded-full bg-purple-700 flex items-center justify-center text-white font-bold border-2 border-purple-500/60 group-hover:border-purple-400 transition">
+                <div id="navbarAvatar" class="w-9 h-9 rounded-full bg-purple-700 flex items-center justify-center text-white font-bold border-2 border-purple-500/60 group-hover:border-purple-400 transition">
           {avatarLetter}
         </div>
-        <span class="font-medium text-slate-200 group-hover:text-purple-400 transition hidden sm:block">
+                <span id="navbarUserName" class="font-medium text-slate-200 group-hover:text-purple-400 transition hidden sm:block">
           {userName}
         </span>
         <svg
@@ -196,16 +215,15 @@ const dashboardBase = `/dashboard/${userRole}`;
           </a>
         )}
         <hr class="my-2 border-slate-700" />
-        <a
-          href="/logout"
-          class="block px-5 py-2.5 text-red-400 hover:bg-red-900/30 hover:text-red-300 transition"
-        >
+        <button
+          id="btn-logout"
+          class="block w-full text-left px-5 py-2.5 text-red-400 hover:bg-red-900/30 hover:text-red-300 transition"
+          >     
           Cerrar sesión
-        </a>
+</button>
       </div>
     </div>
   </nav>
-
 <script>
   const API_BASE = "http://127.0.0.1:8000";
 
@@ -240,12 +258,41 @@ const dashboardBase = `/dashboard/${userRole}`;
         profile?.name;
 
       setUserName(name);
+      if (profile.photo && avatarEl) {
+        avatarEl.innerHTML = `<img src="${API_BASE}/storage/${profile.photo}" class="w-full h-full object-cover rounded-full border-none" alt="Avatar" />`;
+      }
     } catch (err) {
       console.error("No se pudo cargar el perfil", err);
     }
   }
 
   loadProfileName();
+  
+  const btnLogout = document.getElementById('btn-logout');
+  
+  if (btnLogout) {
+    btnLogout.addEventListener('click', async () => {
+      const token = localStorage.getItem('token');
+      
+      if (token) {
+        try {
+          await fetch('http://127.0.0.1:8000/api/logout', {
+            method: 'POST', 
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`
+            }
+          });
+        } catch (error) {
+          console.error("Error al desconectar del servidor:", error);
+        }
+      }
+
+      localStorage.removeItem('token');
+      window.location.href = '/Login';
+    });
+  }
 </script>
 </header>
+
 

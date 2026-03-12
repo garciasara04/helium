@@ -1,12 +1,12 @@
 ---
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 ---
+
 <DashboardLayout userRole='cliente'>
   <main class="min-h-screen bg-slate-950 text-slate-100">
     <div class="container mx-auto px-4 py-8 lg:py-12">
       <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
 
-        <!-- Sidebar izquierda --></DashboardLayout>
         <aside class="lg:w-64 shrink-0">
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 sticky top-8">
             <h1 class="text-2xl font-bold text-violet-400 mb-8">Red de autónomos</h1>
@@ -31,27 +31,24 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
           </div>
         </aside>
 
-        <!-- Contenido principal -->
         <div class="flex-1 space-y-12">
 
-          <!-- Sección: Todas las contrataciones -->
           <section id="todas">
             <h2 class="text-3xl font-bold text-violet-300 mb-6">Todas las contrataciones</h2>
             <div id="ordersAll" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             <div id="ordersAllEmpty" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl hidden">
-              No tienes contrataciones todavia.
+              No tienes contrataciones todavía.
             </div>
             <div id="ordersAllLoading" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl">
               Cargando contrataciones...
             </div>
           </section>
 
-          <!-- Sección: Vistos recientemente -->
           <section id="vistos">
             <h2 class="text-3xl font-bold text-violet-300 mb-6">Vistos recientemente</h2>
             <div id="ordersRecent" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             <div id="ordersRecentEmpty" class="text-center text-slate-400 py-20 border border-slate-800 rounded-xl hidden">
-              No has visto freelancers recientemente.
+              No hay actividad reciente.
             </div>
           </section>
 
@@ -81,39 +78,83 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
   }
 
   function buildCard(order) {
-    const freelancerName = order?.freelancer?.user?.name || order?.freelancer_name || "Freelancer";
-    const serviceName = order?.service?.title || order?.service?.name || "Servicio";
+    // Extracción de datos compatible con tu controlador de Laravel
+    const userProfile = order?.service?.freelancer_profile?.user;
+    const freelancerName = userProfile ? `${userProfile.names} ${userProfile.last_names}` : "Freelancer";
+    const serviceName = order?.service?.title || "Servicio";
     const status = order?.status || "pending";
-    const price = order?.price || order?.total || order?.amount || "Sin precio";
-    const imageUrl = order?.freelancer?.profile_photo_url || order?.freelancer?.photo || "";
-    const reviewed = order?.review_exists === true;    const canReview = status === "completed" && !reviewed;
+    const price = order?.amount ? `$${Number(order.amount).toLocaleString('es-CO')}` : "Sin precio";
+    const imageUrl = userProfile?.photo ? `${API_BASE}/storage/${userProfile.photo}` : "https://placehold.co/300";
 
-    const reviewButton = canReview      ? `<a href="/dashboard/cliente/reviews?order_id=${escapeHtml(order.id)}" class="px-6 py-2 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-xl transition shadow-md shadow-purple-900/30">Dejar resena</a>`      : reviewed        ? `<button disabled class="px-6 py-2 bg-emerald-700 text-white font-medium rounded-xl cursor-not-allowed">Resena enviada</button>`        : `<button disabled class="px-6 py-2 bg-slate-700 text-slate-300 font-medium rounded-xl cursor-not-allowed">Resena no disponible</button>`;
+    // Lógica dinámica de los botones
+    let actionHtml = '';
+
+    if (status === 'delivered') {
+      // Si el freelancer ya entregó, el cliente puede finalizar
+      actionHtml = `<button onclick="finalizarPedido(${order.id})" class="w-full px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition shadow-lg shadow-green-900/30">Finalizar Pedido ✓</button>`;
+    } else if (status === 'completed') {
+      // Si ya finalizó, puede dejar la reseña
+      actionHtml = `<a href="/dashboard/cliente/reviews?order_id=${order.id}" class="block w-full px-6 py-3 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-xl transition shadow-lg shadow-purple-900/30 text-center">Dejar reseña ⭐</a>`;
+    } else {
+      // Si está pendiente o en progreso, solo mostramos el estado
+      const statusMap = { 'pending': 'Pendiente', 'in_progress': 'En progreso', 'cancelled': 'Cancelado' };
+      const statusText = statusMap[status] || status;
+      actionHtml = `<div class="w-full px-6 py-3 bg-slate-800 text-slate-300 font-medium rounded-xl text-center border border-slate-700">Estado: ${statusText}</div>`;
+    }
 
     return `
-      <div class="bg-gray-900/70 border border-gray-800 rounded-2xl p-6 shadow-lg shadow-purple-900/20 hover:shadow-purple-700/30 transition-all">
+      <div class="bg-gray-900/70 border border-gray-800 rounded-2xl p-6 shadow-lg shadow-purple-900/20 hover:border-purple-500/50 transition-all flex flex-col h-full">
         <div class="flex flex-col items-center text-center">
-          <img src="${escapeHtml(imageUrl || "https://via.placeholder.com/300")}" alt="${escapeHtml(freelancerName)}" class="w-32 h-32 rounded-full object-cover border-4 border-purple-600 shadow-xl mb-4" />
-          <h3 class="text-xl font-bold text-white">${escapeHtml(freelancerName)}</h3>
-          <p class="text-purple-400 text-sm">${escapeHtml(serviceName)}</p>
+          <img src="${escapeHtml(imageUrl)}" alt="${escapeHtml(freelancerName)}" class="w-24 h-24 rounded-full object-cover border-4 border-purple-600 shadow-xl mb-4" />
+          <h3 class="text-xl font-bold text-white line-clamp-1" title="${escapeHtml(freelancerName)}">${escapeHtml(freelancerName)}</h3>
+          <p class="text-purple-400 text-sm font-medium line-clamp-1" title="${escapeHtml(serviceName)}">${escapeHtml(serviceName)}</p>
         </div>
-        <div class="mt-4 space-y-2 text-center">
-          <p class="text-slate-300 font-semibold">Estado: ${escapeHtml(status)}</p>
-          <p class="text-purple-300 font-medium mt-2">${escapeHtml(price)}</p>
+        <div class="mt-4 mb-6 text-center flex-1">
+          <p class="text-slate-200 font-bold text-2xl">${escapeHtml(price)}</p>
         </div>
-        <div class="mt-6 text-center">
-          ${reviewButton}
+        <div class="mt-auto border-t border-slate-800 pt-5">
+          ${actionHtml}
         </div>
       </div>
     `;
   }
+
+  // --- FUNCIÓN GLOBAL PARA FINALIZAR EL PEDIDO ---
+  window.finalizarPedido = async function(orderId) {
+    const confirmacion = confirm("¿Marcar este pedido como completado? Ya no podrás pedir más revisiones.");
+    if (!confirmacion) return;
+
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
+        method: 'PATCH',
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({ status: 'completed' })
+      });
+
+      if (response.ok) {
+        // Recargamos las órdenes para que el botón cambie a "Dejar reseña" automáticamente
+        fetchOrders();
+      } else {
+        const data = await response.json();
+        alert(data.error || 'No se pudo finalizar el pedido.');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Error de conexión con el servidor.');
+    }
+  };
 
   async function fetchOrders() {
     const token = localStorage.getItem("token");
     if (!token) {
       elAllLoading?.classList.add("hidden");
       elAllEmpty?.classList.remove("hidden");
-      elAllEmpty.textContent = "No hay sesion activa. Inicia sesion para ver tus contrataciones.";
+      elAllEmpty.textContent = "Inicia sesión para ver tus contrataciones.";
       return;
     }
 
@@ -125,9 +166,7 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
         }
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
 
       const data = await response.json();
       const orders = Array.isArray(data) ? data : (data?.data || []);
@@ -135,17 +174,21 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
       elAllLoading?.classList.add("hidden");
 
       if (!orders.length) {
+        elAll.innerHTML = "";
+        elRecent.innerHTML = "";
         elAllEmpty?.classList.remove("hidden");
         elRecentEmpty?.classList.remove("hidden");
         return;
       }
 
+      elAllEmpty?.classList.add("hidden");
       elAll.innerHTML = orders.map(buildCard).join("");
 
       const recent = orders.slice(0, 3);
-      elRecent.innerHTML = recent.map(buildCard).join("");
-
-      if (!recent.length) {
+      if (recent.length) {
+        elRecentEmpty?.classList.add("hidden");
+        elRecent.innerHTML = recent.map(buildCard).join("");
+      } else {
         elRecentEmpty?.classList.remove("hidden");
       }
     } catch (err) {
@@ -154,10 +197,8 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
       elAllEmpty.textContent = "Error al cargar contrataciones.";
       console.error(err);
     }
-  }  fetchOrders();
+  }  
+
+  // Inicializar
+  fetchOrders();
 </script>
-
-
-
-
-
