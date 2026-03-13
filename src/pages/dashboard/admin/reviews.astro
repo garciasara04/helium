@@ -1,0 +1,156 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const url = new URL(Astro.request.url);
+const order = url.searchParams.get("order");
+
+let reviews = [
+  {
+    usuario: "Carlos Perez",
+    servicio: "Landing Page",
+    rating: 5,
+    comentario: "Excelente trabajo, muy profesional.",
+    fecha: "2024-05-12"
+  },
+  {
+    usuario: "Empresa X",
+    servicio: "SEO Web",
+    rating: 2,
+    comentario: "La comunicación fue lenta.",
+    fecha: "2024-05-10"
+  },
+  {
+    usuario: "Laura Gomez",
+    servicio: "Diseño Logo",
+    rating: 4,
+    comentario: "Buen diseño, recomendado.",
+    fecha: "2024-05-08"
+  },
+  {
+    usuario: "Miguel Torres",
+    servicio: "Tienda Shopify",
+    rating: 1,
+    comentario: "No entregó el proyecto.",
+    fecha: "2024-05-06"
+  }
+];
+
+if (order === "best") {
+  reviews.sort((a, b) => b.rating - a.rating);
+}
+
+if (order === "worst") {
+  reviews.sort((a, b) => a.rating - b.rating);
+}
+---
+
+<DashboardLayout userRole="admin">
+
+<h1 class="text-2xl font-bold mb-6">
+Gestión de Reviews
+</h1>
+
+<!-- FILTROS -->
+<div class="flex flex-wrap gap-4 mb-6">
+
+<a
+href="/dashboard/admin/reviews?order=best"
+class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-white"
+>
+Mejores reviews
+</a>
+
+<a
+href="/dashboard/admin/reviews?order=worst"
+class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-white"
+>
+Peores reviews
+</a>
+
+<a
+href="/dashboard/admin/reviews"
+class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg"
+>
+Todas
+</a>
+
+</div>
+
+<!-- TABLA -->
+<div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+
+<table class="w-full text-left">
+
+<thead class="bg-slate-800 text-slate-400">
+
+<tr>
+<th class="p-4">Usuario</th>
+<th class="p-4">Servicio</th>
+<th class="p-4">Rating</th>
+<th class="p-4">Comentario</th>
+<th class="p-4">Fecha</th>
+<th class="p-4">Acción</th>
+</tr>
+
+</thead>
+
+<tbody>
+
+{reviews.map(r => (
+
+<tr class="border-t border-slate-800">
+
+<td class="p-4 font-semibold">
+{r.usuario}
+</td>
+
+<td class="p-4">
+{r.servicio}
+</td>
+
+<td class="p-4">
+
+<span class={
+r.rating >= 4
+? "text-green-400"
+: r.rating === 3
+? "text-yellow-400"
+: "text-red-400"
+}>
+
+{"⭐".repeat(r.rating)}
+
+</span>
+
+</td>
+
+<td class="p-4 text-slate-300">
+{r.comentario}
+</td>
+
+<td class="p-4 text-slate-400">
+{r.fecha}
+</td>
+
+<td class="p-4">
+
+<a
+href="/dashboard/admin/reviewDetalle"
+class="text-purple-400 hover:underline"
+>
+Ver
+</a>
+
+</td>
+
+</tr>
+
+))}
+
+</tbody>
+
+</table>
+
+</div>
+
+</DashboardLayout>

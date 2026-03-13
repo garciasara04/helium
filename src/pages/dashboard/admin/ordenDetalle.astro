@@ -1,0 +1,161 @@
+---
+import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+
+const orden = {
+  id: "ORD-1021",
+  cliente: "Carlos Rodriguez",
+  freelancer: "Sara Lopez",
+  servicio: "Landing Page Startup",
+  estado: "En progreso",
+  precio: "$250",
+  fecha: "15 Mar 2026",
+  descripcion: "Creación de landing page moderna con Tailwind y optimizada para conversiones."
+};
+---
+
+<DashboardLayout userRole="admin">
+
+<h1 class="text-2xl font-bold text-white mb-8">
+Detalle de la Orden
+</h1>
+
+
+<div class="grid md:grid-cols-2 gap-8">
+
+<!-- Información de la orden -->
+<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+
+<h2 class="text-lg font-bold text-white mb-4">
+Información de la orden
+</h2>
+
+<div class="space-y-3 text-sm">
+
+<p>
+<span class="text-slate-400">ID:</span>
+<span class="text-white font-semibold ml-2">{orden.id}</span>
+</p>
+
+<p>
+<span class="text-slate-400">Servicio:</span>
+<span class="text-white ml-2">{orden.servicio}</span>
+</p>
+
+<p>
+<span class="text-slate-400">Fecha:</span>
+<span class="text-white ml-2">{orden.fecha}</span>
+</p>
+
+<p>
+<span class="text-slate-400">Precio:</span>
+<span class="text-green-400 ml-2 font-bold">{orden.precio}</span>
+</p>
+
+<p>
+<span class="text-slate-400">Estado:</span>
+
+<span class={
+orden.estado === "Completado"
+? "text-green-400 ml-2"
+: orden.estado === "Pendiente"
+? "text-yellow-400 ml-2"
+: "text-blue-400 ml-2"
+}>
+{orden.estado}
+</span>
+
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Cliente -->
+<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+
+<h2 class="text-lg font-bold text-white mb-4">
+Cliente
+</h2>
+
+<p class="text-white font-semibold">
+{orden.cliente}
+</p>
+
+<a
+href="/dashboard/admin/perfilUsuarios"
+class="text-purple-400 text-sm hover:underline mt-3 inline-block"
+>
+Ver perfil
+</a>
+
+</div>
+
+
+<!-- Freelancer -->
+<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+
+<h2 class="text-lg font-bold text-white mb-4">
+Freelancer
+</h2>
+
+<p class="text-white font-semibold">
+{orden.freelancer}
+</p>
+
+<a
+href="/dashboard/admin/perfilFreelancer"
+class="text-purple-400 text-sm hover:underline mt-3 inline-block"
+>
+Ver perfil
+</a>
+
+</div>
+
+
+<!-- Descripción -->
+<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+
+<h2 class="text-lg font-bold text-white mb-4">
+Descripción del proyecto
+</h2>
+
+<p class="text-slate-300 text-sm">
+{orden.descripcion}
+</p>
+
+</div>
+
+</div>
+
+
+<!-- Acciones -->
+<div class="mt-10 flex gap-4">
+
+<button class="bg-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
+Marcar en progreso
+</button>
+
+<button class="bg-green-500 px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition">
+Marcar completado
+</button>
+
+<button class="bg-red-500 px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition">
+Cancelar orden
+</button>
+
+</div>
+
+
+<div class="mt-6">
+
+<a
+href="/dashboard/admin/ordenes"
+class="text-purple-400 hover:underline"
+>
+← Volver a órdenes
+</a>
+
+</div>
+
+</DashboardLayout>
