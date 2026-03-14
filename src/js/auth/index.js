@@ -5,10 +5,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const token = localStorage.getItem("token");
 
-  if (token) {
-    window.location.href = "/dashboard";
-    return;
+  async function validateTokenAndRedirect() {
+    if (!token) return;
+    try {
+      const res = await fetch("http://127.0.0.1:8000/api/profile", {
+        headers: {
+          "Accept": "application/json",
+          "Authorization": `Bearer ${token}`
+        }
+      });
+
+      if (res.ok) {
+        window.location.href = "/dashboard";
+        return;
+      }
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+    } catch (err) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+    }
   }
+
+  validateTokenAndRedirect();
 
   btnRegister?.addEventListener("click", (e) => {
     e.preventDefault();

@@ -1,38 +1,28 @@
 ---
-// import { redirect } from "astro:redirect";
-
-/*
-Aquí normalmente obtienes el usuario desde
-la sesión o token.
-
-Ejemplo temporal simulando la BD
-*/
-
-const user = {
-  role_id: 1 // 1 usuario | 2 freelancer | 3 empresa | 4 admin
-};
-
-if (!user) {
-  return redirect("/login");
-}
-
-switch (user.role_id) {
-
-  case 1:
-    return redirect("/dashboard/cliente");
-
-  case 2:
-    return redirect("/dashboard/freelance");
-
-  case 3:
-    return redirect("/dashboard/company");
-
-  case 4:
-    return redirect("/dashboard/admin");
-
-  default:
-    return redirect("/");
-}
+import DashboardLayout from "../../layouts/DashboardLayout.astro";
 ---
 
-<h1>Redirigiendo...</h1>
+<DashboardLayout title="Dashboard" userRole="cliente">
+  <h1>Redirigiendo...</h1>
+</DashboardLayout>
+
+<script type="module">
+  const rawUser = localStorage.getItem("user");
+  if (!rawUser) {
+    window.location.href = "/Login";
+  } else {
+    try {
+      const user = JSON.parse(rawUser);
+      const roleId = Number(user?.role_id);
+      if (roleId === 1) window.location.href = "/dashboard/cliente";
+      else if (roleId === 2) window.location.href = "/dashboard/freelance";
+      else if (roleId === 3) window.location.href = "/dashboard/company";
+      else if (roleId === 4) window.location.href = "/dashboard/admin";
+      else window.location.href = "/";
+    } catch (err) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      window.location.href = "/Login";
+    }
+  }
+</script>

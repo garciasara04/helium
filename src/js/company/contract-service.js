@@ -43,7 +43,7 @@ async function loadServiceInfo(serviceId) {
     const freelancerName = data?.freelancer_profile?.user
       ? `${data.freelancer_profile.user.names || ""} ${data.freelancer_profile.user.last_names || ""}`.trim()
       : "Freelancer";
-    const freelancerPhoto = data?.freelancer_profile?.user?.photo || "https://via.placeholder.com/200";
+    const freelancerPhoto = data?.freelancer_profile?.buildStorageUrl(user?.photo) || "https://via.placeholder.com/200";
 
     setText(freelancerNameEl, freelancerName);
     if (freelancerImageEl) freelancerImageEl.src = freelancerPhoto;
@@ -124,4 +124,5 @@ function init() {
 }
 
 init();
+
 

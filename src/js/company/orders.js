@@ -13,6 +13,12 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function buildStorageUrl(path) {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/storage/")) return `http://127.0.0.1:8000${path}`;
+  return `http://127.0.0.1:8000/storage/${path}`;
+}
 function formatPrice(value) {
   if (value === null || value === undefined || value === "") return "";
   const num = Number(value);
@@ -58,7 +64,7 @@ function buildCard(order) {
   const date = formatDate(order?.created_at || order?.started_at);
   const status = formatStatus(order?.status);
   const statusClassName = statusClass(order?.status);
-  const image = freelancerUser?.photo || "https://via.placeholder.com/200";
+  const image = buildStorageUrl(freelancerUser?.photo) || "https://via.placeholder.com/200";
 
   return `
     <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-indigo-500 transition flex flex-col justify-between">
@@ -139,3 +145,5 @@ async function fetchOrders() {
 }
 
 fetchOrders();
+
+

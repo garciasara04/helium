@@ -29,6 +29,13 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function buildStorageUrl(path) {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/storage/")) return `http://127.0.0.1:8000${path}`;
+  return `http://127.0.0.1:8000/storage/${path}`;
+}
+
 function formatPrice(value) {
   if (value === null || value === undefined || value === "") return "";
   const num = Number(value);
@@ -92,11 +99,9 @@ async function fetchService() {
 
     const categoryName = data?.category?.name || data?.category || "";
 
-    const freelancerName = data?.freelancer_profile?.user
-      ? `${data.freelancer_profile.user.names || ""} ${data.freelancer_profile.user.last_names || ""}`.trim()
-      : "Freelancer";
+    const freelancerUser = data?.freelancer_profile?.user || {};
+    const freelancerName = `${freelancerUser?.names || ""} ${freelancerUser?.last_names || ""}`.trim() || "Freelancer";
     const freelancerProfession = data?.freelancer_profile?.profession || "Profesional";
-    const freelancerPhoto = data?.freelancer_profile?.user?.photo || "https://via.placeholder.com/400";
     const freelancerProfileId = data?.freelancer_profile?.id;
 
     setText(titleEl, title);
@@ -107,12 +112,12 @@ async function fetchService() {
     setText(deliveryEl, delivery);
     setText(revisionsEl, revisions);
 
-    if (imageEl) imageEl.src = "https://via.placeholder.com/1200x675";
+    if (imageEl) imageEl.src = buildStorageUrl(data?.photo) || "/image.png";
     if (categoryName && imageEl) imageEl.alt = categoryName;
 
     setText(freelancerNameEl, freelancerName);
     setText(freelancerProfessionEl, freelancerProfession);
-    if (freelancerPhotoEl) freelancerPhotoEl.src = freelancerPhoto || "https://via.placeholder.com/400";
+    if (freelancerPhotoEl) freelancerPhotoEl.src = buildStorageUrl(freelancerUser?.photo) || "/logo.jpeg";
     setText(freelancerRatingEl, "Sin calificacion");
 
     if (freelancerLinkEl && freelancerProfileId) {
