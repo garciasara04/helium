@@ -20,10 +20,10 @@ function buildStorageUrl(path) {
   return `http://127.0.0.1:8000/storage/${path}`;
 }
 function formatRating(value) {
-  if (value === null || value === undefined) return "Sin calificacion";
+  const star = "\u2605";
   const num = Number(value);
-  if (!Number.isFinite(num) || num <= 0) return "Sin calificacion";
-  return `? ${num}`;
+  if (!Number.isFinite(num) || num <= 0) return `${star} Sin calificacion`;
+  return `${star} ${num.toFixed(1)}`;
 }
 
 function buildCard(service) {
@@ -133,6 +133,9 @@ async function fetchServices() {
 }
 
 fetchServices();
+
+
+
 
 
 

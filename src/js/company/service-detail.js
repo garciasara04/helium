@@ -43,6 +43,16 @@ function formatPrice(value) {
   return num.toLocaleString("es-CO", { style: "currency", currency: "COP", maximumFractionDigits: 0 });
 }
 
+function formatRating(value, count) {
+  const star = "\u2605";
+  const num = Number(value);
+  if (!Number.isFinite(num) || num <= 0) return `${star} Sin calificacion`;
+  const ratingText = `${star} ${num.toFixed(1)}`;
+  if (count) return `${ratingText} (${count} reseñas)`;
+  return ratingText;
+}
+
+
 function setText(el, value, fallback = "") {
   if (!el) return;
   el.textContent = value || fallback;
@@ -99,6 +109,8 @@ async function fetchService() {
 
     const categoryName = data?.category?.name || data?.category || "";
 
+    const rating = data?.avg_rating ?? data?.rating ?? null;
+    const reviewsCount = data?.reviews_count ?? data?.reviews ?? null;
     const freelancerUser = data?.freelancer_profile?.user || {};
     const freelancerName = `${freelancerUser?.names || ""} ${freelancerUser?.last_names || ""}`.trim() || "Freelancer";
     const freelancerProfession = data?.freelancer_profile?.profession || "Profesional";
@@ -118,7 +130,7 @@ async function fetchService() {
     setText(freelancerNameEl, freelancerName);
     setText(freelancerProfessionEl, freelancerProfession);
     if (freelancerPhotoEl) freelancerPhotoEl.src = buildStorageUrl(freelancerUser?.photo) || "/logo.jpeg";
-    setText(freelancerRatingEl, "Sin calificacion");
+    setText(freelancerRatingEl, formatRating(rating, reviewsCount));
 
     if (freelancerLinkEl && freelancerProfileId) {
       freelancerLinkEl.setAttribute("href", `/dashboard/company/freelancer?id=${freelancerProfileId}`);
@@ -134,3 +146,7 @@ async function fetchService() {
 }
 
 fetchService();
+
+
+
+

@@ -30,6 +30,13 @@ function generatePseReference() {
   return `PSE-${year}-${random}`;
 }
 
+function buildStorageUrl(path) {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/storage/")) return `http://127.0.0.1:8000${path}`;
+  return `http://127.0.0.1:8000/storage/${path}`;
+}
+
 async function loadServiceInfo(serviceId) {
   try {
     const res = await fetch(`${API_BASE}/api/services/${serviceId}`, {
@@ -43,13 +50,13 @@ async function loadServiceInfo(serviceId) {
     const freelancerName = data?.freelancer_profile?.user
       ? `${data.freelancer_profile.user.names || ""} ${data.freelancer_profile.user.last_names || ""}`.trim()
       : "Freelancer";
-    const freelancerPhoto = data?.freelancer_profile?.buildStorageUrl(user?.photo) || "https://via.placeholder.com/200";
+    const freelancerPhoto = buildStorageUrl(data?.freelancer_profile?.user?.photo) || "/logo.jpeg";
 
     setText(freelancerNameEl, freelancerName);
     if (freelancerImageEl) freelancerImageEl.src = freelancerPhoto;
     setText(serviceTitleEl, data?.title || "Servicio");
     setText(servicePriceEl, formatPrice(data?.price) || "");
-    setText(freelancerRatingEl, "Sin calificacion");
+    setText(freelancerRatingEl, "? Sin calificacion");
   } catch (err) {
     console.error(err);
   }
@@ -77,6 +84,7 @@ async function submitOrder(serviceId) {
   try {
     submitBtn?.setAttribute("disabled", "disabled");
     messageEl.textContent = "Enviando solicitud...";
+    if (submitBtn) submitBtn.textContent = "Enviando...";
 
     const res = await fetch(`${API_BASE}/api/orders`, {
       method: "POST",
@@ -101,6 +109,7 @@ messageEl.textContent = "Solicitud enviada correctamente.";
     messageEl.textContent = "No se pudo enviar la solicitud.";
   } finally {
     submitBtn?.removeAttribute("disabled");
+    if (submitBtn) submitBtn.textContent = "Enviar solicitud al freelancer";
   }
 }
 
@@ -124,5 +133,10 @@ function init() {
 }
 
 init();
+
+
+
+
+
 
 

@@ -32,10 +32,12 @@ function buildStorageUrl(path) {
 }
 
 function formatRating(value, count) {
+  const star = "\u2605";
   const num = Number(value);
-  if (!Number.isFinite(num) || num <= 0) return "Sin calificacion";
-  if (count) return `? ${num} (${count} reviews)`;
-  return `? ${num}`;
+  if (!Number.isFinite(num) || num <= 0) return `${star} Sin calificacion`;
+  const ratingText = `${star} ${num.toFixed(1)}`;
+  if (count) return `${ratingText} (${count} reseñas)`;
+  return ratingText;
 }
 
 function formatRate(value) {
@@ -148,4 +150,7 @@ async function fetchFreelancer() {
 }
 
 fetchFreelancer();
+
+
+
 
