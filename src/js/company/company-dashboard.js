@@ -76,7 +76,95 @@ function ensureAnimationStyles() {
 ensureAnimationStyles();
 loadTopFreelancers();
 
+/* =========================
+   ANIMACION HERO AUTOMATICA
+========================= */
+
+function animarHeroDashboard() {
+
+  // buscar el h2 que contiene el texto
+  const titles = document.querySelectorAll("h2");
+
+  let heroTitle = null;
+
+  titles.forEach(t => {
+    if (t.textContent.includes("Bienvenido")) {
+      heroTitle = t;
+    }
+  });
+
+  if (!heroTitle) return;
+
+  const heroContainer = heroTitle.parentElement;
+
+  const heroSubtitle = heroContainer.querySelector("p");
+  const heroButton = heroContainer.querySelector("a");
+
+  if (!heroSubtitle || !heroButton) return;
 
 
+  /* ESTADO INICIAL */
+
+  heroTitle.style.opacity = "0";
+  heroTitle.style.transform = "translateY(-30px)";
+
+  heroSubtitle.style.opacity = "0";
+  heroSubtitle.style.transform = "translateY(20px)";
+
+  heroButton.style.opacity = "0";
+  heroButton.style.transform = "scale(0.9)";
 
 
+  /* ANIMACION TITULO */
+
+  setTimeout(() => {
+
+    heroTitle.style.transition = "all .7s ease";
+    heroTitle.style.opacity = "1";
+    heroTitle.style.transform = "translateY(0)";
+
+  }, 200);
+
+
+  /* ANIMACION TEXTO */
+
+  setTimeout(() => {
+
+    heroSubtitle.style.transition = "all .7s ease";
+    heroSubtitle.style.opacity = "1";
+    heroSubtitle.style.transform = "translateY(0)";
+
+  }, 450);
+
+
+  /* ANIMACION BOTON */
+
+  setTimeout(() => {
+
+    heroButton.style.transition = "all .5s ease";
+    heroButton.style.opacity = "1";
+    heroButton.style.transform = "scale(1)";
+
+  }, 700);
+
+
+  /* HOVER BOTON */
+
+  heroButton.addEventListener("mouseenter", () => {
+
+    heroButton.style.transform = "scale(1.07)";
+    heroButton.style.boxShadow = "0 10px 30px rgba(168,85,247,0.6)";
+
+  });
+
+  heroButton.addEventListener("mouseleave", () => {
+
+    heroButton.style.transform = "scale(1)";
+    heroButton.style.boxShadow = "none";
+
+  });
+
+}
+
+
+document.addEventListener("DOMContentLoaded", animarHeroDashboard);

@@ -1,7 +1,6 @@
 ---
 // src/components/layout/Navbar.astro
-const { userName = "user", userRole } = Astro.props;
-
+const { userName = "", userRole } = Astro.props;
 const avatarLetter = userName.charAt(0).toUpperCase();
 const dashboardBase = `/dashboard/${userRole}`;
 ---
