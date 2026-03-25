@@ -101,7 +101,7 @@ async function cargarfreelancers() {
     const respuesta = await fetch(urll);
     const datos = await respuesta.json();
     const servicios = datos.services;
-
+    console.log(datos)
     contenedor.innerHTML = '';
     if (!servicios){
       contenedor.innerHTML = '<p class="text-slate-400 col-span-full text-center py-10">Aún no hay servicios registrados en esta categoría.</p>';
@@ -156,7 +156,6 @@ async function cargarfreelancers() {
             </div>
           </div>
         `;
-        
         contenedor.innerHTML += tarjetaHTML;
       });
 

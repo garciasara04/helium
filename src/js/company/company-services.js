@@ -26,8 +26,8 @@ function buildCard(service) {
   const price = service?.price || service?.amount || "";
   const rating = service?.avg_rating ?? service?.rating ?? null;
   const category = service?.category?.name || service?.category_name || service?.category || "";
-  const image = service?.image || service?.image_url || "https://via.placeholder.com/600";
-
+  const image = service?.image || 'http://127.0.0.1:8000/storage/' + service.photo  || "https://via.placeholder.com/600";
+  
   return `
     <div class="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-500 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl">
       <div class="relative h-44 overflow-hidden">

@@ -162,7 +162,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
     }
   }
 
-  // 2. FUNCIÓN PARA ACTUALIZAR EL ESTADO (PATCH)
+  
   window.cambiarEstado = async function(orderId, nuevoEstado) {
     const token = localStorage.getItem('token');
     if (!token) return;
@@ -186,7 +186,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       const datos = await respuesta.json();
 
       if (respuesta.ok) {
-        // Volvemos a llamar cargarOrdenes() para que la vista se actualice sola
+        
         cargarOrdenes(); 
       } else {
         console.error("Error devuelto por el servidor:", datos);
@@ -199,7 +199,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
     }
   };
 
-  // Inicializamos la vista
+  
   cargarOrdenes();
 </script>
 
