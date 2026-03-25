@@ -1,67 +1,105 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const servicios = [
-  {
-    titulo: "Landing Page Profesional",
-    freelancer: "Sara Lopez",
-    estado: "Activo"
-  },
-  {
-    titulo: "Diseño Logo",
-    freelancer: "Ana Martinez",
-    estado: "Inactivo"
-  }
-];
 ---
 
 <DashboardLayout userRole="admin">
-  <h1 class="text-2xl font-bold mb-6">
-    Servicios publicados
-  </h1>
+  <section class="max-w-7xl mx-auto px-6 py-8 space-y-6">
+    <h1 class="text-2xl font-bold">Servicios publicados</h1>
 
-  <div class="grid md:grid-cols-3 gap-6 mb-8">
-    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
-      <p class="text-slate-400">Total servicios</p>
-      <p class="text-3xl font-bold">510</p>
+    <div class="grid md:grid-cols-2 xl:grid-cols-6 gap-3">
+      <input
+        id="servicesSearch"
+        type="text"
+        placeholder="Buscar por titulo"
+        class="xl:col-span-2 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2"
+      />
+
+      <select id="servicesCategory" class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
+        <option value="">Todas las categorias</option>
+      </select>
+
+      <input
+        id="servicesMinPrice"
+        type="number"
+        min="0"
+        placeholder="Precio minimo"
+        class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2"
+      />
+
+      <input
+        id="servicesMaxPrice"
+        type="number"
+        min="0"
+        placeholder="Precio maximo"
+        class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2"
+      />
+
+      <select id="servicesStatus" class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
+        <option value="">Todos los estados</option>
+        <option value="1">Activo</option>
+        <option value="0">Inactivo</option>
+      </select>
     </div>
 
-    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
-      <p class="text-slate-400">Activos</p>
-      <p class="text-3xl font-bold text-green-400">450</p>
+    <div class="flex gap-3">
+      <button id="servicesApply" type="button" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg transition">
+        Buscar
+      </button>
+      <button id="servicesClear" type="button" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition">
+        Limpiar
+      </button>
     </div>
 
-    <div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
-      <p class="text-slate-400">Inactivos</p>
-      <p class="text-3xl font-bold text-red-400">60</p>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <article class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+        <p class="text-slate-400 text-sm">Total servicios</p>
+        <p id="servicesStatTotal" class="text-2xl font-bold mt-1">--</p>
+      </article>
+      <article class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+        <p class="text-slate-400 text-sm">Activos (pagina)</p>
+        <p id="servicesStatActive" class="text-2xl font-bold text-emerald-400 mt-1">--</p>
+      </article>
+      <article class="bg-slate-900 border border-slate-800 rounded-xl p-4">
+        <p class="text-slate-400 text-sm">Inactivos (pagina)</p>
+        <p id="servicesStatInactive" class="text-2xl font-bold text-rose-400 mt-1">--</p>
+      </article>
     </div>
-  </div>
 
-  <div class="space-y-4">
-    {servicios.map(s => (
-      <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
-        <h3 class="text-xl font-bold">
-          {s.titulo}
-        </h3>
+    <div id="servicesAlert" class="hidden rounded-xl border px-4 py-3 text-sm"></div>
+    <div id="servicesEmpty" class="hidden text-center text-slate-400 py-8 border border-slate-800 rounded-xl">
+      No se encontraron servicios con esos filtros.
+    </div>
 
-        <p class="text-slate-400">
-          Freelancer: {s.freelancer}
-        </p>
+    <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-slate-800 text-slate-400">
+          <tr>
+            <th class="p-4">ID</th>
+            <th class="p-4">Servicio</th>
+            <th class="p-4">Categoria</th>
+            <th class="p-4">Freelancer</th>
+            <th class="p-4">Precio</th>
+            <th class="p-4">Rating</th>
+            <th class="p-4">Estado</th>
+            <th class="p-4">Accion</th>
+          </tr>
+        </thead>
+        <tbody id="servicesTableBody"></tbody>
+      </table>
+    </div>
 
-        <p class="mt-2">
-          Estado: {s.estado}
-        </p>
-
-        <div class="flex gap-3 mt-4">
-          <button class="bg-red-600 px-4 py-2 rounded">
-            Desactivar
-          </button>
-
-          <button class="bg-green-600 px-4 py-2 rounded">
-            Reactivar
-          </button>
-        </div>
+    <div class="flex items-center justify-between">
+      <p id="servicesPaginationInfo" class="text-sm text-slate-400"></p>
+      <div class="flex gap-2">
+        <button id="servicesPrev" type="button" class="bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+          Anterior
+        </button>
+        <button id="servicesNext" type="button" class="bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+          Siguiente
+        </button>
       </div>
-    ))}
-  </div>
+    </div>
+  </section>
 </DashboardLayout>
+
+<script type="module" src="/src/js/admin/admin-services.js"></script>

@@ -1,67 +1,67 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
-<DashboardLayout  userRole="admin">
-  <h1 class="text-2xl font-bold mb-6">Perfil de usuario</h1>
-
-  <div class="grid md:grid-cols-2 gap-8">
-    <!-- PERFIL -->
-    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
-      <h2 class="text-xl font-semibold mb-4">Información</h2>
-
-      <p><strong>Nombre:</strong> Sara Lopez</p>
-      <p><strong>Email:</strong> sara@email.com</p>
-      <p><strong>Rol:</strong> Freelancer</p>
-      <p><strong>Estado:</strong> Activo</p>
-
-      <div class="flex gap-4 mt-6">
-        <button class="bg-green-600 px-4 py-2 rounded-lg">
-          Activar
-        </button>
-
-        <button class="bg-red-600 px-4 py-2 rounded-lg">
-          Desactivar
-        </button>
-
-        <button class="bg-yellow-600 px-4 py-2 rounded-lg">
-          Agregar Strike
-        </button>
-      </div>
+<DashboardLayout userRole="admin">
+  <section class="max-w-7xl mx-auto px-6 py-8 space-y-6">
+    <div class="flex items-center justify-between gap-4">
+      <h1 class="text-2xl font-bold">Perfil de usuario</h1>
+      <a href="/dashboard/admin/usuarios" class="text-slate-300 hover:text-white transition">
+        Volver a usuarios
+      </a>
     </div>
 
-    <!-- SERVICIOS -->
-    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
-      <h2 class="text-xl font-semibold mb-4">
-        Servicios publicados
-      </h2>
+    <div id="detailAlert" class="hidden rounded-xl border px-4 py-3 text-sm"></div>
 
-      <ul class="space-y-3">
-        <li class="bg-slate-800 p-3 rounded">
-          Landing page profesional
-        </li>
+    <div class="grid lg:grid-cols-3 gap-6">
+      <article class="lg:col-span-2 bg-slate-900 border border-slate-800 p-6 rounded-xl">
+        <h2 class="text-lg font-semibold mb-4">Informacion general</h2>
 
-        <li class="bg-slate-800 p-3 rounded">
-          Diseño de logo
-        </li>
-      </ul>
+        <div id="userInfoSkeleton" class="grid sm:grid-cols-2 gap-4">
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+        </div>
+
+        <dl id="userInfo" class="hidden grid sm:grid-cols-2 gap-4 text-sm"></dl>
+      </article>
+
+      <aside class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+        <h2 class="text-lg font-semibold mb-4">Acciones</h2>
+        <p id="statusHelp" class="text-slate-400 text-sm mb-5">Cargando estado...</p>
+
+        <div class="space-y-3">
+          <button
+            id="btnActivate"
+            type="button"
+            class="w-full bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Activar cuenta
+          </button>
+
+          <button
+            id="btnDeactivate"
+            type="button"
+            class="w-full bg-rose-600 hover:bg-rose-500 px-4 py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Desactivar cuenta
+          </button>
+        </div>
+      </aside>
     </div>
-  </div>
 
-  <!-- RESEÑAS -->
-  <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl mt-8">
-    <h2 class="text-xl font-semibold mb-4">
-      Reseñas recibidas
-    </h2>
-
-    <div class="space-y-4">
-      <div class="bg-slate-800 p-4 rounded">
-        ⭐ 4.5 — Excelente trabajo
+    <article class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+      <h2 class="text-lg font-semibold mb-4">Resumen del perfil</h2>
+      <div id="profileBlocks" class="grid md:grid-cols-3 gap-4">
+        <div class="h-24 bg-slate-700/70 rounded-xl animate-pulse"></div>
+        <div class="h-24 bg-slate-700/70 rounded-xl animate-pulse"></div>
+        <div class="h-24 bg-slate-700/70 rounded-xl animate-pulse"></div>
       </div>
-
-      <div class="bg-slate-800 p-4 rounded">
-        ⭐ 3.0 — Puede mejorar comunicación
-      </div>
-    </div>
-  </div>
+    </article>
+  </section>
 </DashboardLayout>
+
+<script type="module" src="/src/js/admin/admin-user-detail.js"></script>

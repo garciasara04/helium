@@ -1,88 +1,48 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const usuarios = [
-  {
-    nombre: "Sara Lopez",
-    correo: "sara@email.com",
-    rol: "Freelancer",
-    estado: "Activo"
-  },
-  {
-    nombre: "Carlos Perez",
-    correo: "carlos@email.com",
-    rol: "Cliente",
-    estado: "Inactivo"
-  },
-  {
-    nombre: "Empresa X",
-    correo: "empresa@email.com",
-    rol: "Company",
-    estado: "Activo"
-  }
-];
 ---
 
-<DashboardLayout  userRole="admin">
-  <h1 class="text-2xl font-bold mb-6">Gestión de usuarios</h1>
+<DashboardLayout userRole="admin">
+  <section class="max-w-7xl mx-auto px-6 py-8">
+    <h1 class="text-2xl font-bold mb-6">Gestion de usuarios</h1>
 
-  <!-- FILTROS -->
-  <div class="flex flex-wrap gap-4 mb-6">
-    <input
-      type="text"
-      placeholder="Buscar usuario..."
-      class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2"
-    />
+    <div class="flex flex-wrap gap-4 mb-6">
+      <input
+        id="usersSearch"
+        type="text"
+        placeholder="Buscar por nombre, apellido o email..."
+        class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2 min-w-[260px]"
+      />
 
-    <select class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
-      <option>Todos los roles</option>
-      <option>Cliente</option>
-      <option>Freelancer</option>
-      <option>Company</option>
-    </select>
+      <select id="usersRoleFilter" class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
+        <option value="">Todos los roles</option>
+        <option value="1">Cliente</option>
+        <option value="2">Freelancer</option>
+        <option value="3">Empresa</option>
+        <option value="4">Admin</option>
+      </select>
+    </div>
 
-    <select class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
-      <option>Estado</option>
-      <option>Activo</option>
-      <option>Inactivo</option>
-    </select>
-  </div>
+    <div id="usersEmpty" class="text-center text-slate-400 py-8 border border-slate-800 rounded-xl mb-4 hidden">
+      No se encontraron usuarios con esos filtros.
+    </div>
 
-  <!-- TABLA -->
-  <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-    <table class="w-full text-left">
-      <thead class="bg-slate-800 text-slate-400">
-        <tr>
-          <th class="p-4">Nombre</th>
-          <th class="p-4">Correo</th>
-          <th class="p-4">Rol</th>
-          <th class="p-4">Estado</th>
-          <th class="p-4">Acción</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {usuarios.map(u => (
-          <tr class="border-t border-slate-800">
-            <td class="p-4 font-semibold">{u.nombre}</td>
-            <td class="p-4">{u.correo}</td>
-            <td class="p-4">{u.rol}</td>
-            <td class="p-4">
-              <span class={u.estado === "Activo" ? "text-green-400" : "text-red-400"}>
-                {u.estado}
-              </span>
-            </td>
-            <td class="p-4">
-              <a
-                href="/dashboard/admin/usuarioDetalle"
-                class="text-purple-400 hover:underline"
-              >
-                Ver detalle
-              </a>
-            </td>
+    <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+      <table class="w-full text-left">
+        <thead class="bg-slate-800 text-slate-400">
+          <tr>
+            <th class="p-4">Nombre</th>
+            <th class="p-4">Correo</th>
+            <th class="p-4">Rol</th>
+            <th class="p-4">Estado</th>
+            <th class="p-4">Accion</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
+        </thead>
+
+        <tbody id="usersTableBody"></tbody>
+      </table>
+    </div>
+  </section>
 </DashboardLayout>
+
+<script type="module" src="/src/js/admin/admin-users.js"></script>

@@ -1,4 +1,4 @@
----
+﻿---
 // src/layouts/DashboardLayout.astro
 import '../styles/global.css';
 
@@ -25,7 +25,7 @@ const {  userRole, userName = "" } = Astro.props;
   <body class="bg-slate-950 text-white antialiased">
     <div class="flex min-h-screen flex-col">
 
-      <!-- Header/Nav (menú horizontal) -->
+      <!-- Header/Nav (menÃº horizontal) -->
       <Navbar userName={userName} userRole={userRole} />
 
       <CategoriesBar userRole={userRole} />
@@ -33,7 +33,7 @@ const {  userRole, userName = "" } = Astro.props;
       <div class="flex flex-1">
 
         <!-- Contenido principal -->
-        <main class="flex-1 p-6 md:p-8 lg:p-10 overflow-auto">
+        <main id="dashboardMainContent" class="flex-1 p-6 md:p-8 lg:p-10 overflow-auto">
           <slot />
         </main>
       </div>
@@ -42,5 +42,21 @@ const {  userRole, userName = "" } = Astro.props;
       <Footer />
 
     </div>
+    <script>
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+
+      const resetScroll = () => {
+        window.scrollTo(0, 0);
+        const main = document.getElementById("dashboardMainContent");
+        if (main) main.scrollTop = 0;
+      };
+
+      resetScroll();
+      window.addEventListener("pageshow", resetScroll);
+    </script>
   </body>
 </html>
+
+

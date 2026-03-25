@@ -2,25 +2,13 @@
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 
-const activeProjects = [
-  { title:"Rediseño sitio web Helium", freelancer:"Ana Martínez", progress:68 },
-  { title:"SEO blog corporativo", freelancer:"Laura Herrera", progress:92 },
-];
-
-const popularServices = [
-  { title:"Logo Profesional", image:"https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800"},
-  { title:"Edición de Video", image:"https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800"},
-  { title:"SEO Profesional", image:"https://images.unsplash.com/photo-1556155092-490a1ba16284?w=800"},
-  { title:"Diseño Web Moderno", image:"https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800"},
-];
 ---
 
 <DashboardLayout  userRole="company">
 
 <!-- HERO -->
 
-<section class="relative h-72 rounded-2xl overflow-hidden mb-14 bg-cover bg-center"
-style="background-image:url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1600')">
+<section id="companyHero" class="relative h-72 rounded-2xl overflow-hidden mb-14 bg-cover bg-center will-change-transform transition-transform duration-200" style="background-image:url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1600')">
 
 <div class="absolute inset-0 bg-black/60"></div>
 
@@ -36,7 +24,7 @@ Gestiona tus proyectos, contrata freelancers y encuentra talento para tu empresa
 
 <a
 href="/dashboard/company/marketplace"
-class="bg-purple-700 hover:bg-purple-600 px-8 py-3 rounded-xl font-bold w-fit">
+class="bg-purple-700 hover:bg-purple-600 px-8 py-3 rounded-xl font-bold w-fit transition duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-purple-900/40 active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-slate-900 cursor-pointer">
 
 Explorar marketplace →
 
@@ -49,10 +37,10 @@ Explorar marketplace →
 
 <!-- BOTONES RAPIDOS -->
 
-<section class="grid md:grid-cols-3 lg:grid-cols-5 gap-6 mb-16">
+<section data-reveal class="grid md:grid-cols-3 lg:grid-cols-5 gap-6 mb-16 opacity-0 translate-y-3">
 
 <a href="/dashboard/company/servicios"
-class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500 transition">
+class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500 transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-900/20 cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500/70">
 
 <h3 class="text-lg font-bold mb-1">
 Servicios
@@ -66,7 +54,7 @@ Explorar Servicios
 
 
 <a href="/dashboard/company/marketplace"
-class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500">
+class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500 transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-900/20 cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500/70">
 
 <h3 class="text-lg font-bold mb-1">
 Marketplace
@@ -80,7 +68,7 @@ Explorar freelancers
 
 
 <a href="/dashboard/company/ordenes"
-class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500">
+class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500 transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-900/20 cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500/70">
 
 <h3 class="text-lg font-bold mb-1">
 Órdenes
@@ -94,7 +82,7 @@ Gestionar proyectos
 
 
 <a href="/dashboard/company/reviews"
-class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500">
+class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500 transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-900/20 cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500/70">
 
 <h3 class="text-lg font-bold mb-1">
 Reviews
@@ -108,7 +96,7 @@ Calificar freelancers
 
 
 <a href="/dashboard/company/notificaciones"
-class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500">
+class="bg-slate-900 p-6 rounded-xl border border-slate-800 hover:border-purple-500 transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-purple-900/20 cursor-pointer focus:outline-none focus:ring-2 focus:ring-purple-500/70">
 
 <h3 class="text-lg font-bold mb-1">
 Notificaciones
@@ -126,7 +114,7 @@ Actividad reciente
 
 <!-- FREELANCERS -->
 
-<section class="mb-16">
+<section data-reveal class="mb-16 opacity-0 translate-y-3">
 
 <h2 class="text-2xl font-bold mb-6">
 Freelancers recomendados
@@ -141,88 +129,28 @@ Freelancers recomendados
 
 <!-- PROYECTOS -->
 
-<section class="mb-16">
+<section data-reveal class="mb-16 opacity-0 translate-y-3">
 
 <h2 class="text-2xl font-bold mb-6">
 Proyectos activos
 </h2>
 
-<div class="space-y-6">
-
-{activeProjects.map(p => (
-
-<div class="bg-slate-900 p-6 rounded-xl border border-slate-800">
-
-<div class="flex justify-between">
-
-<div>
-
-<h3 class="font-bold">
-{p.title}
-</h3>
-
-<p class="text-slate-400">
-con {p.freelancer}
-</p>
-
-</div>
-
-<div class="w-56">
-
-<div class="bg-slate-700 rounded-full h-3 overflow-hidden">
-
-<div
-class="bg-purple-600 h-3"
-style={`width:${p.progress}%`}>
-</div>
-
-</div>
-
-<p class="text-purple-400 text-right text-sm mt-1">
-{p.progress}%
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-))}
-
+<div id="activeProjects" class="space-y-6">
+  <div class="text-slate-400">Cargando proyectos...</div>
 </div>
 
 </section>
 
-
 <!-- SERVICIOS -->
 
-<section>
+<section data-reveal class="opacity-0 translate-y-3">
 
 <h2 class="text-2xl font-bold mb-6">
 Servicios populares
 </h2>
 
-<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-
-{popularServices.map(s => (
-
-<div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition">
-
-<img src={s.image} class="h-44 w-full object-cover"/>
-
-<div class="p-4 text-center">
-
-<h3 class="font-bold">
-{s.title}
-</h3>
-
-</div>
-
-</div>
-
-))}
-
+<div id="popularServices" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+  <div class="col-span-full text-slate-400">Cargando servicios...</div>
 </div>
 
 </section>
@@ -230,3 +158,10 @@ Servicios populares
 <script type="module" src="/src/js/company/company-dashboard.js"></script>
 
 </DashboardLayout>
+
+
+
+
+
+
+

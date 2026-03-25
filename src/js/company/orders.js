@@ -19,6 +19,7 @@ function buildStorageUrl(path) {
   if (path.startsWith("/storage/")) return `http://127.0.0.1:8000${path}`;
   return `http://127.0.0.1:8000/storage/${path}`;
 }
+
 function formatPrice(value) {
   if (value === null || value === undefined || value === "") return "";
   const num = Number(value);
@@ -64,7 +65,8 @@ function buildCard(order) {
   const date = formatDate(order?.created_at || order?.started_at);
   const status = formatStatus(order?.status);
   const statusClassName = statusClass(order?.status);
-  const image = buildStorageUrl(freelancerUser?.photo) || "https://via.placeholder.com/200";
+  const image = buildStorageUrl(freelancerUser?.photo) || "/logo.jpeg";
+  const isDelivered = String(order?.status || "").toLowerCase() === "delivered";
 
   return `
     <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-indigo-500 transition flex flex-col justify-between">
@@ -95,13 +97,57 @@ function buildCard(order) {
         </div>
       </div>
 
-      <div class="mt-6">
+      <div class="mt-6 space-y-2">
         <a href="/dashboard/company/orden-detalle?id=${escapeHtml(order?.id)}" class="block text-center bg-indigo-600 hover:bg-indigo-500 transition py-2 rounded-lg text-sm font-semibold">
           Ver detalles
         </a>
+        ${isDelivered ? `<button data-complete-order="${escapeHtml(order?.id)}" class="w-full bg-green-600 hover:bg-green-500 transition py-2 rounded-lg text-sm font-semibold cursor-pointer">Confirmar recepcion</button>` : ""}
       </div>
     </div>
   `;
+}
+
+async function patchOrderCompleted(orderId, buttonEl) {
+  const token = localStorage.getItem("token");
+  if (!token) return;
+
+  try {
+    if (buttonEl) {
+      buttonEl.disabled = true;
+      buttonEl.textContent = "Confirmando...";
+    }
+
+    const res = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
+      method: "PATCH",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify({ status: "completed" })
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    await fetchOrders();
+  } catch (err) {
+    console.error("Error confirmando orden:", err);
+    if (buttonEl) {
+      buttonEl.disabled = false;
+      buttonEl.textContent = "Confirmar recepcion";
+    }
+  }
+}
+
+function bindCompleteButtons() {
+  const buttons = document.querySelectorAll("[data-complete-order]");
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const orderId = btn.getAttribute("data-complete-order");
+      if (!orderId) return;
+      patchOrderCompleted(orderId, btn);
+    });
+  });
 }
 
 async function fetchOrders() {
@@ -135,7 +181,9 @@ async function fetchOrders() {
       return;
     }
 
+    emptyEl?.classList.add("hidden");
     gridEl.innerHTML = orders.map(buildCard).join("");
+    bindCompleteButtons();
   } catch (err) {
     loadingEl?.classList.add("hidden");
     emptyEl?.classList.remove("hidden");
@@ -145,5 +193,3 @@ async function fetchOrders() {
 }
 
 fetchOrders();
-
-
