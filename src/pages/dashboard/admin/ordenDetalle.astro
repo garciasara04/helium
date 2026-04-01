@@ -1,161 +1,67 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const orden = {
-  id: "ORD-1021",
-  cliente: "Carlos Rodriguez",
-  freelancer: "Sara Lopez",
-  servicio: "Landing Page Startup",
-  estado: "En progreso",
-  precio: "$250",
-  fecha: "15 Mar 2026",
-  descripcion: "Creación de landing page moderna con Tailwind y optimizada para conversiones."
-};
 ---
 
 <DashboardLayout userRole="admin">
+  <section class="max-w-7xl mx-auto px-6 py-8 space-y-6">
+    <div class="flex items-center justify-between gap-4">
+      <h1 class="text-2xl font-bold">Detalle de la orden</h1>
+      <a href="/dashboard/admin/ordenes" class="text-indigo-400 hover:underline">Volver a ordenes</a>
+    </div>
 
-<h1 class="text-2xl font-bold text-white mb-8">
-Detalle de la Orden
-</h1>
+    <div id="orderDetailAlert" class="hidden rounded-xl border px-4 py-3 text-sm"></div>
 
+    <div class="grid lg:grid-cols-3 gap-6">
+      <article class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-lg font-semibold mb-4">Informacion de la orden</h2>
 
-<div class="grid md:grid-cols-2 gap-8">
+        <div id="orderInfoSkeleton" class="grid sm:grid-cols-2 gap-4">
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+        </div>
 
-<!-- Información de la orden -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <dl id="orderInfo" class="hidden grid sm:grid-cols-2 gap-4 text-sm"></dl>
+      </article>
 
-<h2 class="text-lg font-bold text-white mb-4">
-Información de la orden
-</h2>
+      <aside class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-lg font-semibold mb-4">Estado</h2>
+        <div id="orderStatusBadge" class="inline-flex px-3 py-1 rounded-lg text-sm bg-slate-800 text-slate-300">-</div>
 
-<div class="space-y-3 text-sm">
+        <div class="mt-6 space-y-3 text-sm">
+          <p><span class="text-slate-400">Creada:</span> <span id="orderCreatedAt" class="ml-2 text-white">-</span></p>
+          <p><span class="text-slate-400">Iniciada:</span> <span id="orderStartedAt" class="ml-2 text-white">-</span></p>
+          <p><span class="text-slate-400">Entregada:</span> <span id="orderDeliveredAt" class="ml-2 text-white">-</span></p>
+          <p><span class="text-slate-400">Completada:</span> <span id="orderCompletedAt" class="ml-2 text-white">-</span></p>
+          <p><span class="text-slate-400">Cancelada:</span> <span id="orderCancelledAt" class="ml-2 text-white">-</span></p>
+        </div>
+      </aside>
+    </div>
 
-<p>
-<span class="text-slate-400">ID:</span>
-<span class="text-white font-semibold ml-2">{orden.id}</span>
-</p>
+    <div class="grid md:grid-cols-2 gap-6">
+      <article class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-lg font-semibold mb-4">Comprador (cliente/empresa)</h2>
+        <p id="orderBuyerName" class="font-semibold">-</p>
+        <p id="orderBuyerEmail" class="text-slate-400 text-sm mt-1">-</p>
+        <a id="orderBuyerLink" href="/dashboard/admin/usuarios" class="inline-block mt-3 text-indigo-400 hover:underline text-sm">Ver perfil</a>
+      </article>
 
-<p>
-<span class="text-slate-400">Servicio:</span>
-<span class="text-white ml-2">{orden.servicio}</span>
-</p>
+      <article class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+        <h2 class="text-lg font-semibold mb-4">Freelancer</h2>
+        <p id="orderFreelancerName" class="font-semibold">-</p>
+        <p id="orderServiceTitle" class="text-slate-300 text-sm mt-1">-</p>
+        <a id="orderFreelancerLink" href="/dashboard/admin/perfilFreelancer" class="inline-block mt-3 text-indigo-400 hover:underline text-sm">Ver perfil</a>
+      </article>
+    </div>
 
-<p>
-<span class="text-slate-400">Fecha:</span>
-<span class="text-white ml-2">{orden.fecha}</span>
-</p>
-
-<p>
-<span class="text-slate-400">Precio:</span>
-<span class="text-green-400 ml-2 font-bold">{orden.precio}</span>
-</p>
-
-<p>
-<span class="text-slate-400">Estado:</span>
-
-<span class={
-orden.estado === "Completado"
-? "text-green-400 ml-2"
-: orden.estado === "Pendiente"
-? "text-yellow-400 ml-2"
-: "text-blue-400 ml-2"
-}>
-{orden.estado}
-</span>
-
-</p>
-
-</div>
-
-</div>
-
-
-<!-- Cliente -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-
-<h2 class="text-lg font-bold text-white mb-4">
-Cliente
-</h2>
-
-<p class="text-white font-semibold">
-{orden.cliente}
-</p>
-
-<a
-href="/dashboard/admin/perfilUsuarios"
-class="text-purple-400 text-sm hover:underline mt-3 inline-block"
->
-Ver perfil
-</a>
-
-</div>
-
-
-<!-- Freelancer -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-
-<h2 class="text-lg font-bold text-white mb-4">
-Freelancer
-</h2>
-
-<p class="text-white font-semibold">
-{orden.freelancer}
-</p>
-
-<a
-href="/dashboard/admin/perfilFreelancer"
-class="text-purple-400 text-sm hover:underline mt-3 inline-block"
->
-Ver perfil
-</a>
-
-</div>
-
-
-<!-- Descripción -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
-
-<h2 class="text-lg font-bold text-white mb-4">
-Descripción del proyecto
-</h2>
-
-<p class="text-slate-300 text-sm">
-{orden.descripcion}
-</p>
-
-</div>
-
-</div>
-
-
-<!-- Acciones -->
-<div class="mt-10 flex gap-4">
-
-<button class="bg-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-blue-600 transition">
-Marcar en progreso
-</button>
-
-<button class="bg-green-500 px-6 py-3 rounded-lg font-semibold hover:bg-green-600 transition">
-Marcar completado
-</button>
-
-<button class="bg-red-500 px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition">
-Cancelar orden
-</button>
-
-</div>
-
-
-<div class="mt-6">
-
-<a
-href="/dashboard/admin/ordenes"
-class="text-purple-400 hover:underline"
->
-← Volver a órdenes
-</a>
-
-</div>
-
+    <article class="bg-slate-900 border border-slate-800 rounded-xl p-6">
+      <h2 class="text-lg font-semibold mb-3">Requerimientos del servicio</h2>
+      <p id="orderRequirements" class="text-slate-300 whitespace-pre-line">-</p>
+    </article>
+  </section>
 </DashboardLayout>
+
+<script type="module" src="/src/js/admin/admin-order-detail.js"></script>

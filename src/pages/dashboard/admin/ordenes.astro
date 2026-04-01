@@ -1,145 +1,96 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const ordenes = [
-  {
-    id: "ORD-1021",
-    cliente: "Carlos R",
-    freelancer: "Sara Lopez",
-    servicio: "Landing Page",
-    estado: "En progreso",
-    precio: "$250"
-  },
-  {
-    id: "ORD-1022",
-    cliente: "Empresa X",
-    freelancer: "Ana Martinez",
-    servicio: "Diseño Logo",
-    estado: "Pendiente",
-    precio: "$120"
-  },
-  {
-    id: "ORD-1023",
-    cliente: "Luis Gomez",
-    freelancer: "Juan Perez",
-    servicio: "SEO Web",
-    estado: "Completado",
-    precio: "$300"
-  }
-];
 ---
 
 <DashboardLayout userRole="admin">
+  <section class="max-w-7xl mx-auto px-6 py-8 space-y-6">
+    <h1 class="text-2xl font-bold">Gestion de ordenes</h1>
 
-<h1 class="text-2xl font-bold mb-6">
-Gestión de órdenes
-</h1>
+    <div class="grid md:grid-cols-2 xl:grid-cols-6 gap-3">
+      <input
+        id="ordersSearchQ"
+        type="text"
+        placeholder="Buscar por cliente, freelancer o servicio"
+        class="xl:col-span-2 bg-slate-800 border border-slate-700 rounded-lg px-4 py-2"
+      />
 
+      <input
+        id="ordersFilterOrderId"
+        type="number"
+        min="1"
+        placeholder="Order ID"
+        class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2"
+      />
 
-<!-- FILTROS -->
-<div class="flex flex-wrap gap-4 mb-6">
+      <select id="ordersFilterStatus" class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
+        <option value="">Todos los estados</option>
+        <option value="pending">Pending</option>
+        <option value="in_progress">In progress</option>
+        <option value="delivered">Delivered</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
 
-<input
-type="text"
-placeholder="Buscar orden..."
-class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2"
-/>
+      <input
+        id="ordersFilterUserId"
+        type="number"
+        min="1"
+        placeholder="User ID"
+        class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2"
+      />
 
-<select class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
-<option>Estado</option>
-<option>Pendiente</option>
-<option>En progreso</option>
-<option>Completado</option>
-<option>Cancelado</option>
-</select>
+      <input
+        id="ordersFilterServiceId"
+        type="number"
+        min="1"
+        placeholder="Service ID"
+        class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2"
+      />
+    </div>
 
-<select class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
-<option>Precio</option>
-<option>Mayor a menor</option>
-<option>Menor a mayor</option>
-</select>
+    <div class="flex gap-3">
+      <button id="ordersApplyFilters" type="button" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg transition">
+        Buscar
+      </button>
+      <button id="ordersClearFilters" type="button" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition">
+        Limpiar
+      </button>
+    </div>
 
-</div>
+    <div id="ordersAlert" class="hidden rounded-xl border px-4 py-3 text-sm"></div>
+    <div id="ordersEmpty" class="hidden text-center text-slate-400 py-8 border border-slate-800 rounded-xl">
+      No se encontraron ordenes con esos filtros.
+    </div>
 
+    <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+      <table class="w-full text-left">
+        <thead class="bg-slate-800 text-slate-400">
+          <tr>
+            <th class="p-4">ID</th>
+            <th class="p-4">Cliente/Empresa</th>
+            <th class="p-4">Freelancer</th>
+            <th class="p-4">Servicio</th>
+            <th class="p-4">Estado</th>
+            <th class="p-4">Monto</th>
+            <th class="p-4">Accion</th>
+          </tr>
+        </thead>
+        <tbody id="ordersTableBody"></tbody>
+      </table>
+    </div>
 
-<!-- TABLA -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-
-<table class="w-full text-left">
-
-<thead class="bg-slate-800 text-slate-400">
-<tr>
-<th class="p-4">ID</th>
-<th class="p-4">Cliente</th>
-<th class="p-4">Freelancer</th>
-<th class="p-4">Servicio</th>
-<th class="p-4">Estado</th>
-<th class="p-4">Precio</th>
-<th class="p-4">Acción</th>
-</tr>
-</thead>
-
-<tbody>
-
-{ordenes.map(o => (
-
-<tr class="border-t border-slate-800">
-
-<td class="p-4 font-semibold">
-{o.id}
-</td>
-
-<td class="p-4">
-{o.cliente}
-</td>
-
-<td class="p-4">
-{o.freelancer}
-</td>
-
-<td class="p-4">
-{o.servicio}
-</td>
-
-<td class="p-4">
-
-<span class={
-o.estado === "Completado"
-? "text-green-400"
-: o.estado === "Pendiente"
-? "text-yellow-400"
-: "text-blue-400"
-}>
-
-{o.estado}
-
-</span>
-
-</td>
-
-<td class="p-4">
-{o.precio}
-</td>
-
-<td class="p-4">
-
-<a
-href="/dashboard/admin/ordenDetalle"
-class="text-purple-400 hover:underline"
->
-Ver detalle
-</a>
-
-</td>
-
-</tr>
-
-))}
-
-</tbody>
-
-</table>
-
-</div>
-
+    <div class="flex items-center justify-between">
+      <p id="ordersPaginationInfo" class="text-sm text-slate-400"></p>
+      <div class="flex gap-2">
+        <button id="ordersPrevPage" type="button" class="bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+          Anterior
+        </button>
+        <button id="ordersNextPage" type="button" class="bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+          Siguiente
+        </button>
+      </div>
+    </div>
+  </section>
 </DashboardLayout>
+
+<script type="module" src="/src/js/admin/admin-orders.js"></script>

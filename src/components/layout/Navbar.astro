@@ -1,7 +1,6 @@
 ---
 // src/components/layout/Navbar.astro
-const { userName = "Sara Lopez", userRole } = Astro.props;
-
+const { userName = "", userRole } = Astro.props;
 const avatarLetter = userName.charAt(0).toUpperCase();
 const dashboardBase = `/dashboard/${userRole}`;
 ---
@@ -221,6 +220,12 @@ const dashboardBase = `/dashboard/${userRole}`;
           >     
           Cerrar sesión
 </button>
+        <a href="/cambiarContraseña"
+          id="ChangePassword"
+          class="block w-full text-left px-5 py-2.5 text-red-400 hover:bg-red-900/30 hover:text-red-300 transition"
+               >
+          Cambiar contraseña
+          </a>
       </div>
     </div>
       <div class="relative group mt-1">

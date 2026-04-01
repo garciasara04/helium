@@ -14,6 +14,13 @@ const startDateEl = document.getElementById("orderStartDate");
 const deliveredDateEl = document.getElementById("orderDeliveredDate");
 const freelancerLinkEl = document.getElementById("orderFreelancerLink");
 
+
+function buildStorageUrl(path) {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/storage/")) return `http://127.0.0.1:8000${path}`;
+  return `http://127.0.0.1:8000/storage/${path}`;
+}
 function formatPrice(value) {
   if (value === null || value === undefined || value === "") return "";
   const num = Number(value);
@@ -98,7 +105,7 @@ async function fetchOrder() {
     serviceTitleEl.textContent = service?.title || "Servicio";
     requirementsEl.textContent = data?.requirements || "-";
 
-    if (freelancerPhotoEl) freelancerPhotoEl.src = freelancerUser?.photo || "https://via.placeholder.com/200";
+    if (freelancerPhotoEl) freelancerPhotoEl.src = buildStorageUrl(freelancerUser?.photo) || "https://via.placeholder.com/200";
     freelancerNameEl.textContent = freelancerName;
 
     priceEl.textContent = formatPrice(data?.amount || service?.price);
@@ -117,3 +124,7 @@ async function fetchOrder() {
 }
 
 fetchOrder();
+
+
+
+

@@ -13,11 +13,17 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function buildStorageUrl(path) {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/storage/")) return `http://127.0.0.1:8000${path}`;
+  return `http://127.0.0.1:8000/storage/${path}`;
+}
 function formatRating(value) {
-  if (value === null || value === undefined) return "Sin calificacion";
+  const star = "\u2605";
   const num = Number(value);
-  if (!Number.isFinite(num) || num <= 0) return "Sin calificacion";
-  return `&#9733; ${num}`;
+  if (!Number.isFinite(num) || num <= 0) return `${star} Sin calificacion`;
+  return `${star} ${num.toFixed(1)}`;
 }
 
 function buildCard(service) {
@@ -26,13 +32,12 @@ function buildCard(service) {
   const price = service?.price || service?.amount || "";
   const rating = service?.avg_rating ?? service?.rating ?? null;
   const category = service?.category?.name || service?.category_name || service?.category || "";
-  const image = service?.image || 'http://127.0.0.1:8000/storage/' + service.photo  || "https://via.placeholder.com/600";
-  
+  const image = buildStorageUrl(service?.photo || service?.image || service?.image_url) || "https://via.placeholder.com/600";
+
   return `
-    <div class="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-500 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl">
-      <div class="relative h-44 overflow-hidden">
-        <img src="${escapeHtml(image)}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
-        ${category ? `<div class="absolute top-3 left-3 bg-black/60 backdrop-blur text-xs text-white px-3 py-1 rounded-full">${escapeHtml(category)}</div>` : ""}
+    <div class="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-500 transition-all duration-300 hover:scale-[1.04] hover:shadow-xl opacity-0 translate-y-4">
+      <div class="relative h-44 overflow-hidden bg-slate-800" -wrapper>
+        <img src="${escapeHtml(image)}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />\n${category ? `<div class="absolute top-3 left-3 bg-black/60 backdrop-blur text-xs text-white px-3 py-1 rounded-full">${escapeHtml(category)}</div>` : ""}
       </div>
 
       <div class="p-5">
@@ -53,7 +58,9 @@ function buildCard(service) {
           </div>
         </div>
 
-        <a href="/dashboard/company/servicio-detalle?id=${escapeHtml(service.id)}" class="mt-5 block w-full bg-indigo-600 hover:bg-indigo-500 transition text-white py-2 rounded-lg text-sm text-center">Ver servicio</a>
+        <a href="/dashboard/company/servicio-detalle?id=${escapeHtml(service.id)}" class="mt-5 block w-full bg-indigo-600 hover:bg-indigo-500 transition text-white py-2 rounded-lg text-sm text-center">
+          Ver servicio
+        </a>
       </div>
     </div>
   `;
@@ -76,6 +83,16 @@ function buildQueryFromUrl() {
   if (maxPrice) query.set("max_price", maxPrice);
 
   return query;
+}
+
+function applyStaggerReveal() {
+  const cards = gridEl?.querySelectorAll(".group") || [];
+  cards.forEach((card, index) => {
+    setTimeout(() => {
+      card.classList.remove("opacity-0", "translate-y-4");
+      card.classList.add("opacity-100", "translate-y-0");
+    }, 60 * index);
+  });
 }
 
 async function fetchServices() {
@@ -106,6 +123,7 @@ async function fetchServices() {
     }
 
     gridEl.innerHTML = services.map(buildCard).join("");
+    applyStaggerReveal();
   } catch (err) {
     loadingEl?.classList.add("hidden");
     emptyEl?.classList.remove("hidden");
@@ -115,5 +133,11 @@ async function fetchServices() {
 }
 
 fetchServices();
+
+
+
+
+
+
 
 

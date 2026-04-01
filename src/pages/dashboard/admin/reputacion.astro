@@ -1,61 +1,62 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
 <DashboardLayout userRole="admin">
-  <h1 class="text-2xl font-bold mb-8">
-    Monitoreo de reputación
-  </h1>
+  <section class="max-w-7xl mx-auto px-6 py-8 space-y-6">
+    <h1 class="text-2xl font-bold">Monitoreo de reputacion</h1>
 
-  <div class="grid md:grid-cols-2 gap-8">
-    <!-- RATING BAJO -->
-    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
-      <h2 class="text-xl font-semibold mb-4">
-        Freelancers con rating bajo
-      </h2>
+    <div id="reputationAlert" class="hidden rounded-xl border px-4 py-3 text-sm"></div>
 
-      <ul class="space-y-3">
-        <li class="bg-slate-800 p-3 rounded">
-          Juan Perez — ⭐ 2.8
-        </li>
+    <div class="grid xl:grid-cols-2 gap-6">
+      <section class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-semibold">Freelancers con peor reputacion (top 10)</h2>
+          <a href="/dashboard/admin/usuarios" class="text-indigo-400 hover:underline text-sm">Ver todos</a>
+        </div>
 
-        <li class="bg-slate-800 p-3 rounded">
-          Ana Lopez — ⭐ 3.1
-        </li>
-      </ul>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="py-2 pr-3">Nombre</th>
+                <th class="py-2 pr-3">Rating promedio</th>
+                <th class="py-2 pr-3">Reviews</th>
+                <th class="py-2">Servicios</th>
+              </tr>
+            </thead>
+            <tbody id="reputationFreelancersBody">
+              <tr><td class="py-3 text-slate-400" colspan="4">Cargando freelancers...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-semibold">Resenas (ultimas 10)</h2>
+          <a href="/dashboard/admin/reviews" class="text-indigo-400 hover:underline text-sm">Ver todas</a>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="py-2 pr-3">Rating</th>
+                <th class="py-2 pr-3">Servicio</th>
+                <th class="py-2 pr-3">Comentario</th>
+                <th class="py-2">Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="reputationReviewsBody">
+              <tr><td class="py-3 text-slate-400" colspan="4">Cargando resenas...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
-
-    <!-- RESEÑAS NEGATIVAS -->
-    <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
-      <h2 class="text-xl font-semibold mb-4">
-        Más reseñas negativas
-      </h2>
-
-      <ul class="space-y-3">
-        <li class="bg-slate-800 p-3 rounded">
-          Carlos Ramirez — 8 reseñas negativas
-        </li>
-
-        <li class="bg-slate-800 p-3 rounded">
-          Laura Gomez — 6 reseñas negativas
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- STRIKES -->
-  <div class="bg-slate-900 border border-slate-800 p-6 rounded-xl mt-8">
-    <h2 class="text-xl font-semibold mb-4">
-      Usuarios con muchos strikes
-    </h2>
-
-    <ul class="space-y-3">
-      <li class="bg-slate-800 p-3 rounded flex justify-between">
-        <span>Usuario X — 3 strikes</span>
-        <button class="bg-yellow-600 px-3 py-1 rounded">
-          Agregar strike
-        </button>
-      </li>
-    </ul>
-  </div>
+  </section>
 </DashboardLayout>
+
+<script type="module" src="/src/js/admin/admin-reputation.js"></script>
+
