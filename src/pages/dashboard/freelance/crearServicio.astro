@@ -148,6 +148,13 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       })
       const data = await response.json();
       console.log(data);
+      if (response.ok) {
+        confirm('Servicio creado con exito');
+        window.location.href = 'da'
+      }
+      else{
+        alert('datos incorrectos');
+      }
       }
 
     catch(error){

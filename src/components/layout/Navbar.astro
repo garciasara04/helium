@@ -172,8 +172,53 @@ const dashboardBase = `/dashboard/${userRole}`;
           >     
           Cerrar sesión
 </button>
+        <a href="/cambiarContraseña"
+          id="ChangePassword"
+          class="block w-full text-left px-5 py-2.5 text-red-400 hover:bg-red-900/30 hover:text-red-300 transition"
+               >
+          Cambiar contraseña
+          </a>
       </div>
     </div>
+      <div class="relative group mt-1">
+        <button class="relative p-2 text-slate-400 focus:outline-none">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg>
+          <span id="campanita-badge" class="absolute top-0 right-0 flex items-center justify-center w-4 h-4 text-[10px] text-white bg-red-500 rounded-full hidden">0</span>
+        </button>
+
+          <div id="notifications-dropdown" class="absolute right-0 top-full pt-2 w-80 bg-slate-900 border border-slate-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible z-50 overflow-hidden flex flex-col">
+    
+    <div class="flex justify-between items-center px-4 py-3 bg-slate-800/80 border-b border-slate-700">
+      <span class="text-sm font-bold text-white">Notificaciones</span>
+      
+      <button id="btn-read-all" class="text-xs font-semibold text-purple-400 hover:text-purple-300 transition flex items-center gap-1 focus:outline-none">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        Todas leídas
+      </button>
+    </div>
+
+    <div id="notifications-list" class="max-h-72 overflow-y-auto">
+      
+      <div class="flex justify-between items-start gap-3 p-4 border-b border-slate-800 hover:bg-slate-800/50 transition">
+        
+        <div class="text-sm text-slate-200">
+          Tienes un nuevo pedido de diseño.
+        </div>
+        
+        <button class="text-slate-500 hover:text-green-400 transition shrink-0 focus:outline-none" title="Marcar como leída">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </button>
+
+      </div>
+      </div>
+  </div>
+      </div>
   </nav>
 <script>
   const API_BASE = "http://127.0.0.1:8000";
@@ -244,6 +289,104 @@ const dashboardBase = `/dashboard/${userRole}`;
     });
   }
 </script>
+<script>
+  async function notificationsRed(){
+    try{
+    const token = localStorage.getItem('token');
+    if(!token){
+      window.location.href = ('/Login');
+    }
+    const response = await fetch('http://127.0.0.1:8000/api/notifications',{
+      method : 'GET',
+      headers: {
+        'Accept' : 'application/json',
+        'Authorization' : `Bearer ${token}`,
+      } 
+    });
+    const data = await response.json();
+    const unreadCount = data.unread_count
+    const badge = document.getElementById('campanita-badge');
+    if (badge) {
+        if (unreadCount > 0) {
+          badge.textContent = unreadCount;
+          badge.classList.remove('hidden'); 
+        } else {
+          badge.classList.add('hidden'); 
+        }
+      }
+      const notifs_ = data.notifications.data;
+      const notifs = notifs_.filter(n => n.read_at === null)
+      const list = document.getElementById('notifications-list');
+      list.innerHTML = '';  
+      
+      if (notifs.length === 0) {
+        list.innerHTML = '<div class="p-3 text-sm text-slate-400">Sin notificaciones</div>';
+        } else {
+
+      notifs.forEach(n => {
+       const mensaje = n.data.message || 'Notificación';
+        list.innerHTML += `<div class="flex justify-between items-center p-3 border-b border-slate-800 text-sm text-white">
+            <span>${mensaje}</span>
+            <button onclick="selectOne('${n.id}')" class="text-slate-500 hover:text-green-400 transition focus:outline-none" title="Marcar leída">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </button>
+          </div>`;
+      });
+    }
+  }
+  catch(error){
+    console.log(error);
+  }
+
+  }
+  window.selectOne = async function(id){
+    const token = localStorage.getItem('token');
+
+    try{
+    const response = await fetch(`http://127.0.0.1:8000/api/notifications/${id}/read`,{
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`, 
+      }
+    })
+    const data = await response.json();
+    console.log(data)
+    notificationsRed()
+    if (data) {
+      console.log('enviado correctamente');
+    }
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+  const readAll = document.getElementById('btn-read-all');
+  readAll?.addEventListener('click', async (e) =>{
+    e.preventDefault();
+    try{
+    const token = localStorage.getItem('token');
+    const response = await fetch('http://127.0.0.1:8000/api/notifications/read-all',{
+      method: 'PATCH',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    notificationsRed();
+  }
+  catch(error){
+    console.log(error);
+  }
+  })
+  notificationsRed();
+
+</script>
+
+
+  
 </header>
 
 

@@ -51,8 +51,9 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
         contenedor.innerHTML = '<p class="text-slate-400 col-span-full">Aún no tienes servicios publicados.</p>';
         return;
       }
-
+      console.log(servicios)
       servicios.forEach(service => {
+        if (service.is_active){
         contenedor.innerHTML += `
           <div class="bg-slate-900 border border-slate-800 rounded-xl p-6">
             <h3 class="font-semibold text-lg mb-2">
@@ -93,7 +94,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
             </div>
           </div>
         `;
-      });
+      }});
       
     } catch (error) {
       console.log(error);

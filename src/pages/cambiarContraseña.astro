@@ -1,6 +1,6 @@
 ---
 
-import DashboardLayout from "../../../layouts/DashboardLayout.astro";
+import DashboardLayout from "../layouts/DashboardLayout.astro";
 ---
 
 <DashboardLayout  userRole="freelance">
@@ -20,7 +20,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
         Actualiza tu contraseña para mantener tu cuenta segura.
       </p>
 
-      <form class="space-y-6">
+      <form id="loginForm" class="space-y-6">
 
         <!-- Contraseña actual -->
         <div>
@@ -30,6 +30,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
           <input
             type="password"
+            name="current_password"
             placeholder="Ingresa tu contraseña actual"
             class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
           />
@@ -43,6 +44,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
           <input
             type="password"
+            name="new_password"
             placeholder="Ingresa tu nueva contraseña"
             class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
           />
@@ -55,6 +57,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
           </label>
 
           <input
+            name="new_password_confirmation"
             type="password"
             placeholder="Confirma tu nueva contraseña"
             class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500"
@@ -87,5 +90,42 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
   </section>
 
 </div>
+
+<script>
+   const login = document.getElementById('loginForm')
+   login?.addEventListener('submit', async (e) =>{
+    e.preventDefault()
+
+    const token = localStorage.getItem('token')
+    try {
+      const formdata = new FormData(login);
+      if(!token){
+        alert('Sesion expirada.')
+        window.location.href = '/Login'
+      }
+      const response = await fetch('http://127.0.0.1:8000/api/password/change', {
+        method: 'PATCH',
+        headers:{
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json',
+        },
+        body: formdata
+      });
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+        alert(data.message);
+        window.location.href = '/Login'
+      } 
+      else{
+        alert(data.message)
+        login.reset();
+      }
+    } catch (error) {
+      console.log(error)
+    }
+   })
+</script>
+
 
 </DashboardLayout>

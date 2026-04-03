@@ -100,6 +100,7 @@ import backgroundImage from "../assets/image.png";
         const data = await response.json();
         console.log(data);
         if(data.token){
+          if (data.user.is_active) { 
           localStorage.setItem('token', data.token);
           localStorage.setItem('user', JSON.stringify(data.user));
           
@@ -117,6 +118,10 @@ import backgroundImage from "../assets/image.png";
           if (data.user.role_id === 4) {
             window.location.href=('dashboard/admin');
           }
+        }
+        else{
+          alert('Su cuenta ha sido suspendida')
+        } 
         }
         else{
           alert('Credenciales incorrecta')
