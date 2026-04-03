@@ -27,38 +27,61 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro"
 
     <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
       
-      <aside class="lg:col-span-1 space-y-8">
-        <div class="bg-slate-900/80 border border-slate-700 rounded-xl p-6">
-          <h3 class="text-xl font-bold text-white mb-6">Opciones de servicio</h3>
+       <aside class="lg:col-span-1 space-y-8">
+        <div class="bg-slate-900/80 border border-slate-700 rounded-xl p-6 sticky top-24 shadow-lg">
+          
+          <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+            <svg class="w-5 h-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
+            </svg>
+            Explorar por
+          </h3>
 
-          <div class="space-y-6">
-            <div>
-              <h4 class="font-semibold text-slate-300 mb-3">Tipo de aplicación</h4>
-              <ul class="space-y-2 text-slate-400">
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-purple-600" /> Web</label></li>
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-purple-600" /> Móvil</label></li>
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-purple-600" /> Escritorio</label></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 class="font-semibold text-slate-300 mb-3">Lenguaje de programación</h4>
-              <ul class="space-y-2 text-slate-400">
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-purple-600" /> Python</label></li>
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-purple-600" /> JavaScript</label></li>
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-purple-600" /> Java</label></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 class="font-semibold text-slate-300 mb-3">Frameworks</h4>
-              <ul class="space-y-2 text-slate-400">
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-purple-600" /> React / Next.js</label></li>
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-purple-600" /> Node.js</label></li>
-                <li><label class="flex items-center gap-2"><input type="checkbox" class="accent-purple-600" /> Django</label></li>
-              </ul>
+          <div class="mb-8">
+            <h4 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Categorías</h4>
+            <div class="flex flex-col gap-2">
+              <a href="?category_id=1" class="px-4 py-2.5 bg-slate-800 hover:bg-purple-900/40 border border-transparent hover:border-purple-700 text-slate-300 hover:text-white rounded-lg transition-all text-sm flex justify-between items-center group">
+                Desarrollo Web
+                <span class="text-xs bg-slate-700 group-hover:bg-purple-600 px-2 py-0.5 rounded-full transition">Ver</span>
+              </a>
+              <a href="?category_id=2" class="px-4 py-2.5 bg-slate-800 hover:bg-purple-900/40 border border-transparent hover:border-purple-700 text-slate-300 hover:text-white rounded-lg transition-all text-sm flex justify-between items-center group">
+                Apps Móviles
+                <span class="text-xs bg-slate-700 group-hover:bg-purple-600 px-2 py-0.5 rounded-full transition">Ver</span>
+              </a>
+              <a href="?category_id=3" class="px-4 py-2.5 bg-slate-800 hover:bg-purple-900/40 border border-transparent hover:border-purple-700 text-slate-300 hover:text-white rounded-lg transition-all text-sm flex justify-between items-center group">
+                Diseño UI / UX
+                <span class="text-xs bg-slate-700 group-hover:bg-purple-600 px-2 py-0.5 rounded-full transition">Ver</span>
+              </a>
             </div>
           </div>
+
+          <div>
+            <h4 class="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">Habilidades</h4>
+            <div class="flex flex-wrap gap-2">
+              <a href="?skill_id=4" class="px-3 py-1.5 border border-slate-700 hover:border-purple-500 bg-slate-800/50 hover:bg-purple-900/30 text-slate-300 hover:text-purple-300 rounded-full text-xs transition cursor-pointer">
+                # React
+              </a>
+              <a href="?skill_id=1" class="px-3 py-1.5 border border-slate-700 hover:border-purple-500 bg-slate-800/50 hover:bg-purple-900/30 text-slate-300 hover:text-purple-300 rounded-full text-xs transition cursor-pointer">
+                # Laravel
+              </a>
+              <a href="?skill_id=6" class="px-3 py-1.5 border border-slate-700 hover:border-purple-500 bg-slate-800/50 hover:bg-purple-900/30 text-slate-300 hover:text-purple-300 rounded-full text-xs transition cursor-pointer">
+                # Node.js
+              </a>
+              <a href="?skill_id=5" class="px-3 py-1.5 border border-slate-700 hover:border-purple-500 bg-slate-800/50 hover:bg-purple-900/30 text-slate-300 hover:text-purple-300 rounded-full text-xs transition cursor-pointer">
+                # View.js
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-slate-800">
+            <a href="/dashboard/cliente/catalogo" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-800 rounded-lg transition border border-transparent hover:border-slate-700">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              Limpiar filtros
+            </a>
+          </div>
+
         </div>
       </aside>
 

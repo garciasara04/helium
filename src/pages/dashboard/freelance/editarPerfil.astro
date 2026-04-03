@@ -148,7 +148,10 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       const datas = await data.json();
       
       console.log(datas);
-      
+      if (data.ok) {
+        alert(datas.message);
+        window.location.href = '/dashboard/freelance';
+      } 
     }
     
     catch(error){
