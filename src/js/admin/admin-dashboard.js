@@ -23,6 +23,13 @@ const RANGE_LABEL = {
 const healthCache = {};
 const dashboardSummaryCache = {};
 
+function warmHealthRangesCache() {
+  ["today", "7d", "30d"].forEach((range) => {
+    if (healthCache[range]) return;
+    fetchAdminStats(range).catch(() => {});
+  });
+}
+
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
@@ -355,11 +362,7 @@ async function loadHealthModule(days = 7, options = {}) {
 
     setStat("stat-ordenes", stats.totalOrders);
 
-    await Promise.all([
-      fetchAdminStats("today"),
-      fetchAdminStats("7d"),
-      fetchAdminStats("30d")
-    ]);
+    warmHealthRangesCache();
     renderRangeComparisonChart(range);
   } catch (err) {
     console.error("Error cargando salud del negocio:", err);
@@ -386,21 +389,37 @@ async function loadActiveCounts() {
 
 async function loadServiceStats() {
   try {
-    const res = await fetch(`${API_BASE}/api/services`, {
-      headers: { Accept: "application/json" }
-    });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const [servicesRes, reviewsRes] = await Promise.all([
+      fetch(`${API_BASE}/api/admin/services?status=all&per_page=1`, {
+        headers: getAuthHeaders()
+      }),
+      fetch(`${API_BASE}/api/admin/reviews/negative?days=3650&max_rating=5&limit=1`, {
+        headers: getAuthHeaders()
+      })
+    ]);
 
-    const payload = await res.json();
-    const services = Array.isArray(payload)
-      ? payload
-      : (payload?.services || payload?.data || []);
+    if (!servicesRes.ok) throw new Error(`HTTP ${servicesRes.status}`);
+    if (!reviewsRes.ok) throw new Error(`HTTP ${reviewsRes.status}`);
 
-    const total = Number(payload?.pagination?.total ?? payload?.total ?? services.length ?? 0);
-    setStat("stat-servicios", total);
+    const servicesPayload = await servicesRes.json();
+    const reviewsPayload = await reviewsRes.json();
 
-    const reviewsCount = services.reduce((acc, s) => acc + Number(s?.reviews_count || 0), 0);
-    setStat("stat-reviews", reviewsCount);
+    const servicesTotal = Number(
+      servicesPayload?.pagination?.total
+      ?? servicesPayload?.total
+      ?? servicesPayload?.meta?.total
+      ?? 0
+    );
+
+    const reviewsTotal = Number(
+      reviewsPayload?.total
+      ?? reviewsPayload?.pagination?.total
+      ?? reviewsPayload?.meta?.total
+      ?? 0
+    );
+
+    setStat("stat-servicios", Number.isFinite(servicesTotal) ? servicesTotal : 0);
+    setStat("stat-reviews", Number.isFinite(reviewsTotal) ? reviewsTotal : 0);
   } catch (err) {
     console.error("Error cargando metricas de servicios:", err);
   }
@@ -492,18 +511,8 @@ async function loadWorstRatedServices(options = {}) {
       if (res.ok) {
         const payload = await res.json();
         services = Array.isArray(payload) ? payload : (payload?.data || payload?.services || []);
-        console.log("admin-dashboard worst-rated payload:", payload);
-        console.log("admin-dashboard worst-rated first item:", services?.[0]);
       } else {
-        const fallbackRes = await fetch(`${API_BASE}/api/services`, {
-          headers: { Accept: "application/json" }
-        });
-        if (!fallbackRes.ok) throw new Error(`HTTP ${fallbackRes.status}`);
-
-        const fallbackPayload = await fallbackRes.json();
-        services = Array.isArray(fallbackPayload)
-          ? fallbackPayload
-          : (fallbackPayload?.services || fallbackPayload?.data || []);
+        throw new Error(`HTTP ${res.status}`);
       }
     }
 
@@ -642,37 +651,27 @@ async function initAdminDashboard() {
     console.error("No se pudo cargar dashboard-summary, usando fallback:", err);
   }
 
-  const tasks = [
+  const criticalTasks = [
     loadActiveCounts(),
     loadServiceStats(),
-    loadHealthModule(7, { summaryPayload: summary || undefined }),
-    loadWorstRatedServices({ summaryPayload: summary || undefined }),
-    loadNegativeRecentReviews({ summaryPayload: summary || undefined })
+    loadHealthModule(7, { summaryPayload: summary || undefined })
   ];
 
-  await Promise.allSettled(tasks);
+  await Promise.allSettled(criticalTasks);
 
   const elapsed = performance.now() - startedAt;
-  const minLoaderMs = 650;
+  const minLoaderMs = 420;
   if (elapsed < minLoaderMs) {
     await sleep(minLoaderMs - elapsed);
   }
 
   revealDashboardContent();
   initEntryAnimations();
+
+  Promise.allSettled([
+    loadWorstRatedServices({ summaryPayload: summary || undefined }),
+    loadNegativeRecentReviews({ summaryPayload: summary || undefined })
+  ]);
 }
 
 initAdminDashboard();
-
-
-
-
-
-
-
-
-
-
-
-
-

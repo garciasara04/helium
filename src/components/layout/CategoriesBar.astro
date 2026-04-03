@@ -155,4 +155,8 @@ const showCategories = userRole === 'cliente' || userRole === 'company';
   </div>
 )}
 
-<script src="/src/js/cliente/categoriesBar.js"></script>
+
+{showCategories && <script src="/src/js/cliente/categoriesBar.js"></script>}
+
+
+
