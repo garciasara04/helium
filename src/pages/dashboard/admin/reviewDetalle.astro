@@ -1,117 +1,58 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const review = {
-  usuario: "Carlos Perez",
-  servicio: "Landing Page Profesional",
-  freelancer: "Sara Lopez",
-  rating: 2,
-  comentario: "El freelancer tardó más de lo acordado en entregar el proyecto. El diseño final fue aceptable pero la comunicación fue lenta.",
-  fecha: "2024-05-12"
-};
 ---
 
 <DashboardLayout userRole="admin">
+  <section class="max-w-7xl mx-auto px-6 py-8 space-y-6">
+    <div class="flex items-center justify-between">
+      <h1 class="text-2xl font-bold">Detalle de review</h1>
+      <a href="/dashboard/admin/reviews" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition">Volver</a>
+    </div>
 
-<h1 class="text-2xl font-bold mb-8">
-Detalle de Review
-</h1>
+    <div id="reviewDetailAlert" class="hidden rounded-xl border px-4 py-3 text-sm"></div>
 
-<div class="grid md:grid-cols-2 gap-8">
+    <div class="grid md:grid-cols-2 gap-8">
+      <article class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+        <h2 class="text-lg font-semibold text-slate-300 mb-6">Informacion de la review</h2>
 
-<!-- Información principal -->
-<div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+        <div id="reviewInfoSkeleton" class="space-y-4">
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+          <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>
+        </div>
 
-<h2 class="text-lg font-semibold text-slate-300 mb-6">
-Información de la review
-</h2>
+        <div id="reviewInfo" class="hidden space-y-4 text-sm">
+          <div>
+            <p class="text-slate-400">Usuario</p>
+            <p id="reviewUser" class="text-white font-semibold">-</p>
+          </div>
+          <div>
+            <p class="text-slate-400">Freelancer</p>
+            <p id="reviewFreelancer" class="text-white font-semibold">-</p>
+          </div>
+          <div>
+            <p class="text-slate-400">Servicio</p>
+            <p id="reviewService" class="text-white">-</p>
+          </div>
+          <div>
+            <p class="text-slate-400">Fecha</p>
+            <p id="reviewDate" class="text-white">-</p>
+          </div>
+          <div>
+            <p class="text-slate-400">Rating</p>
+            <p id="reviewRating" class="font-bold">-</p>
+          </div>
+        </div>
+      </article>
 
-<div class="space-y-4">
-
-<div>
-<p class="text-slate-400 text-sm">Usuario</p>
-<p class="text-white font-semibold">
-{review.usuario}
-</p>
-</div>
-
-<div>
-<p class="text-slate-400 text-sm">Freelancer</p>
-<p class="text-white font-semibold">
-{review.freelancer}
-</p>
-</div>
-
-<div>
-<p class="text-slate-400 text-sm">Servicio</p>
-<p class="text-white">
-{review.servicio}
-</p>
-</div>
-
-<div>
-<p class="text-slate-400 text-sm">Fecha</p>
-<p class="text-white">
-{review.fecha}
-</p>
-</div>
-
-<div>
-<p class="text-slate-400 text-sm">Rating</p>
-
-<span class={
-review.rating >= 4
-? "text-green-400 font-bold"
-: review.rating === 3
-? "text-yellow-400 font-bold"
-: "text-red-400 font-bold"
-}>
-
-{"⭐".repeat(review.rating)}
-
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-
-<!-- Comentario -->
-<div class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
-
-<h2 class="text-lg font-semibold text-slate-300 mb-6">
-Comentario
-</h2>
-
-<p class="text-slate-300 leading-relaxed">
-{review.comentario}
-</p>
-
-</div>
-
-</div>
-
-
-<!-- Acciones admin -->
-<div class="mt-10 flex gap-4">
-
-<button class="bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-lg">
-Marcar como revisada
-</button>
-
-<button class="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg">
-Eliminar review
-</button>
-
-<a
-href="/dashboard/admin/reviews"
-class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg"
->
-Volver
-</a>
-
-</div>
-
+      <article class="bg-slate-900 border border-slate-800 p-6 rounded-xl">
+        <h2 class="text-lg font-semibold text-slate-300 mb-6">Comentario</h2>
+        <p id="reviewComment" class="text-slate-300 leading-relaxed">Cargando comentario...</p>
+      </article>
+    </div>
+  </section>
 </DashboardLayout>
+
+<script type="module" src="/src/js/admin/admin-review-detail.js"></script>

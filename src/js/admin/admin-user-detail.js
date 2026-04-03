@@ -1,4 +1,4 @@
-﻿const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "http://127.0.0.1:8000";
 
 const params = new URLSearchParams(window.location.search);
 const userId = params.get("id");
@@ -10,6 +10,7 @@ const statusHelpEl = document.getElementById("statusHelp");
 const profileBlocksEl = document.getElementById("profileBlocks");
 const btnActivate = document.getElementById("btnActivate");
 const btnDeactivate = document.getElementById("btnDeactivate");
+const userPhotoEl = document.getElementById("userProfilePhoto");
 
 let currentUser = null;
 
@@ -21,6 +22,13 @@ function getAuthHeaders() {
   };
   if (token) headers.Authorization = `Bearer ${token}`;
   return headers;
+}
+
+function buildStorageUrl(path) {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/storage/")) return `${API_BASE}${path}`;
+  return `${API_BASE}/storage/${path}`;
 }
 
 function escapeHtml(value) {
@@ -82,6 +90,9 @@ function renderGeneralInfo(user) {
   const email = user?.email || "-";
   const role = roleLabel(user?.role);
   const active = isActive(user?.is_active);
+  const photo = buildStorageUrl(user?.photo) || "https://via.placeholder.com/120";
+
+  if (userPhotoEl) userPhotoEl.src = photo;
 
   userInfoEl.innerHTML = `
     <div><dt class="text-slate-400">Nombre</dt><dd class="font-medium">${escapeHtml(fullName)}</dd></div>

@@ -2,195 +2,60 @@
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
-<DashboardLayout  userRole="admin">
+<DashboardLayout userRole="admin">
+  <section class="max-w-4xl mx-auto space-y-6">
+    <header class="space-y-2">
+      <h1 class="text-2xl font-bold">Configuracion de la plataforma</h1>
+      <p class="text-slate-400 text-sm">
+        Aqui defines ajustes globales que afectan a todos los usuarios del marketplace.
+      </p>
+    </header>
 
-<div class="space-y-10">
+    <div class="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-amber-200 text-sm">
+      Esta vista ya esta organizada para admin. Falta conectar el guardado al endpoint de configuracion global.
+    </div>
 
-<!-- PERFIL ADMIN -->
+    <section class="bg-slate-900 border border-slate-800 p-8 rounded-xl">
+      <h2 class="text-lg font-semibold mb-6">Ajustes generales</h2>
 
-<section class="bg-slate-900 border border-slate-800 p-8 rounded-xl">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <label for="platformName" class="block text-slate-400 mb-2">Nombre de la plataforma</label>
+          <input
+            id="platformName"
+            type="text"
+            value="Helium"
+            class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3"
+          />
+        </div>
 
-<h2 class="text-xl font-bold mb-6">
-Perfil del administrador
-</h2>
+        <div>
+          <label for="supportEmail" class="block text-slate-400 mb-2">Email de soporte</label>
+          <input
+            id="supportEmail"
+            type="email"
+            value="soporte@helium.com"
+            class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3"
+          />
+        </div>
+      </div>
 
-<div class="grid md:grid-cols-2 gap-6">
+      <div class="mt-6 flex items-center justify-between gap-4 rounded-lg border border-slate-700 bg-slate-800/60 p-4">
+        <div>
+          <p class="font-medium">Modo mantenimiento</p>
+          <p class="text-slate-400 text-sm">Bloquea nuevas operaciones para usuarios no admin.</p>
+        </div>
+        <label class="inline-flex items-center gap-2 cursor-pointer">
+          <input id="maintenanceMode" type="checkbox" class="w-5 h-5" />
+          <span class="text-slate-300 text-sm">Activar</span>
+        </label>
+      </div>
 
-<div>
-<label class="block text-slate-400 mb-2">
-Nombre
-</label>
-
-<input
-type="text"
-value="Sara Lopez"
-class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3"
-/>
-</div>
-
-<div>
-<label class="block text-slate-400 mb-2">
-Correo
-</label>
-
-<input
-type="email"
-value="admin@helium.com"
-class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3"
-/>
-</div>
-
-</div>
-
-<button class="mt-6 bg-purple-700 hover:bg-purple-600 px-6 py-2 rounded-lg">
-Guardar cambios
-</button>
-
-</section>
-
-
-<!-- CONFIGURACIÓN PLATAFORMA -->
-
-<section class="bg-slate-900 border border-slate-800 p-8 rounded-xl">
-
-<h2 class="text-xl font-bold mb-6">
-Configuración de la plataforma
-</h2>
-
-<div class="grid md:grid-cols-2 gap-6">
-
-<div>
-<label class="block text-slate-400 mb-2">
-Nombre de la plataforma
-</label>
-
-<input
-type="text"
-value="Helium"
-class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3"
-/>
-</div>
-
-<div>
-<label class="block text-slate-400 mb-2">
-Email de soporte
-</label>
-
-<input
-type="email"
-value="soporte@helium.com"
-class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3"
-/>
-</div>
-
-</div>
-
-<div class="mt-6 flex items-center gap-4">
-
-<label class="text-slate-300">
-Modo mantenimiento
-</label>
-
-<input type="checkbox" class="w-5 h-5">
-
-</div>
-
-<button class="mt-6 bg-purple-700 hover:bg-purple-600 px-6 py-2 rounded-lg">
-Guardar configuración
-</button>
-
-</section>
-
-
-<!-- SEGURIDAD -->
-
-<section class="bg-slate-900 border border-slate-800 p-8 rounded-xl">
-
-<h2 class="text-xl font-bold mb-6">
-Seguridad
-</h2>
-
-<div class="space-y-4">
-
-<div>
-<label class="block text-slate-400 mb-2">
-Nueva contraseña
-</label>
-
-<input
-type="password"
-class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3"
-/>
-</div>
-
-<div>
-<label class="block text-slate-400 mb-2">
-Confirmar contraseña
-</label>
-
-<input
-type="password"
-class="w-full bg-slate-800 border border-slate-700 rounded-lg p-3"
-/>
-</div>
-
-</div>
-
-<button class="mt-6 bg-red-600 hover:bg-red-500 px-6 py-2 rounded-lg">
-Actualizar contraseña
-</button>
-
-</section>
-
-
-<!-- NOTIFICACIONES -->
-
-<section class="bg-slate-900 border border-slate-800 p-8 rounded-xl">
-
-<h2 class="text-xl font-bold mb-6">
-Notificaciones
-</h2>
-
-<div class="space-y-4">
-
-<label class="flex items-center gap-3">
-
-<input type="checkbox" checked class="w-5 h-5">
-
-<span>
-Alertar cuando un usuario sea reportado
-</span>
-
-</label>
-
-<label class="flex items-center gap-3">
-
-<input type="checkbox" checked class="w-5 h-5">
-
-<span>
-Notificar nuevos registros
-</span>
-
-</label>
-
-<label class="flex items-center gap-3">
-
-<input type="checkbox" class="w-5 h-5">
-
-<span>
-Alertar disputas entre cliente y freelancer
-</span>
-
-</label>
-
-</div>
-
-<button class="mt-6 bg-purple-700 hover:bg-purple-600 px-6 py-2 rounded-lg">
-Guardar preferencias
-</button>
-
-</section>
-
-</div>
-
+      <div class="mt-6 flex justify-end">
+        <button type="button" class="bg-purple-700 hover:bg-purple-600 px-6 py-2 rounded-lg transition">
+          Guardar configuracion
+        </button>
+      </div>
+    </section>
+  </section>
 </DashboardLayout>

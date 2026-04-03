@@ -1,4 +1,4 @@
-﻿const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "http://127.0.0.1:8000";
 
 const searchInput = document.getElementById("servicesSearch");
 const categorySelect = document.getElementById("servicesCategory");
@@ -30,6 +30,13 @@ function getAuthHeaders() {
   const headers = { Accept: "application/json" };
   if (token) headers.Authorization = `Bearer ${token}`;
   return headers;
+}
+
+function buildStorageUrl(path) {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/storage/")) return `${API_BASE}${path}`;
+  return `${API_BASE}/storage/${path}`;
 }
 
 function escapeHtml(value) {
@@ -125,8 +132,12 @@ function renderRows(services) {
     .map((service) => {
       const id = service?.id;
       const title = service?.title || "-";
+      const servicePhoto = buildStorageUrl(service?.photo) || "https://via.placeholder.com/80";
       const category = getCategory(service);
+
       const freelancer = getFreelancerName(service);
+      const freelancerPhoto = buildStorageUrl(service?.freelancer?.photo) || "https://via.placeholder.com/60";
+
       const price = formatCurrency(service?.price);
       const ratingRaw = Number(service?.avg_rating ?? service?.reviews_avg_rating ?? 0);
       const reviewsCount = Number(service?.reviews_count ?? 0);
@@ -135,13 +146,23 @@ function renderRows(services) {
       return `
         <tr class="border-t border-slate-800 hover:bg-slate-800/40 transition">
           <td class="p-4 font-semibold">#${escapeHtml(id)}</td>
-          <td class="p-4">${escapeHtml(title)}</td>
+          <td class="p-4">
+            <div class="flex items-center gap-3">
+              <img src="${escapeHtml(servicePhoto)}" alt="Foto servicio" class="w-12 h-12 rounded-lg object-cover border border-slate-700" />
+              <span>${escapeHtml(title)}</span>
+            </div>
+          </td>
           <td class="p-4">${escapeHtml(category)}</td>
-          <td class="p-4">${escapeHtml(freelancer)}</td>
+          <td class="p-4">
+            <div class="flex items-center gap-2">
+              <img src="${escapeHtml(freelancerPhoto)}" alt="Foto freelancer" class="w-8 h-8 rounded-full object-cover border border-slate-700" />
+              <span>${escapeHtml(freelancer)}</span>
+            </div>
+          </td>
           <td class="p-4">${escapeHtml(price)}</td>
-          <td class="p-4 text-amber-400">★ ${reviewsCount > 0 ? escapeHtml(ratingRaw.toFixed(1)) : "Sin calificacion"}</td>
+          <td class="p-4 text-amber-400">\u2605 ${reviewsCount > 0 ? escapeHtml(ratingRaw.toFixed(1)) : "Sin calificacion"}</td>
           <td class="p-4 ${active ? "text-emerald-400" : "text-rose-400"}">${active ? "Activo" : "Inactivo"}</td>
-          <td class="p-4"><a href="/dashboard/admin/servicios" class="text-indigo-400 hover:underline">Ver</a></td>
+          <td class="p-4"><a href="/dashboard/admin/servicioDetalle?id=${escapeHtml(id)}" class="text-indigo-400 hover:underline">Ver</a></td>
         </tr>
       `;
     })
@@ -192,7 +213,9 @@ function buildQuery() {
   if (maxPrice) params.set("max_price", maxPrice);
 
   const status = statusSelect?.value?.trim();
-  if (status !== "") params.set("is_active", status);
+  if (status === "1") params.set("status", "active");
+  else if (status === "0") params.set("status", "inactive");
+  else params.set("status", "all");
 
   return params.toString();
 }
@@ -204,7 +227,7 @@ async function fetchServices() {
     renderSkeleton();
 
     const query = buildQuery();
-    const res = await fetch(`${API_BASE}/api/services?${query}`, {
+    const res = await fetch(`${API_BASE}/api/admin/services?${query}`, {
       headers: getAuthHeaders()
     });
 
@@ -299,3 +322,9 @@ nextBtn?.addEventListener("click", () => {
 });
 
 fetchServices();
+
+
+
+
+
+

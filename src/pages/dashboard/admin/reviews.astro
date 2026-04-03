@@ -1,156 +1,70 @@
 ---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
-
-const url = new URL(Astro.request.url);
-const order = url.searchParams.get("order");
-
-let reviews = [
-  {
-    usuario: "Carlos Perez",
-    servicio: "Landing Page",
-    rating: 5,
-    comentario: "Excelente trabajo, muy profesional.",
-    fecha: "2024-05-12"
-  },
-  {
-    usuario: "Empresa X",
-    servicio: "SEO Web",
-    rating: 2,
-    comentario: "La comunicación fue lenta.",
-    fecha: "2024-05-10"
-  },
-  {
-    usuario: "Laura Gomez",
-    servicio: "Diseño Logo",
-    rating: 4,
-    comentario: "Buen diseño, recomendado.",
-    fecha: "2024-05-08"
-  },
-  {
-    usuario: "Miguel Torres",
-    servicio: "Tienda Shopify",
-    rating: 1,
-    comentario: "No entregó el proyecto.",
-    fecha: "2024-05-06"
-  }
-];
-
-if (order === "best") {
-  reviews.sort((a, b) => b.rating - a.rating);
-}
-
-if (order === "worst") {
-  reviews.sort((a, b) => a.rating - b.rating);
-}
 ---
 
 <DashboardLayout userRole="admin">
+  <section class="max-w-7xl mx-auto px-6 py-8 space-y-6">
+    <h1 class="text-2xl font-bold">Gestion de reviews</h1>
 
-<h1 class="text-2xl font-bold mb-6">
-Gestión de Reviews
-</h1>
+    <div class="flex flex-wrap gap-3">
+      <button id="reviewsModeAll" type="button" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition">
+        Todas
+      </button>
+      <button id="reviewsModeBest" type="button" class="bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg transition">
+        Mejores
+      </button>
+      <button id="reviewsModeWorst" type="button" class="bg-rose-600 hover:bg-rose-500 px-4 py-2 rounded-lg transition">
+        Peores
+      </button>
 
-<!-- FILTROS -->
-<div class="flex flex-wrap gap-4 mb-6">
+      <select id="reviewsMaxRating" class="bg-slate-800 border border-slate-700 rounded-lg px-4 py-2">
+        <option value="">Rating max (todos)</option>
+        <option value="1">1 estrella</option>
+        <option value="2">2 estrellas</option>
+        <option value="3">3 estrellas</option>
+        <option value="4">4 estrellas</option>
+        <option value="5">5 estrellas</option>
+      </select>
 
-<a
-href="/dashboard/admin/reviews?order=best"
-class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-white"
->
-Mejores reviews
-</a>
+      <button id="reviewsApply" type="button" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg transition">
+        Aplicar
+      </button>
+    </div>
 
-<a
-href="/dashboard/admin/reviews?order=worst"
-class="bg-purple-600 hover:bg-purple-700 px-4 py-2 rounded-lg text-white"
->
-Peores reviews
-</a>
+    <div id="reviewsAlert" class="hidden rounded-xl border px-4 py-3 text-sm"></div>
+    <div id="reviewsEmpty" class="hidden text-center text-slate-400 py-8 border border-slate-800 rounded-xl">
+      No hay reviews para mostrar.
+    </div>
 
-<a
-href="/dashboard/admin/reviews"
-class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded-lg"
->
-Todas
-</a>
+    <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-slate-800 text-slate-400">
+          <tr>
+            <th class="p-4">Usuario</th>
+            <th class="p-4">Servicio</th>
+            <th class="p-4">Freelancer</th>
+            <th class="p-4">Rating</th>
+            <th class="p-4">Comentario</th>
+            <th class="p-4">Fecha</th>
+            <th class="p-4">Accion</th>
+          </tr>
+        </thead>
+        <tbody id="reviewsTableBody"></tbody>
+      </table>
+    </div>
 
-</div>
-
-<!-- TABLA -->
-<div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden">
-
-<table class="w-full text-left">
-
-<thead class="bg-slate-800 text-slate-400">
-
-<tr>
-<th class="p-4">Usuario</th>
-<th class="p-4">Servicio</th>
-<th class="p-4">Rating</th>
-<th class="p-4">Comentario</th>
-<th class="p-4">Fecha</th>
-<th class="p-4">Acción</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-{reviews.map(r => (
-
-<tr class="border-t border-slate-800">
-
-<td class="p-4 font-semibold">
-{r.usuario}
-</td>
-
-<td class="p-4">
-{r.servicio}
-</td>
-
-<td class="p-4">
-
-<span class={
-r.rating >= 4
-? "text-green-400"
-: r.rating === 3
-? "text-yellow-400"
-: "text-red-400"
-}>
-
-{"⭐".repeat(r.rating)}
-
-</span>
-
-</td>
-
-<td class="p-4 text-slate-300">
-{r.comentario}
-</td>
-
-<td class="p-4 text-slate-400">
-{r.fecha}
-</td>
-
-<td class="p-4">
-
-<a
-href="/dashboard/admin/reviewDetalle"
-class="text-purple-400 hover:underline"
->
-Ver
-</a>
-
-</td>
-
-</tr>
-
-))}
-
-</tbody>
-
-</table>
-
-</div>
-
+    <div class="flex items-center justify-between">
+      <p id="reviewsInfo" class="text-sm text-slate-400"></p>
+      <div class="flex gap-2">
+        <button id="reviewsPrev" type="button" class="bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+          Anterior
+        </button>
+        <button id="reviewsNext" type="button" class="bg-slate-700 hover:bg-slate-600 px-3 py-2 rounded-lg text-sm disabled:opacity-50 disabled:cursor-not-allowed">
+          Siguiente
+        </button>
+      </div>
+    </div>
+  </section>
 </DashboardLayout>
+
+<script type="module" src="/src/js/admin/admin-reviews.js"></script>

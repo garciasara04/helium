@@ -1,4 +1,4 @@
-﻿const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "http://127.0.0.1:8000";
 
 const HEALTH_STATUS_META = {
   pending: { label: "Pendiente", color: "bg-yellow-500" },
@@ -433,6 +433,8 @@ function buildWorstServiceCard(service) {
   const rating = resolveServiceRating(service);
   const reviewsCount = resolveServiceReviewsCount(service);
   const image = buildStorageUrl(service?.photo || service?.image || service?.image_url) || "/image.png";
+  const serviceId = Number(service?.id ?? service?.service_id ?? 0);
+  const serviceDetailHref = serviceId > 0 ? `/dashboard/admin/servicioDetalle?id=${serviceId}` : "/dashboard/admin/servicios";
 
   return `
     <div class="bg-slate-900 rounded-xl overflow-hidden border border-red-500/30 hover:border-red-500 transition reveal-item dyn-worst-card">
@@ -441,10 +443,10 @@ function buildWorstServiceCard(service) {
         <h3 class="text-white font-bold text-sm mb-1">${escapeHtml(title)}</h3>
         <p class="text-slate-400 text-sm">${escapeHtml(freelancer)}</p>
         <div class="flex justify-between items-center mt-3">
-          <span class="text-red-400 font-bold">★ ${rating.toFixed(1)}</span>
+          <span class="text-red-400 font-bold">\u2605 ${rating.toFixed(1)}</span>
           <span class="text-slate-500 text-xs">${reviewsCount} reviews</span>
         </div>
-        <a href="/dashboard/admin/servicios" class="block text-center mt-4 text-purple-400 hover:underline text-sm">Revisar servicio</a>
+        <a href="${serviceDetailHref}" class="block text-center mt-4 text-purple-400 hover:underline text-sm">Revisar servicio</a>
       </div>
     </div>
   `;
@@ -544,13 +546,15 @@ function buildNegativeReviewCard(review) {
   const comment = review?.comment || review?.text || "Sin comentario.";
   const service = review?.order?.service?.title || review?.service?.title || "Servicio";
   const date = formatShortDate(resolveReviewDate(review));
+  const reviewId = Number(review?.id ?? 0);
+  const reviewDetailHref = reviewId > 0 ? `/dashboard/admin/reviewDetalle?id=${reviewId}` : "/dashboard/admin/reviews";
 
   return `
     <div class="bg-slate-900 border border-red-500/30 p-6 rounded-xl reveal-item dyn-negative-card">
-      <p class="text-red-400 font-bold mb-2">★ ${Number.isFinite(rating) ? rating.toFixed(1) : "-"}</p>
+      <p class="text-red-400 font-bold mb-2">\u2605 ${Number.isFinite(rating) ? rating.toFixed(1) : "-"}</p>
       <p class="text-slate-300 text-sm mb-3">"${escapeHtml(comment)}"</p>
-      <p class="text-slate-400 text-xs">Servicio: ${escapeHtml(service)} · ${date}</p>
-      <a href="/dashboard/admin/reviews" class="text-purple-400 hover:underline text-sm mt-3 inline-block">Revisar review</a>
+      <p class="text-slate-400 text-xs">Servicio: ${escapeHtml(service)} - ${date}</p>
+      <a href="${reviewDetailHref}" class="text-purple-400 hover:underline text-sm mt-3 inline-block">Revisar review</a>
     </div>
   `;
 }
@@ -659,6 +663,10 @@ async function initAdminDashboard() {
 }
 
 initAdminDashboard();
+
+
+
+
 
 
 

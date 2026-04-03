@@ -1,4 +1,4 @@
-﻿---
+---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
@@ -15,7 +15,15 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
     <div class="grid lg:grid-cols-3 gap-6">
       <article class="lg:col-span-2 bg-slate-900 border border-slate-800 p-6 rounded-xl">
-        <h2 class="text-lg font-semibold mb-4">Informacion general</h2>
+        <div class="flex items-center gap-4 mb-4">
+          <img
+            id="userProfilePhoto"
+            src="https://via.placeholder.com/120"
+            alt="Foto usuario"
+            class="w-16 h-16 rounded-full object-cover border border-slate-700"
+          />
+          <h2 class="text-lg font-semibold">Informacion general</h2>
+        </div>
 
         <div id="userInfoSkeleton" class="grid sm:grid-cols-2 gap-4">
           <div class="h-5 bg-slate-700/70 rounded animate-pulse"></div>

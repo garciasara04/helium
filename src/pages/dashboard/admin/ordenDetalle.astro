@@ -1,4 +1,4 @@
-﻿---
+---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
@@ -38,6 +38,18 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
           <p><span class="text-slate-400">Completada:</span> <span id="orderCompletedAt" class="ml-2 text-white">-</span></p>
           <p><span class="text-slate-400">Cancelada:</span> <span id="orderCancelledAt" class="ml-2 text-white">-</span></p>
         </div>
+
+        <div class="mt-6 border-t border-slate-800 pt-4">
+          <p id="orderActionHelp" class="text-slate-400 text-sm mb-3">Acciones de estado</p>
+          <div class="space-y-2">
+            <button id="orderBtnActivate" type="button" class="w-full bg-emerald-600 hover:bg-emerald-500 px-4 py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed">
+              Activar orden
+            </button>
+            <button id="orderBtnDeactivate" type="button" class="w-full bg-rose-600 hover:bg-rose-500 px-4 py-2 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed">
+              Desactivar orden
+            </button>
+          </div>
+        </div>
       </aside>
     </div>
 
@@ -65,3 +77,4 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 </DashboardLayout>
 
 <script type="module" src="/src/js/admin/admin-order-detail.js"></script>
+

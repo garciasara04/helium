@@ -1,4 +1,4 @@
-﻿---
+---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 const stats = [
@@ -27,6 +27,9 @@ const stats = [
 </div>
 
 <div id="adminDashContent" class="opacity-0 pointer-events-none transition-opacity duration-500">
+<div class="mb-6 flex justify-end">
+  <a href="/dashboard/admin/reviews" class="inline-flex items-center bg-purple-700 hover:bg-purple-600 px-4 py-2 rounded-lg text-sm font-medium transition">Gestion de reviews</a>
+</div>
 <section class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-12" data-reveal-stagger>
 {stats.map((stat) => (
 <a
@@ -111,9 +114,10 @@ Servicios con peor puntuacion
 </section>
 
 <section class="mt-16 reveal-item" data-reveal>
-<h2 class="text-2xl font-bold text-white mb-6">
-Reviews negativas recientes
-</h2>
+<div class="flex items-center justify-between mb-6">
+  <h2 class="text-2xl font-bold text-white">Reviews negativas recientes</h2>
+  <a href="/dashboard/admin/reviews" class="text-purple-400 hover:underline text-sm">Ver todas</a>
+</div>
 
 <div id="negativeRecentReviews" class="grid md:grid-cols-3 gap-6">
   <div class="text-slate-400">Cargando reviews...</div>
@@ -156,3 +160,5 @@ Reviews negativas recientes
 <script type="module" src="/src/js/admin/admin-dashboard.js"></script>
 
 </DashboardLayout>
+
+

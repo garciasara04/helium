@@ -1,4 +1,4 @@
-﻿const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "http://127.0.0.1:8000";
 
 const params = new URLSearchParams(window.location.search);
 const orderId = params.get("id");
@@ -24,11 +24,24 @@ const freelancerLinkEl = document.getElementById("orderFreelancerLink");
 
 const requirementsEl = document.getElementById("orderRequirements");
 
+const orderActionHelpEl = document.getElementById("orderActionHelp");
+const orderBtnActivate = document.getElementById("orderBtnActivate");
+const orderBtnDeactivate = document.getElementById("orderBtnDeactivate");
+
+let currentOrder = null;
+
 function getAuthHeaders() {
   const token = localStorage.getItem("token");
   const headers = { Accept: "application/json" };
   if (token) headers.Authorization = `Bearer ${token}`;
   return headers;
+}
+
+function getJsonHeaders() {
+  return {
+    ...getAuthHeaders(),
+    "Content-Type": "application/json"
+  };
 }
 
 function escapeHtml(value) {
@@ -40,10 +53,16 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
-function showAlert(message) {
+function showAlert(message, type = "error") {
   if (!alertEl) return;
-  alertEl.classList.remove("hidden");
-  alertEl.classList.add("border-red-500/30", "bg-red-500/10", "text-red-300");
+  alertEl.classList.remove("hidden", "border-red-500/30", "bg-red-500/10", "text-red-300", "border-emerald-500/30", "bg-emerald-500/10", "text-emerald-300");
+
+  if (type === "success") {
+    alertEl.classList.add("border-emerald-500/30", "bg-emerald-500/10", "text-emerald-300");
+  } else {
+    alertEl.classList.add("border-red-500/30", "bg-red-500/10", "text-red-300");
+  }
+
   alertEl.textContent = message;
 }
 
@@ -96,6 +115,19 @@ function userName(user) {
   return name || user?.email || "-";
 }
 
+function refreshOrderActionButtons(order) {
+  const isCancelled = String(order?.status || "").toLowerCase() === "cancelled";
+
+  if (orderBtnActivate) orderBtnActivate.disabled = !isCancelled;
+  if (orderBtnDeactivate) orderBtnDeactivate.disabled = isCancelled;
+
+  if (orderActionHelpEl) {
+    orderActionHelpEl.textContent = isCancelled
+      ? "La orden esta cancelada. Puedes activarla (pasara a pending)."
+      : "La orden esta activa. Puedes desactivarla (pasara a cancelled).";
+  }
+}
+
 function renderInfo(order) {
   const status = statusLabel(order?.status);
 
@@ -134,6 +166,8 @@ function renderInfo(order) {
 
   if (requirementsEl) requirementsEl.textContent = order?.requirements || "Sin requerimientos registrados.";
 
+  refreshOrderActionButtons(order);
+
   skeletonEl?.classList.add("hidden");
   infoEl?.classList.remove("hidden");
 }
@@ -167,11 +201,54 @@ async function fetchOrder() {
     const order = payload?.data || payload?.order || payload;
     if (!order || typeof order !== "object") throw new Error("Respuesta invalida");
 
+    currentOrder = order;
     renderInfo(order);
   } catch (err) {
     console.error("Error cargando detalle de orden:", err);
     showAlert("No se pudo cargar el detalle de la orden.");
   }
 }
+
+function setOrderActionLoading(loading, activeText) {
+  if (orderBtnActivate) {
+    orderBtnActivate.textContent = loading && activeText === "activate" ? "Actualizando..." : "Activar orden";
+    if (loading) orderBtnActivate.disabled = true;
+  }
+  if (orderBtnDeactivate) {
+    orderBtnDeactivate.textContent = loading && activeText === "deactivate" ? "Actualizando..." : "Desactivar orden";
+    if (loading) orderBtnDeactivate.disabled = true;
+  }
+}
+
+async function patchOrderStatus(nextStatus) {
+  if (!orderId) return;
+
+  const action = nextStatus === "cancelled" ? "deactivate" : "activate";
+
+  try {
+    hideAlert();
+    setOrderActionLoading(true, action);
+
+    const res = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
+      method: "PATCH",
+      headers: getJsonHeaders(),
+      body: JSON.stringify({ status: nextStatus })
+    });
+
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    await fetchOrder();
+    showAlert(nextStatus === "cancelled" ? "Orden desactivada correctamente." : "Orden activada correctamente.", "success");
+  } catch (err) {
+    console.error("Error actualizando estado de orden:", err);
+    showAlert("No se pudo actualizar el estado de la orden.");
+    refreshOrderActionButtons(currentOrder);
+  } finally {
+    setOrderActionLoading(false, "");
+  }
+}
+
+orderBtnActivate?.addEventListener("click", () => patchOrderStatus("pending"));
+orderBtnDeactivate?.addEventListener("click", () => patchOrderStatus("cancelled"));
 
 fetchOrder();
