@@ -66,7 +66,9 @@ function buildCard(order) {
   const status = formatStatus(order?.status);
   const statusClassName = statusClass(order?.status);
   const image = buildStorageUrl(freelancerUser?.photo) || "/logo.jpeg";
-  const isDelivered = String(order?.status || "").toLowerCase() === "delivered";
+  const currentStatus = String(order?.status || "").toLowerCase();
+  const isDelivered = currentStatus === "delivered";
+  const canCancel = currentStatus === "pending" || currentStatus === "in_progress";
 
   return `
     <div class="bg-slate-900 border border-slate-800 rounded-xl p-6 hover:border-indigo-500 transition flex flex-col justify-between">
@@ -102,19 +104,20 @@ function buildCard(order) {
           Ver detalles
         </a>
         ${isDelivered ? `<button data-complete-order="${escapeHtml(order?.id)}" class="w-full bg-green-600 hover:bg-green-500 transition py-2 rounded-lg text-sm font-semibold cursor-pointer">Confirmar recepcion</button>` : ""}
+        ${canCancel ? `<button data-cancel-order="${escapeHtml(order?.id)}" class="w-full bg-red-600/20 text-red-400 border border-red-500/50 hover:bg-red-600 hover:text-white transition py-2 rounded-lg text-sm font-semibold cursor-pointer">Cancelar orden</button>` : ""}
       </div>
     </div>
   `;
 }
 
-async function patchOrderCompleted(orderId, buttonEl) {
+async function patchOrderStatus(orderId, status, buttonEl, loadingLabel) {
   const token = localStorage.getItem("token");
   if (!token) return;
 
   try {
     if (buttonEl) {
       buttonEl.disabled = true;
-      buttonEl.textContent = "Confirmando...";
+      buttonEl.textContent = loadingLabel;
     }
 
     const res = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
@@ -124,28 +127,45 @@ async function patchOrderCompleted(orderId, buttonEl) {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
-      body: JSON.stringify({ status: "completed" })
+      body: JSON.stringify({ status })
     });
 
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      throw new Error(payload?.message || payload?.error || `HTTP ${res.status}`);
+    }
 
     await fetchOrders();
   } catch (err) {
-    console.error("Error confirmando orden:", err);
+    console.error("Error actualizando orden:", err);
+    alert(String(err?.message || "No se pudo actualizar la orden."));
     if (buttonEl) {
       buttonEl.disabled = false;
-      buttonEl.textContent = "Confirmar recepcion";
+      buttonEl.textContent = status === "completed" ? "Confirmar recepcion" : "Cancelar orden";
     }
   }
 }
 
-function bindCompleteButtons() {
-  const buttons = document.querySelectorAll("[data-complete-order]");
-  buttons.forEach((btn) => {
+function bindActionButtons() {
+  const completeButtons = document.querySelectorAll("[data-complete-order]");
+  completeButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const orderId = btn.getAttribute("data-complete-order");
       if (!orderId) return;
-      patchOrderCompleted(orderId, btn);
+      patchOrderStatus(orderId, "completed", btn, "Confirmando...");
+    });
+  });
+
+  const cancelButtons = document.querySelectorAll("[data-cancel-order]");
+  cancelButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const orderId = btn.getAttribute("data-cancel-order");
+      if (!orderId) return;
+
+      const ok = confirm("Esta orden se cancelara. Deseas continuar?");
+      if (!ok) return;
+
+      patchOrderStatus(orderId, "cancelled", btn, "Cancelando...");
     });
   });
 }
@@ -183,7 +203,7 @@ async function fetchOrders() {
 
     emptyEl?.classList.add("hidden");
     gridEl.innerHTML = orders.map(buildCard).join("");
-    bindCompleteButtons();
+    bindActionButtons();
   } catch (err) {
     loadingEl?.classList.add("hidden");
     emptyEl?.classList.remove("hidden");
