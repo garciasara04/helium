@@ -1,4 +1,4 @@
----
+﻿---
 // src/components/layout/Navbar.astro
 const { userName = "", userRole } = Astro.props;
 const avatarLetter = userName.charAt(0).toUpperCase();
@@ -15,7 +15,7 @@ const dashboardBase = `/dashboard/${userRole}`;
       />
     </a>
 
-    <!-- Botones horizontales + Búsqueda (solo para cliente y company) -->
+    <!-- Botones horizontales + BÃºsqueda (solo para cliente y company) -->
     <div class="hidden md:flex items-center gap-6 lg:gap-10 flex-1 justify-center">
       <div class="flex gap-3 lg:gap-5">
         {userRole === 'cliente' && (
@@ -30,7 +30,7 @@ const dashboardBase = `/dashboard/${userRole}`;
               href="/dashboard/cliente/catalogo"
               class="px-5 py-2.5 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition shadow-sm shadow-purple-900/30"
             >
-              Catálogo
+              CatÃ¡logo
             </a>
             <a
               href="/dashboard/cliente/red"
@@ -107,30 +107,29 @@ const dashboardBase = `/dashboard/${userRole}`;
 
       </div>
 
-      <!-- Búsqueda - SOLO para cliente y company -->
-      {(userRole === 'cliente' || userRole === 'company') && (
-        <form action="/catalogo" method="get" class="relative max-w-md w-full">
-          <input
-            type="search"
-            name="search"
-            placeholder="Buscar servicios, freelanc..."
-            class="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+      <!-- Búsqueda global -->
+      <form id="global-search-form" class="relative max-w-md w-full" role="search">
+        <input
+          id="global-search-input"
+          type="search"
+          name="search"
+          placeholder="Buscar..."
+          class="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-lg text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition"
+        />
+        <svg
+          class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
-          <svg
-            class="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </form>
-      )}
+        </svg>
+      </form>
     </div>
 
     <!-- Avatar + Dropdown -->
@@ -183,13 +182,13 @@ const dashboardBase = `/dashboard/${userRole}`;
           id="btn-logout"
           class="block w-full text-left px-5 py-2.5 text-red-400 hover:bg-red-900/30 hover:text-red-300 transition"
           >     
-          Cerrar sesión
+          Cerrar sesiÃ³n
 </button>
-        <a href="/cambiarContraseña"
+        <a href="/cambiarContraseÃ±a"
           id="ChangePassword"
           class="block w-full text-left px-5 py-2.5 text-red-400 hover:bg-red-900/30 hover:text-red-300 transition"
                >
-          Cambiar contraseña
+          Cambiar contraseÃ±a
           </a>
       </div>
     </div>
@@ -210,7 +209,7 @@ const dashboardBase = `/dashboard/${userRole}`;
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
-        Todas leídas
+        Todas leÃ­das
       </button>
     </div>
 
@@ -219,10 +218,10 @@ const dashboardBase = `/dashboard/${userRole}`;
       <div class="flex justify-between items-start gap-3 p-4 border-b border-slate-800 hover:bg-slate-800/50 transition">
         
         <div class="text-sm text-slate-200">
-          Tienes un nuevo pedido de diseño.
+          Tienes un nuevo pedido de diseÃ±o.
         </div>
         
-        <button class="text-slate-500 hover:text-green-400 transition shrink-0 focus:outline-none" title="Marcar como leída">
+        <button class="text-slate-500 hover:text-green-400 transition shrink-0 focus:outline-none" title="Marcar como leÃ­da">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -238,6 +237,46 @@ const dashboardBase = `/dashboard/${userRole}`;
 
   const nameEl = document.getElementById("navbarUserName");
   const avatarEl = document.getElementById("navbarAvatar");
+  const currentRole = {JSON.stringify(userRole)};
+  const globalSearchForm = document.getElementById("global-search-form");
+  const globalSearchInput = document.getElementById("global-search-input");
+
+  function getGlobalSearchRouteByRole(role) {
+    if (role === "cliente") return "/dashboard/cliente/catalogo";
+    if (role === "company") return "/dashboard/company/servicios";
+    if (role === "freelance") return "/dashboard/freelance/misServicios";
+    if (role === "admin") return "/dashboard/admin/servicios";
+    return "/dashboard";
+  }
+
+  function hydrateGlobalSearchFromUrl() {
+    if (!globalSearchInput) return;
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get("search") || "";
+    if (q) globalSearchInput.value = q;
+  }
+
+  globalSearchForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const q = String(globalSearchInput?.value || "").trim();
+
+    if (!q) {
+      window.appToast?.("Escribe algo para buscar.", { tone: "warning" });
+      return;
+    }
+
+    if (q.length < 2) {
+      window.appToast?.("Escribe al menos 2 caracteres.", { tone: "warning" });
+      return;
+    }
+
+    const targetBase = getGlobalSearchRouteByRole(currentRole);
+    const next = new URL(targetBase, window.location.origin);
+    next.searchParams.set("search", q);
+    window.location.href = `${next.pathname}${next.search}`;
+  });
+
+  hydrateGlobalSearchFromUrl();
 
   function setUserName(name) {
     if (!name) return;
@@ -337,10 +376,10 @@ const dashboardBase = `/dashboard/${userRole}`;
         } else {
 
       notifs.forEach(n => {
-       const mensaje = n.data.message || 'Notificación';
+       const mensaje = n.data.message || 'NotificaciÃ³n';
         list.innerHTML += `<div class="flex justify-between items-center p-3 border-b border-slate-800 text-sm text-white">
             <span>${mensaje}</span>
-            <button onclick="selectOne('${n.id}')" class="text-slate-500 hover:text-green-400 transition focus:outline-none" title="Marcar leída">
+            <button onclick="selectOne('${n.id}')" class="text-slate-500 hover:text-green-400 transition focus:outline-none" title="Marcar leÃ­da">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
               </svg>
@@ -401,3 +440,9 @@ const dashboardBase = `/dashboard/${userRole}`;
 
   
 </header>
+
+
+
+
+
+

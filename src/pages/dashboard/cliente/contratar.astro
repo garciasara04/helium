@@ -85,6 +85,7 @@ const serviceName = "Desarrollo de Landing Page";
 
       <div class="flex items-start gap-3">
         <input
+          id="confirm-order"
           type="checkbox"
           required
           class="mt-1 accent-purple-500"
@@ -98,6 +99,7 @@ const serviceName = "Desarrollo de Landing Page";
       <div class="flex gap-4 pt-4">
 
         <button
+          id="submit-order-btn"
           type="submit"
           class="flex-1 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 rounded-xl transition"
         >
@@ -124,9 +126,77 @@ const serviceName = "Desarrollo de Landing Page";
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('contract-form');
     const requirementsInput = document.getElementById('requirements-input');
+    const confirmOrderInput = document.getElementById('confirm-order');
+    const submitBtn = document.getElementById('submit-order-btn');
+
+    if (!form || !requirementsInput || !confirmOrderInput) return;
+
+    function ensureErrorEl(input, key) {
+      const id = `error-${key}`;
+      let errorEl = document.getElementById(id);
+      if (errorEl) return errorEl;
+
+      errorEl = document.createElement('p');
+      errorEl.id = id;
+      errorEl.className = 'hidden mt-2 text-xs text-red-300';
+
+      const target = input.closest('div') || input.parentElement;
+      target?.appendChild(errorEl);
+      return errorEl;
+    }
+
+    function setFieldError(input, key, message) {
+      const errorEl = ensureErrorEl(input, key);
+      input.classList.add('border-red-500');
+      input.classList.remove('border-purple-500', 'border-cyan-500');
+      if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.classList.remove('hidden');
+      }
+    }
+
+    function clearFieldError(input, key) {
+      const errorEl = ensureErrorEl(input, key);
+      input.classList.remove('border-red-500');
+      if (errorEl) {
+        errorEl.textContent = '';
+        errorEl.classList.add('hidden');
+      }
+    }
+
+    function validateForm(serviceId) {
+      let isValid = true;
+
+      clearFieldError(requirementsInput, 'requirements');
+      clearFieldError(confirmOrderInput, 'confirm-order');
+
+      const requirements = String(requirementsInput.value || '').trim();
+      if (!requirements) {
+        setFieldError(requirementsInput, 'requirements', 'Debes describir lo que necesitas.');
+        isValid = false;
+      } else if (requirements.length < 15) {
+        setFieldError(requirementsInput, 'requirements', 'Agrega más detalle (mínimo 15 caracteres).');
+        isValid = false;
+      }
+
+      if (!confirmOrderInput.checked) {
+        setFieldError(confirmOrderInput, 'confirm-order', 'Debes confirmar antes de contratar.');
+        isValid = false;
+      }
+
+      if (!serviceId) {
+        window.appToast('No se encontró el ID del servicio. Regresa al catálogo.', { tone: 'warning' });
+        isValid = false;
+      }
+
+      return isValid;
+    }
+
+    requirementsInput.addEventListener('input', () => clearFieldError(requirementsInput, 'requirements'));
+    confirmOrderInput.addEventListener('change', () => clearFieldError(confirmOrderInput, 'confirm-order'));
 
     form.addEventListener('submit', async (e) => {
-      e.preventDefault(); // Evita que la página se recargue
+      e.preventDefault();
 
       const token = localStorage.getItem('token');
       if (!token) {
@@ -134,16 +204,21 @@ const serviceName = "Desarrollo de Landing Page";
         return;
       }
 
-      // Asumimos que la URL tiene el ID del servicio, ej: /contratar?id=5
       const params = new URLSearchParams(window.location.search);
       const serviceId = params.get('id');
 
-      if (!serviceId) {
-        window.appToast("No se encontro el ID del servicio. Regresa al catalogo.", { tone: "warning" });
+      if (!validateForm(serviceId)) {
+        window.appToast('Revisa los campos resaltados.', { tone: 'warning' });
         return;
       }
 
       try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Procesando...';
+          submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+        }
+
         const response = await fetch('http://127.0.0.1:8000/api/orders', {
           method: 'POST',
           headers: {
@@ -153,27 +228,34 @@ const serviceName = "Desarrollo de Landing Page";
           },
           body: JSON.stringify({
             service_id: serviceId,
-            requirements: requirementsInput.value
+            requirements: requirementsInput.value.trim()
           })
         });
 
-        const data = await response.json();
+        const data = await response.json().catch(() => ({}));
 
         if (response.ok) {
-          window.appToast("Servicio contratado con exito.", { tone: "success" });
-          window.location.href = '/dashboard/cliente/red'; // <-- Cámbialo si tu ruta es diferente
+          window.appToast('Servicio contratado con éxito.', { tone: 'success' });
+          window.location.href = '/dashboard/cliente/red';
         } else {
-          console.error("Error del servidor:", data);
-          window.appToast(data.error || "Hubo un problema al procesar tu solicitud.", { tone: "error" });
+          window.appToast(data.error || data.message || 'Hubo un problema al procesar tu solicitud.', { tone: 'error' });
         }
-
       } catch (error) {
-        console.error("Error de fetch:", error);
-        window.appToast("Hubo un error de conexion con el servidor.", { tone: "error" });
+        console.error('Error de fetch:', error);
+        window.appToast('Hubo un error de conexión con el servidor.', { tone: 'error' });
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Contratar servicio';
+          submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+        }
       }
     });
   });
 </script>
 
 </DashboardLayout>
+
+
+
 

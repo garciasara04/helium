@@ -92,17 +92,42 @@ import DashboardLayout from "../layouts/DashboardLayout.astro";
 </div>
 
 <script>
-   const login = document.getElementById('loginForm')
-   login?.addEventListener('submit', async (e) =>{
-    e.preventDefault()
+   const login = document.getElementById('loginForm');
+   const token = localStorage.getItem('token');
 
-    const token = localStorage.getItem('token')
+   function validatePasswordForm(formEl) {
+    const current = String(formEl.current_password?.value || '').trim();
+    const next = String(formEl.new_password?.value || '').trim();
+    const confirm = String(formEl.new_password_confirmation?.value || '').trim();
+
+    if (!current || !next || !confirm) {
+      window.appToast('Completa todos los campos de contraseña.', { tone: 'warning' });
+      return false;
+    }
+    if (next.length < 8) {
+      window.appToast('La nueva contraseña debe tener al menos 8 caracteres.', { tone: 'warning' });
+      return false;
+    }
+    if (next !== confirm) {
+      window.appToast('La confirmación no coincide con la nueva contraseña.', { tone: 'warning' });
+      return false;
+    }
+    return true;
+   }
+
+   login?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!token) {
+      window.appToast('Sesión expirada.', { tone: 'warning' });
+      window.location.href = '/Login';
+      return;
+    }
+
+    if (!validatePasswordForm(login)) return;
+
     try {
       const formdata = new FormData(login);
-      if(!token){
-        window.appToast("Sesion expirada.", { tone: "warning" })
-        window.location.href = '/Login'
-      }
       const response = await fetch('http://127.0.0.1:8000/api/password/change', {
         method: 'PATCH',
         headers:{
@@ -112,21 +137,21 @@ import DashboardLayout from "../layouts/DashboardLayout.astro";
         body: formdata
       });
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
-        window.appToast(data.message || "Contrasena actualizada.", { tone: "success" });
-        window.location.href = '/Login'
-      } 
-      else{
-        window.appToast(data.message || "No se pudo actualizar la contrasena.", { tone: "error" })
+        window.appToast(data.message || 'Contrasena actualizada.', { tone: 'success' });
+        window.location.href = '/Login';
+      } else {
+        window.appToast(data.message || 'No se pudo actualizar la contrasena.', { tone: 'error' });
         login.reset();
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      window.appToast('Error de conexión con el servidor.', { tone: 'error' });
     }
-   })
+   });
 </script>
 
 
 </DashboardLayout>
+
 

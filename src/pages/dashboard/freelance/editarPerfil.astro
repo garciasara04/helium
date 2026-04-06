@@ -1,22 +1,17 @@
 ﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
-//en la linea 29 se debe hacer un script para la modificacion de la foto 
-
-  const response = await fetch('http://127.0.0.1:8000/api/skills',{
-    method: 'get',
-    headers:{
-    }
-  }
-  );
-  const skills = await response.json();
-  console.log(skills);
+const response = await fetch("http://127.0.0.1:8000/api/skills", {
+  method: "get",
+  headers: {}
+});
+const skills = await response.json();
 ---
-<DashboardLayout  userRole="freelance">
-  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.default.min.css" rel="stylesheet">
-    
-      <div class="relative max-w-4xl mx-auto px-5 py-12 md:py-16">
 
+<DashboardLayout userRole="freelance">
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.default.min.css" rel="stylesheet">
+
+  <div class="relative max-w-4xl mx-auto px-5 py-12 md:py-16">
     <div class="text-center mb-8">
       <h1 class="text-4xl md:text-5xl font-bold tracking-tight">Editar Mi Perfil</h1>
       <p class="mt-3 text-indigo-300 text-lg">
@@ -24,8 +19,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       </p>
     </div>
 
-    <form id="form" class="bg-gray-900/50 backdrop-blur-sm border border-indigo-800/30 rounded-2xl p-8 md:p-10 shadow-2xl space-y-7">
-
+    <form id="form" class="bg-gray-900/50 backdrop-blur-sm border border-indigo-800/30 rounded-2xl p-8 md:p-10 shadow-2xl space-y-7" novalidate>
       <div class="text-center mb-12">
         <div class="relative inline-block mx-auto">
           <div id="preview-container" class="w-28 h-28 md:w-36 md:h-36 bg-purple-900/40 rounded-full flex items-center justify-center mx-auto mb-6 overflow-hidden">
@@ -35,66 +29,68 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
             </svg>
             <img id="profile-image-preview" src="" class="hidden w-full h-full object-cover" alt="Foto de perfil">
           </div>
-          
+
           <label for="photo-input" class="absolute -bottom-1 right-0 bg-purple-700 hover:bg-purple-600 text-white text-xs px-4 py-1.5 rounded-full shadow-md cursor-pointer">
             Cambiar foto
             <input type="file" id="photo-input" name="photo" accept="image/png, image/jpeg, image/webp" class="hidden">
           </label>
+          <p id="photoError" class="hidden mt-2 text-xs text-red-300"></p>
         </div>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
         <div>
           <label class="block text-sm font-medium text-indigo-200 mb-2">Nombres</label>
           <input type="text" id="names" value="" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
+          <p id="namesError" class="hidden mt-2 text-xs text-red-300"></p>
         </div>
 
         <div>
           <label class="block text-sm font-medium text-indigo-200 mb-2">Apellidos</label>
           <input type="text" id="last_names" value="" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
+          <p id="last_namesError" class="hidden mt-2 text-xs text-red-300"></p>
         </div>
-
       </div>
 
       <div>
         <label class="block text-sm font-medium text-indigo-200 mb-2">Descripción / Sobre mí</label>
         <textarea name="description" id="description" rows="5" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500 resize-y"></textarea>
+        <p id="descriptionError" class="hidden mt-2 text-xs text-red-300"></p>
       </div>
 
       <div>
         <label class="block text-sm font-medium text-indigo-200 mb-2">Experiencia laboral (resumen)</label>
         <textarea name="experience" id="experience" rows="4" class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500"></textarea>
+        <p id="experienceError" class="hidden mt-2 text-xs text-red-300"></p>
       </div>
- 
+
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-
         <div>
-          <label class="block text-sm font-medium text-indigo-200 mb-2">Profesion</label>
+          <label class="block text-sm font-medium text-indigo-200 mb-2">Profesión</label>
           <input type="text" name="profession" id="profession" value="" placeholder="Desarrollador de software..." class="w-full px-5 py-3 bg-gray-800/70 border border-indigo-700/50 rounded-xl text-white focus:border-purple-500 focus:ring-purple-500" />
+          <p id="professionError" class="hidden mt-2 text-xs text-red-300"></p>
         </div>
-
       </div>
-        <div class="mb-6">
-          <label class="block text-sm font-medium text-indigo-200 mb-2">Tus Habilidades (Skills)</label>
-  
-          <select 
-          id="skills-select" 
-          multiple 
-          placeholder="Escribe para buscar skills..." 
+
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-indigo-200 mb-2">Tus Habilidades (Skills)</label>
+
+        <select
+          id="skills-select"
+          multiple
+          placeholder="Escribe para buscar skills..."
           class="w-full bg-gray-800/70 text-white rounded-xl"
           autocomplete="off"
-          >
+        >
           {skills.map((skill) => (
             <option value={skill.id}>{skill.name}</option>
           ))}
         </select>
       </div>
-      
-      
 
       <div class="pt-8 flex flex-col sm:flex-row gap-4 justify-center">
         <button
+          id="editProfileSubmit"
           type="submit"
           class="flex-1 max-w-sm bg-linear-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white font-semibold py-4 px-8 rounded-xl shadow-lg shadow-purple-900/40 transition-all duration-300 transform hover:scale-[1.02]"
         >
@@ -108,21 +104,20 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
           Cancelar
         </a>
       </div>
-
     </form>
-
   </div>
+
   <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
-  
+
   <script>
     let miBuscador;
-    document.addEventListener('DOMContentLoaded', function() {
-      // Esto convierte tu <select> normal en el buscador interactivo
-        miBuscador= new TomSelect('#skills-select', {
-        plugins: ['remove_button'], // Agrega la 'X' para poder quitar skills
-        maxOptions: 100, // Permite ver las 70 skills al hacer scroll
+
+    document.addEventListener("DOMContentLoaded", function () {
+      miBuscador = new TomSelect("#skills-select", {
+        plugins: ["remove_button"],
+        maxOptions: 100,
         placeholder: "Haz clic o escribe para buscar tus skills...",
-        closeAfterSelect: false, // Mantiene la lista abierta para elegir varias rápido
+        closeAfterSelect: false,
         sortField: {
           field: "text",
           direction: "asc"
@@ -130,123 +125,214 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       });
     });
 
-    const form = document.getElementById('form');
-    const token = localStorage.getItem('token');
-    form?.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      try{
-      const formdata = new FormData(form);
-      formdata.append('_method', 'patch');
-      const data = await fetch('http://127.0.0.1:8000/api/profile', {
-        method: 'POST',
-        headers: {
-          'authorization': `Bearer ${token}`,
-          'Accept': 'application/json',
-        },
-        body: formdata
-      });
-      const datas = await data.json();
-      
-      console.log(datas);
-      if (data.ok) {
-        window.appToast(datas.message || "Perfil actualizado.", { tone: "success" });
-        window.location.href = '/dashboard/freelance';
-      } 
-    }
-    
-    catch(error){
-      console.log('error de formulario sin skills: ' , error);
-    }
-    
-    try {
-      const selectedIds = miBuscador.getValue();
-      const skillsId = selectedIds.map(id => parseInt(id));
+    const form = document.getElementById("form");
+    const token = localStorage.getItem("token");
+    const submitBtn = document.getElementById("editProfileSubmit");
 
-      if (skillsId.length > 0) {
-        const response = await fetch('http://127.0.0.1:8000/api/profile/skills',{
-          method: 'PATCH',
-          headers: {
-            'Accept' : 'application/json',
-            'authorization': `Bearer ${token}`,
-            'Content-Type' : 'application/json',
-          },
-          body: JSON.stringify({ skill_ids: skillsId})
-        });
-        const data = await response.json();
-        console.log(data);
+    function setError(id, message = "") {
+      const input = document.getElementById(id);
+      const error = document.getElementById(`${id}Error`);
+      if (!error || !input) return;
+
+      if (!message) {
+        error.textContent = "";
+        error.classList.add("hidden");
+        input.classList.remove("border-red-500");
+        return;
       }
-      
-      
-    } catch (error) {
-      console.log(error);
+
+      error.textContent = message;
+      error.classList.remove("hidden");
+      input.classList.add("border-red-500");
     }
-  })
-  
-    async function cargarDatos() {
-      try{
-        const token = localStorage.getItem('token')
 
-        const response = await fetch('http://127.0.0.1:8000/api/profile',{
-          method: 'GET',
-          headers:{
-            'Accept' : 'application/json',
-            'Authorization' : `Bearer ${token}`
-          }
-        });
-        const user = await response.json();
-        document.getElementById('names').value = user.names || '';
-        document.getElementById('last_names').value = user.last_names || '';
-        document.getElementById('description').value = user.freelancer_profile.description || '';
-        document.getElementById('experience').value = user.freelancer_profile.experience || '';
-        document.getElementById('profession').value= user.freelancer_profile.profession || '';
-        if (user.freelancer_profile.skills){
-          const skillsSave = user.freelancer_profile.skills.map(skill=>skill.id);
-          miBuscador.setValue(skillsSave);
-        }
+    function validateFreelanceProfile() {
+      let valid = true;
 
-        // --- CÓDIGO 1: MOSTRAR FOTO DE LA BASE DE DATOS ---
-        // Va adentro del try, donde 'user' sí existe
-        if (user.photo) {
-          const previewImg = document.getElementById('profile-image-preview');
-          const defaultAvatar = document.getElementById('default-avatar');
-          
-          previewImg.src = `http://127.0.0.1:8000/storage/${user.photo}`; 
-          previewImg.classList.remove('hidden');
-          defaultAvatar.classList.add('hidden');
-        }
+      const names = String(document.getElementById("names")?.value || "").trim();
+      const lastNames = String(document.getElementById("last_names")?.value || "").trim();
+      const description = String(document.getElementById("description")?.value || "").trim();
+      const experience = String(document.getElementById("experience")?.value || "").trim();
+      const profession = String(document.getElementById("profession")?.value || "").trim();
 
+      setError("names", "");
+      setError("last_names", "");
+      setError("description", "");
+      setError("experience", "");
+      setError("profession", "");
+
+      if (!names || names.length < 2) {
+        setError("names", "Ingresa nombres válidos.");
+        valid = false;
       }
-      catch(error){
-        console.log(error);
+      if (!lastNames || lastNames.length < 2) {
+        setError("last_names", "Ingresa apellidos válidos.");
+        valid = false;
       }
-    }
-    
-    cargarDatos();
-    const photoInput = document.getElementById('photo-input');
-    photoInput?.addEventListener('change', function() {
-      const file = this.files[0];
+      if (!description || description.length < 20) {
+        setError("description", "La descripción debe tener al menos 20 caracteres.");
+        valid = false;
+      }
+      if (!experience || experience.length < 10) {
+        setError("experience", "Agrega un resumen de experiencia más completo.");
+        valid = false;
+      }
+      if (!profession || profession.length < 3) {
+        setError("profession", "Ingresa una profesión válida.");
+        valid = false;
+      }
+
+      const photoInput = document.getElementById("photo-input");
+      const photoError = document.getElementById("photoError");
+      const file = photoInput?.files?.[0];
+      if (photoError) {
+        photoError.textContent = "";
+        photoError.classList.add("hidden");
+      }
+
       if (file) {
-        const reader = new FileReader();
-        const previewImg = document.getElementById('profile-image-preview');
-        const defaultAvatar = document.getElementById('default-avatar');
-        
-        reader.onload = function(e) {
-          previewImg.src = e.target.result;
-          previewImg.classList.remove('hidden'); 
-          defaultAvatar.classList.add('hidden'); 
+        const allowed = ["image/png", "image/jpeg", "image/webp"];
+        if (!allowed.includes(file.type)) {
+          if (photoError) {
+            photoError.textContent = "La foto debe ser PNG, JPG o WEBP.";
+            photoError.classList.remove("hidden");
+          }
+          valid = false;
         }
-        reader.readAsDataURL(file);
+
+        if (file.size > 5 * 1024 * 1024) {
+          if (photoError) {
+            photoError.textContent = "La foto no debe superar 5MB.";
+            photoError.classList.remove("hidden");
+          }
+          valid = false;
+        }
+      }
+
+      return valid;
+    }
+
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      if (!validateFreelanceProfile()) {
+        window.appToast("Revisa los campos marcados.", { tone: "warning" });
+        return;
+      }
+
+      try {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.classList.add("opacity-70", "cursor-not-allowed");
+        }
+
+        const formdata = new FormData(form);
+        formdata.append("_method", "patch");
+
+        const data = await fetch("http://127.0.0.1:8000/api/profile", {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${token}`,
+            Accept: "application/json",
+          },
+          body: formdata
+        });
+
+        const datas = await data.json().catch(() => ({}));
+
+        if (data.ok) {
+          window.appToast(datas.message || "Perfil actualizado.", { tone: "success" });
+        } else {
+          window.appToast(datas.message || "No se pudo actualizar el perfil.", { tone: "error" });
+        }
+      } catch (error) {
+        console.log("error de formulario sin skills:", error);
+        window.appToast("Error de conexión al actualizar perfil.", { tone: "error" });
+      }
+
+      try {
+        const selectedIds = miBuscador?.getValue?.() || [];
+        const skillsId = selectedIds.map((id) => parseInt(id, 10)).filter((n) => Number.isFinite(n));
+
+        if (skillsId.length > 0) {
+          const response = await fetch("http://127.0.0.1:8000/api/profile/skills", {
+            method: "PATCH",
+            headers: {
+              Accept: "application/json",
+              authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ skill_ids: skillsId })
+          });
+          await response.json().catch(() => ({}));
+        }
+
+        window.location.href = "/dashboard/freelance";
+      } catch (error) {
+        console.log(error);
+        window.appToast("Perfil actualizado, pero falló la actualización de skills.", { tone: "warning" });
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove("opacity-70", "cursor-not-allowed");
+        }
       }
     });
 
+    async function cargarDatos() {
+      try {
+        const tokenLocal = localStorage.getItem("token");
+
+        const response = await fetch("http://127.0.0.1:8000/api/profile", {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${tokenLocal}`
+          }
+        });
+        const user = await response.json();
+
+        document.getElementById("names").value = user.names || "";
+        document.getElementById("last_names").value = user.last_names || "";
+        document.getElementById("description").value = user.freelancer_profile?.description || "";
+        document.getElementById("experience").value = user.freelancer_profile?.experience || "";
+        document.getElementById("profession").value = user.freelancer_profile?.profession || "";
+
+        if (user.freelancer_profile?.skills && miBuscador) {
+          const skillsSave = user.freelancer_profile.skills.map((skill) => skill.id);
+          miBuscador.setValue(skillsSave);
+        }
+
+        if (user.photo) {
+          const previewImg = document.getElementById("profile-image-preview");
+          const defaultAvatar = document.getElementById("default-avatar");
+
+          previewImg.src = `http://127.0.0.1:8000/storage/${user.photo}`;
+          previewImg.classList.remove("hidden");
+          defaultAvatar.classList.add("hidden");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    setTimeout(cargarDatos, 120);
+
+    const photoInput = document.getElementById("photo-input");
+    photoInput?.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        const previewImg = document.getElementById("profile-image-preview");
+        const defaultAvatar = document.getElementById("default-avatar");
+
+        reader.onload = function (e) {
+          previewImg.src = e.target.result;
+          previewImg.classList.remove("hidden");
+          defaultAvatar.classList.add("hidden");
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   </script>
-
-    
-  </script>
-
-
-
-
 </DashboardLayout>
-
-

@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
+﻿const API_BASE = "http://127.0.0.1:8000";
 
 const gridEl = document.getElementById("freelancersGrid");
 const emptyEl = document.getElementById("freelancersEmpty");
@@ -20,19 +20,21 @@ function buildStorageUrl(path) {
   if (path.startsWith("/storage/")) return `http://127.0.0.1:8000${path}`;
   return `http://127.0.0.1:8000/storage/${path}`;
 }
+
 function buildCard(profile) {
   const user = profile?.user || {};
   const name = `${user?.names || ""} ${user?.last_names || ""}`.trim() || "Freelancer";
   const profession = profile?.profession || "Profesional";
   const description = profile?.description || "";
   const servicesCount = profile?.services_count ?? 0;
-  const photo = buildStorageUrl(user?.photo) || "https://via.placeholder.com/300";
+  const photo = buildStorageUrl(user?.photo) || "/logo.jpeg";
   const profileId = profile?.id;
 
   return `
     <div class="group bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-indigo-500 transition-all duration-300 hover:scale-[1.04] hover:shadow-xl opacity-0 translate-y-4">
-      <div class="relative h-44 overflow-hidden bg-slate-800" -wrapper>
-        <img src="${escapeHtml(photo)}" class="h-44 w-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />\n</div>
+      <div class="relative h-44 overflow-hidden bg-slate-800">
+        <img src="${escapeHtml(photo)}" class="h-44 w-full object-cover group-hover:scale-110 transition-transform duration-500 ease-out" />
+      </div>
       <div class="p-5">
         <h3 class="font-bold text-white text-lg group-hover:text-indigo-400 transition">${escapeHtml(name)}</h3>
         <p class="text-purple-400 text-sm mt-1">${escapeHtml(profession)}</p>
@@ -76,7 +78,7 @@ async function fetchFreelancers() {
 
     const res = await fetch(url, {
       headers: {
-        "Accept": "application/json"
+        Accept: "application/json"
       }
     });
 
@@ -114,6 +116,12 @@ if (searchForm) {
   searchForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const value = input?.value?.trim() || "";
+
+    if (value && value.length < 2) {
+      window.appToast("Escribe al menos 2 caracteres para buscar.", { tone: "warning" });
+      return;
+    }
+
     const nextParams = new URLSearchParams(window.location.search);
     if (value) nextParams.set("search", value);
     else nextParams.delete("search");
@@ -122,6 +130,3 @@ if (searchForm) {
 }
 
 fetchFreelancers();
-
-
-

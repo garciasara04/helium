@@ -1,55 +1,154 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
-<DashboardLayout  userRole="company">
+<DashboardLayout userRole="company">
+  <section class="grid md:grid-cols-2 gap-10">
+    <form id="companyEditForm" class="bg-slate-900 p-8 rounded-xl space-y-4" novalidate>
+      <h2 class="text-xl font-bold mb-4">Editar información</h2>
 
-<section class="grid md:grid-cols-2 gap-10">
+      <input id="companyName" placeholder="Nombre empresa" class="w-full bg-slate-800 p-3 rounded border border-slate-700" />
+      <p id="companyNameError" class="hidden text-xs text-red-300"></p>
 
-<form class="bg-slate-900 p-8 rounded-xl space-y-4">
+      <input id="companyPhone" placeholder="Teléfono" class="w-full bg-slate-800 p-3 rounded border border-slate-700" />
+      <p id="companyPhoneError" class="hidden text-xs text-red-300"></p>
 
-<h2 class="text-xl font-bold mb-4">Editar información</h2>
+      <input id="companyNit" placeholder="NIT" class="w-full bg-slate-800 p-3 rounded border border-slate-700" />
+      <p id="companyNitError" class="hidden text-xs text-red-300"></p>
 
-<input placeholder="Nombre empresa"
-class="w-full bg-slate-800 p-3 rounded"/>
+      <input id="companyWebsite" placeholder="Website" class="w-full bg-slate-800 p-3 rounded border border-slate-700" />
+      <p id="companyWebsiteError" class="hidden text-xs text-red-300"></p>
 
-<input placeholder="Teléfono"
-class="w-full bg-slate-800 p-3 rounded"/>
+      <input id="companyAddress" placeholder="Dirección" class="w-full bg-slate-800 p-3 rounded border border-slate-700" />
+      <p id="companyAddressError" class="hidden text-xs text-red-300"></p>
 
-<input placeholder="NIT"
-class="w-full bg-slate-800 p-3 rounded"/>
+      <button id="companyEditSubmit" class="bg-purple-600 px-6 py-2 rounded-lg cursor-pointer hover:bg-purple-500 transition">
+        Guardar cambios
+      </button>
+    </form>
 
-<input placeholder="Website"
-class="w-full bg-slate-800 p-3 rounded"/>
+    <div class="bg-slate-900 p-8 rounded-xl text-center">
+      <h2 class="text-xl font-bold mb-4">Actualizar foto</h2>
 
-<input placeholder="Dirección"
-class="w-full bg-slate-800 p-3 rounded"/>
+      <img
+        src="https://images.unsplash.com/photo-1560179707-f14e90ef3623"
+        class="w-40 h-40 mx-auto rounded-full object-cover mb-6"
+      />
 
-<button class="bg-purple-600 px-6 py-2 rounded-lg">
+      <input id="companyPhoto" type="file" class="text-sm cursor-pointer" accept="image/png,image/jpeg,image/webp" />
+      <p id="companyPhotoError" class="hidden mt-2 text-xs text-red-300"></p>
+    </div>
+  </section>
 
-Guardar cambios
+  <script>
+    const form = document.getElementById("companyEditForm");
+    const submitBtn = document.getElementById("companyEditSubmit");
+    const fields = {
+      companyName: { label: "Nombre de empresa", min: 3 },
+      companyPhone: { label: "Teléfono", min: 7 },
+      companyNit: { label: "NIT", min: 6 },
+      companyAddress: { label: "Dirección", min: 5 },
+    };
 
-</button>
+    function setError(id, message = "") {
+      const input = document.getElementById(id);
+      const error = document.getElementById(`${id}Error`);
+      if (!input || !error) return;
 
-</form>
+      if (!message) {
+        input.classList.remove("border-red-500");
+        error.textContent = "";
+        error.classList.add("hidden");
+        return;
+      }
 
+      input.classList.add("border-red-500");
+      error.textContent = message;
+      error.classList.remove("hidden");
+    }
 
-<div class="bg-slate-900 p-8 rounded-xl text-center">
+    function validateCompanyEdit() {
+      let valid = true;
 
-<h2 class="text-xl font-bold mb-4">
-Actualizar foto
-</h2>
+      Object.entries(fields).forEach(([id, cfg]) => {
+        setError(id, "");
+        const value = String(document.getElementById(id)?.value || "").trim();
+        if (!value) {
+          setError(id, `El campo ${cfg.label} es obligatorio.`);
+          valid = false;
+          return;
+        }
+        if (value.length < cfg.min) {
+          setError(id, `${cfg.label} debe tener al menos ${cfg.min} caracteres.`);
+          valid = false;
+        }
+      });
 
-<img
-src="https://images.unsplash.com/photo-1560179707-f14e90ef3623"
-class="w-40 h-40 mx-auto rounded-full object-cover mb-6"
-/>
+      const website = String(document.getElementById("companyWebsite")?.value || "").trim();
+      setError("companyWebsite", "");
+      if (website) {
+        const websiteOk = /^(https?:\/\/)?[\w.-]+\.[a-z]{2,}(\/.*)?$/i.test(website);
+        if (!websiteOk) {
+          setError("companyWebsite", "Ingresa un sitio web válido.");
+          valid = false;
+        }
+      }
 
-<input type="file"
-class="text-sm"/>
+      const photoInput = document.getElementById("companyPhoto");
+      const file = photoInput?.files?.[0];
+      const photoError = document.getElementById("companyPhotoError");
+      if (photoError) {
+        photoError.textContent = "";
+        photoError.classList.add("hidden");
+      }
+      if (file) {
+        const allowed = ["image/png", "image/jpeg", "image/webp"];
+        if (!allowed.includes(file.type)) {
+          if (photoError) {
+            photoError.textContent = "La imagen debe ser PNG, JPG o WEBP.";
+            photoError.classList.remove("hidden");
+          }
+          valid = false;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          if (photoError) {
+            photoError.textContent = "La imagen no debe superar 5MB.";
+            photoError.classList.remove("hidden");
+          }
+          valid = false;
+        }
+      }
 
-</div>
+      return valid;
+    }
 
-</section>
+    Object.keys(fields).forEach((id) => {
+      const input = document.getElementById(id);
+      input?.addEventListener("input", () => setError(id, ""));
+    });
+    document.getElementById("companyWebsite")?.addEventListener("input", () => setError("companyWebsite", ""));
 
+    form?.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (!validateCompanyEdit()) {
+        window.appToast("Revisa los campos marcados.", { tone: "warning" });
+        return;
+      }
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.classList.add("opacity-70", "cursor-not-allowed");
+      }
+
+      window.appToast("Validación correcta. Formulario listo para guardar cambios.", { tone: "success" });
+
+      setTimeout(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove("opacity-70", "cursor-not-allowed");
+        }
+      }, 900);
+    });
+  </script>
 </DashboardLayout>

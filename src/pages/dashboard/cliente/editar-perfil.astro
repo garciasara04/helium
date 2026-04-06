@@ -1,12 +1,9 @@
 ﻿---
-// src/pages/dashboard/cliente/editar-perfil.astro
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 ---
 
-<DashboardLayout  userRole="cliente">
-
+<DashboardLayout userRole="cliente">
   <div class="max-w-4xl mx-auto px-5 sm:px-8 lg:px-12 py-12">
-    
     <div class="mb-10 text-center lg:text-left">
       <h1 class="text-3xl md:text-4xl font-bold text-white">
         Editar mi perfil
@@ -17,9 +14,7 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
     </div>
 
     <div class="bg-slate-900/70 backdrop-blur-sm border border-slate-800 rounded-2xl p-8 shadow-xl shadow-purple-900/20">
-
-      <form id="editProfileForm" class="space-y-8">
-
+      <form id="editProfileForm" class="space-y-8" novalidate>
         <div class="flex flex-col items-center mb-12">
           <div class="relative mb-6">
             <img
@@ -28,22 +23,23 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
               alt="Foto de perfil"
               class="w-40 h-40 rounded-full object-cover border-4 border-purple-600 shadow-2xl"
             />
-            <button 
+            <button
               type="button"
-              class="absolute bottom-0 right-0 bg-purple-700 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded-full shadow-md transition"
+              class="absolute bottom-0 right-0 bg-purple-700 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded-full shadow-md transition cursor-pointer"
               onclick="document.getElementById('photo-upload').click()"
             >
               Cambiar foto
             </button>
-            <input 
-              type="file" 
-              id="photo-upload" 
+            <input
+              type="file"
+              id="photo-upload"
               name="photo"
-              accept="image/*" 
+              accept="image/*"
               class="hidden"
             />
           </div>
           <p class="text-sm text-slate-400">Tamaño recomendado: 400x400 px (máx 5MB)</p>
+          <p id="photoError" class="hidden mt-2 text-xs text-red-300"></p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -51,25 +47,27 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
             <label for="names" class="block text-sm font-medium text-slate-300 mb-2">
               Nombres
             </label>
-            <input 
-              type="text" 
-              id="names" 
+            <input
+              type="text"
+              id="names"
               name="names"
               required
               class="w-full px-5 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
             />
+            <p id="namesError" class="hidden mt-2 text-xs text-red-300"></p>
           </div>
           <div>
             <label for="last_names" class="block text-sm font-medium text-slate-300 mb-2">
               Apellidos
             </label>
-            <input 
-              type="text" 
-              id="last_names" 
+            <input
+              type="text"
+              id="last_names"
               name="last_names"
               required
               class="w-full px-5 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
             />
+            <p id="lastNamesError" class="hidden mt-2 text-xs text-red-300"></p>
           </div>
         </div>
 
@@ -77,9 +75,9 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
           <label for="email" class="block text-sm font-medium text-slate-300 mb-2">
             Correo electrónico
           </label>
-          <input 
-            type="email" 
-            id="email" 
+          <input
+            type="email"
+            id="email"
             name="email"
             readonly
             class="w-full px-5 py-3 bg-slate-800 border border-slate-700 rounded-lg text-slate-500 cursor-not-allowed outline-none"
@@ -93,9 +91,9 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
           <label for="phone" class="block text-sm font-medium text-slate-300 mb-2">
             Teléfono / WhatsApp
           </label>
-          <input 
-            type="tel" 
-            id="phone" 
+          <input
+            type="tel"
+            id="phone"
             name="phone"
             placeholder="+57 300 123 4567"
             class="w-full px-5 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white focus:border-purple-600 focus:ring-purple-600 outline-none transition"
@@ -103,125 +101,207 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
           <p class="mt-1 text-xs text-slate-500">
             Incluye el código de país (ej: +57)
           </p>
+          <p id="phoneError" class="hidden mt-2 text-xs text-red-300"></p>
         </div>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-end mt-12 pt-8 border-t border-slate-800">
-          <button 
+          <button
             type="button"
             onclick="window.history.back()"
-            class="px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-lg transition text-center"
+            class="px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-medium rounded-lg transition text-center cursor-pointer"
           >
             Cancelar
           </button>
-          <button 
+          <button
+            id="saveProfileBtn"
             type="submit"
-            class="px-10 py-3 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-lg transition shadow-lg shadow-purple-900/30"
+            class="px-10 py-3 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-lg transition shadow-lg shadow-purple-900/30 cursor-pointer"
           >
             Guardar cambios
           </button>
         </div>
-
       </form>
     </div>
   </div>
-
 </DashboardLayout>
 
 <script>
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (!token) {
-    window.location.href = '/login';
+    window.location.href = "/login";
   }
 
-  // 1. CARGAR DATOS AL INICIO
+  function setFieldError(inputId, errorId, message = "") {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    if (!input || !error) return;
+
+    if (!message) {
+      input.classList.remove("border-red-500");
+      error.textContent = "";
+      error.classList.add("hidden");
+      return;
+    }
+
+    input.classList.add("border-red-500");
+    error.textContent = message;
+    error.classList.remove("hidden");
+  }
+
+  function validateEditProfile() {
+    let valid = true;
+
+    const names = String(document.getElementById("names")?.value || "").trim();
+    const lastNames = String(document.getElementById("last_names")?.value || "").trim();
+    const phone = String(document.getElementById("phone")?.value || "").trim();
+
+    setFieldError("names", "namesError", "");
+    setFieldError("last_names", "lastNamesError", "");
+    setFieldError("phone", "phoneError", "");
+
+    if (!names || names.length < 2) {
+      setFieldError("names", "namesError", "Ingresa nombres válidos.");
+      valid = false;
+    }
+
+    if (!lastNames || lastNames.length < 2) {
+      setFieldError("last_names", "lastNamesError", "Ingresa apellidos válidos.");
+      valid = false;
+    }
+
+    if (phone) {
+      const digits = phone.replace(/\D/g, "");
+      if (digits.length < 7) {
+        setFieldError("phone", "phoneError", "Ingresa un teléfono válido.");
+        valid = false;
+      }
+    }
+
+    const photoInput = document.getElementById("photo-upload");
+    const photoError = document.getElementById("photoError");
+    const file = photoInput?.files?.[0];
+
+    if (photoError) {
+      photoError.textContent = "";
+      photoError.classList.add("hidden");
+    }
+
+    if (file) {
+      const allowed = ["image/png", "image/jpeg", "image/webp", "image/jpg"];
+      if (!allowed.includes(file.type)) {
+        if (photoError) {
+          photoError.textContent = "La foto debe ser PNG, JPG o WEBP.";
+          photoError.classList.remove("hidden");
+        }
+        valid = false;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        if (photoError) {
+          photoError.textContent = "La foto no debe superar 5MB.";
+          photoError.classList.remove("hidden");
+        }
+        valid = false;
+      }
+    }
+
+    return valid;
+  }
+
   async function cargarDatos() {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/profile', {
-        method: 'GET',
+      const response = await fetch("http://127.0.0.1:8000/api/profile", {
+        method: "GET",
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`
         }
       });
 
       if (!response.ok) {
-        throw new Error('No se pudo cargar el perfil');
+        throw new Error("No se pudo cargar el perfil");
       }
 
       const user = await response.json();
-      
-      // Llenar inputs
-      document.getElementById('names').value = user.names || '';
-      document.getElementById('last_names').value = user.last_names || '';
-      document.getElementById('email').value = user.email || '';
-      document.getElementById('phone').value = user.phone || '';
 
-      // Mostrar foto si existe
+      document.getElementById("names").value = user.names || "";
+      document.getElementById("last_names").value = user.last_names || "";
+      document.getElementById("email").value = user.email || "";
+      document.getElementById("phone").value = user.phone || "";
+
       if (user.photo) {
-        const previewImg = document.getElementById('profile-image-preview');
-        previewImg.src = `http://127.0.0.1:8000/storage/${user.photo}`; 
+        const previewImg = document.getElementById("profile-image-preview");
+        previewImg.src = `http://127.0.0.1:8000/storage/${user.photo}`;
       }
-
     } catch (error) {
       console.error(error);
       window.appToast("Error al cargar los datos de tu perfil.", { tone: "error" });
     }
   }
 
-  // 2. PREVISUALIZAR FOTO AL SELECCIONARLA
-  const photoInput = document.getElementById('photo-upload');
-  photoInput?.addEventListener('change', function() {
+  const photoInput = document.getElementById("photo-upload");
+  photoInput?.addEventListener("change", function () {
     const file = this.files[0];
     if (file) {
       const reader = new FileReader();
-      const previewImg = document.getElementById('profile-image-preview');
-      
-      reader.onload = function(e) {
+      const previewImg = document.getElementById("profile-image-preview");
+
+      reader.onload = function (e) {
         previewImg.src = e.target.result;
-      }
+      };
       reader.readAsDataURL(file);
     }
   });
 
-  // 3. GUARDAR LOS CAMBIOS
-  const form = document.getElementById('editProfileForm');
-  form?.addEventListener('submit', async (e) => {
+  const form = document.getElementById("editProfileForm");
+  const saveBtn = document.getElementById("saveProfileBtn");
+
+  document.getElementById("names")?.addEventListener("input", () => setFieldError("names", "namesError", ""));
+  document.getElementById("last_names")?.addEventListener("input", () => setFieldError("last_names", "lastNamesError", ""));
+  document.getElementById("phone")?.addEventListener("input", () => setFieldError("phone", "phoneError", ""));
+
+  form?.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    try {
-      const formdata = new FormData(form);
-      formdata.append('_method', 'patch'); // Requerido por Laravel para subir archivos en actualización
+    if (!validateEditProfile()) {
+      window.appToast("Revisa los campos marcados.", { tone: "warning" });
+      return;
+    }
 
-      const response = await fetch('http://127.0.0.1:8000/api/profile', {
-        method: 'POST', // POST porque enviamos FormData con _method: patch
+    try {
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.classList.add("opacity-70", "cursor-not-allowed");
+      }
+
+      const formdata = new FormData(form);
+      formdata.append("_method", "patch");
+
+      const response = await fetch("http://127.0.0.1:8000/api/profile", {
+        method: "POST",
         headers: {
-          'Accept': 'application/json',
-          'Authorization': `Bearer ${token}`
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`
         },
         body: formdata
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (response.ok) {
-        window.appToast("Perfil actualizado con exito.", { tone: "success" });
-        // Opcional: Redirigir al perfil
-        // window.location.href = '/dashboard/cliente/perfil';
+        window.appToast("Perfil actualizado con éxito.", { tone: "success" });
       } else {
         window.appToast("Error: " + (data.message || "No se pudo actualizar"), { tone: "error" });
-        console.log(data);
       }
-
     } catch (error) {
       console.error(error);
-      window.appToast("Error de conexion al guardar.", { tone: "error" });
+      window.appToast("Error de conexión al guardar.", { tone: "error" });
+    } finally {
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.classList.remove("opacity-70", "cursor-not-allowed");
+      }
     }
   });
 
-  // Iniciar la carga de datos
   cargarDatos();
 </script>
-
-
-
-

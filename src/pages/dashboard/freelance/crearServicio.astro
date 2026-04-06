@@ -130,39 +130,81 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 <script>
   const createService = document.getElementById('serviceForm');
-  
+
+  function validateCreateService(form) {
+    const title = String(form.title?.value || '').trim();
+    const description = String(form.description?.value || '').trim();
+    const price = Number(form.price?.value || 0);
+    const delivery = Number(form.delivery_time?.value || 0);
+    const revisions = Number(form.revisions?.value || 0);
+    const photo = form.photo?.files?.[0];
+
+    if (!title || title.length < 5) {
+      window.appToast('El título debe tener al menos 5 caracteres.', { tone: 'warning' });
+      return false;
+    }
+    if (!description || description.length < 20) {
+      window.appToast('La descripción debe tener al menos 20 caracteres.', { tone: 'warning' });
+      return false;
+    }
+    if (!Number.isFinite(price) || price <= 0) {
+      window.appToast('Ingresa un precio válido mayor a 0.', { tone: 'warning' });
+      return false;
+    }
+    if (!Number.isFinite(delivery) || delivery < 1) {
+      window.appToast('El tiempo de entrega debe ser de al menos 1 día.', { tone: 'warning' });
+      return false;
+    }
+    if (!Number.isFinite(revisions) || revisions < 1 || revisions > 3) {
+      window.appToast('Las revisiones deben estar entre 1 y 3.', { tone: 'warning' });
+      return false;
+    }
+    if (!photo) {
+      window.appToast('Debes cargar una foto de portada.', { tone: 'warning' });
+      return false;
+    }
+
+    const allowed = ['image/png', 'image/jpeg', 'image/webp'];
+    if (!allowed.includes(photo.type)) {
+      window.appToast('La foto debe ser PNG, JPG o WEBP.', { tone: 'warning' });
+      return false;
+    }
+
+    return true;
+  }
+
   createService?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
+    if (!validateCreateService(createService)) return;
+
     const formdata = new FormData(createService);
     const token = localStorage.getItem('token');
-    
-    try{
+
+    try {
       const response = await fetch('http://127.0.0.1:8000/api/services', {
         method: 'POST',
         headers: {
-          'authorization': `Bearer ${token}`,
-          'Accept': 'application/json',
+          authorization: `Bearer ${token}`,
+          Accept: 'application/json',
         },
         body: formdata
-      })
-      const data = await response.json();
-      console.log(data);
-      if (response.ok) {
-        window.appToast("Servicio creado con exito.", { tone: "success" });
-        window.location.href = '/dashboard/freelance/misServicios'
-      }
-      else{
-        window.appToast("Datos incorrectos.", { tone: "error" });
-      }
-      }
+      });
+      const data = await response.json().catch(() => ({}));
 
-    catch(error){
-      console.log('error', error)
-    }  
-    })
-    
+      if (response.ok) {
+        window.appToast('Servicio creado con exito.', { tone: 'success' });
+        window.location.href = '/dashboard/freelance/misServicios';
+      } else {
+        window.appToast(data.message || 'Datos incorrectos.', { tone: 'error' });
+      }
+    } catch (error) {
+      console.log('error', error);
+      window.appToast('Error de conexión con el servidor.', { tone: 'error' });
+    }
+  });
 </script>
 
 </DashboardLayout>
+
 
