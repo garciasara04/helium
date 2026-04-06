@@ -215,9 +215,13 @@ function ensureDeliverFinalModal() {
   modal.className = "fixed inset-0 z-[120] hidden items-center justify-center bg-slate-950/75 px-4 opacity-0 transition-opacity duration-200";
   modal.innerHTML = `
     <div id="deliver-final-modal-panel" class="w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-2xl transition-all duration-200 ease-out opacity-0 scale-95 translate-y-1">
-      <h3 class="text-lg font-bold text-white">Confirmar entrega final</h3>
+      <h3 class="text-lg font-bold text-white">Entrega final</h3>
       <p id="deliver-final-modal-text" class="mt-2 text-sm text-slate-300"></p>
-      <p class="mt-3 text-xs text-slate-400">Esta accion cambiara el estado de la orden a <strong class="text-slate-200">delivered</strong>.</p>
+      <label for="deliver-final-note" class="block mt-4 text-sm text-slate-300">Nota final</label>
+      <textarea id="deliver-final-note" rows="3" class="mt-2 w-full rounded-lg border border-slate-700 bg-slate-950 p-3 text-sm text-slate-100 focus:outline-none focus:border-indigo-500" placeholder="Describe la entrega final..."></textarea>
+      <label for="deliver-final-files" class="block mt-4 text-sm text-slate-300">Archivos finales (obligatorio)</label>
+      <input id="deliver-final-files" type="file" multiple class="mt-2 w-full text-sm text-slate-300 file:mr-3 file:px-3 file:py-1.5 file:rounded file:border-0 file:bg-indigo-700 file:text-white hover:file:bg-indigo-600" />
+      <p class="mt-3 text-xs text-slate-400">Al enviar, el backend marcara automaticamente la orden como <strong class="text-slate-200">delivered</strong>.</p>
       <div class="mt-6 flex flex-wrap justify-end gap-2">
         <button id="deliver-final-modal-cancel" type="button" class="px-4 py-2 rounded-lg border border-slate-600 text-slate-200 hover:bg-slate-800 transition">Cancelar</button>
         <button id="deliver-final-modal-confirm" type="button" class="px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-500 transition">Confirmar entrega</button>
@@ -237,12 +241,14 @@ function ensureDeliverFinalModal() {
 
 function setDeliverModalLoading(loading) {
   const confirmBtn = document.getElementById("deliver-final-modal-confirm");
+  const noteEl = document.getElementById("deliver-final-note");
+  const filesEl = document.getElementById("deliver-final-files");
   const cancelBtn = document.getElementById("deliver-final-modal-cancel");
   if (!confirmBtn || !cancelBtn) return;
 
   confirmBtn.disabled = loading;
   cancelBtn.disabled = loading;
-  confirmBtn.textContent = loading ? "Enviando..." : "Confirmar entrega";
+  confirmBtn.textContent = loading ? "Enviando..." : "Enviar entrega final";
   if (loading) {
     confirmBtn.classList.add("opacity-70", "cursor-not-allowed");
   } else {
@@ -300,6 +306,8 @@ window.abrirModalEntregaFinal = function abrirModalEntregaFinal(orderId) {
   const modal = ensureDeliverFinalModal();
   const text = document.getElementById("deliver-final-modal-text");
   const confirmBtn = document.getElementById("deliver-final-modal-confirm");
+  const noteEl = document.getElementById("deliver-final-note");
+  const filesEl = document.getElementById("deliver-final-files");
   const cancelBtn = document.getElementById("deliver-final-modal-cancel");
 
   if (text) {
@@ -312,7 +320,7 @@ window.abrirModalEntregaFinal = function abrirModalEntregaFinal(orderId) {
   requestAnimationFrame(() => setDeliverModalOpenState(true));
 
   if (confirmBtn) {
-    confirmBtn.onclick = () => window.marcarEntregaFinal(orderId);
+    confirmBtn.onclick = () => window.subirEntregaFinalDesdeModal(orderId);
   }
 
   if (cancelBtn) {
@@ -531,35 +539,56 @@ window.rechazarOrdenPendiente = async function rechazarOrdenPendiente(orderId) {
     }
   }
 };
-window.marcarEntregaFinal = async function marcarEntregaFinal(orderId) {
+
+window.subirEntregaFinalDesdeModal = async function subirEntregaFinalDesdeModal(orderId) {
   const meta = orderMeta.get(orderId);
   if (!meta) return;
 
-  const status = String(meta.status || "").toLowerCase();
-  if (status !== "in_progress") {
-    setRevisionAlert(orderId, "La orden debe estar en progreso para entregar version final.", "error");
+  const token = getAuthToken();
+  if (!token) return;
+
+  const noteEl = document.getElementById("deliver-final-note");
+  const filesEl = document.getElementById("deliver-final-files");
+
+  const finalNote = String(noteEl?.value || "").trim();
+  const files = Array.from(filesEl?.files || []);
+
+  if (!finalNote) {
+    setRevisionAlert(orderId, "Debes escribir la nota final de entrega.", "error");
     return;
   }
 
-  if (meta.usedRevisions < meta.maxRevisions) {
-    setRevisionAlert(orderId, `Debes completar ${meta.maxRevisions} revisiones antes de entregar.`, "error");
+  if (!files.length) {
+    setRevisionAlert(orderId, "Debes adjuntar al menos 1 archivo en la entrega final.", "error");
     return;
   }
 
   setDeliverModalLoading(true);
 
   try {
-    await patchOrderStatus(orderId, "delivered", "No se pudo marcar la entrega final.");
+    const formData = new FormData();
+    formData.append("final_note", finalNote);
+    files.forEach((file) => formData.append("files[]", file));
 
+    const res = await fetch(`${API_BASE}/api/orders/${orderId}/final-delivery`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: formData
+    });
+
+    const payload = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(getParsedError(payload, "No se pudo enviar la entrega final."));
 
     window.cerrarModalEntregaFinal();
-    setRevisionAlert(orderId, "Entrega final enviada correctamente.", "success");
+    setRevisionAlert(orderId, "Entrega final enviada correctamente. La orden paso a entregada.", "success");
     await cargarOrdenes();
   } catch (error) {
-    console.error("Error marcando entrega final:", error);
-    setRevisionAlert(orderId, String(error?.message || "No se pudo marcar la entrega final."), "error");
+    console.error("Error enviando entrega final:", error);
+    setRevisionAlert(orderId, String(error?.message || "No se pudo enviar la entrega final."), "error");
     setDeliverModalLoading(false);
-    updateDeliverFinalAction(orderId);
   }
 };
 window.descargarRevisionArchivo = async function descargarRevisionArchivo(orderId, revisionId, fileId, encodedName) {
@@ -843,6 +872,11 @@ async function cargarOrdenes() {
 }
 
 cargarOrdenes();
+
+
+
+
+
 
 
 
