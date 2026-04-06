@@ -15,7 +15,7 @@ const dashboardBase = `/dashboard/${userRole}`;
       />
     </a>
 
-    <!-- Botones horizontales + BÃºsqueda (solo para cliente y company) -->
+    <!-- Botones horizontales + Búsqueda (solo para cliente y company) -->
     <div class="hidden md:flex items-center gap-6 lg:gap-10 flex-1 justify-center">
       <div class="flex gap-3 lg:gap-5">
         {userRole === 'cliente' && (
@@ -30,7 +30,7 @@ const dashboardBase = `/dashboard/${userRole}`;
               href="/dashboard/cliente/catalogo"
               class="px-5 py-2.5 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition shadow-sm shadow-purple-900/30"
             >
-              CatÃ¡logo
+              Catálogo
             </a>
             <a
               href="/dashboard/cliente/red"
@@ -108,7 +108,7 @@ const dashboardBase = `/dashboard/${userRole}`;
       </div>
 
       <!-- Búsqueda global -->
-      <form id="global-search-form" class="relative max-w-md w-full" role="search">
+      <form id="global-search-form" data-role={userRole} class="relative max-w-md w-full" role="search">
         <input
           id="global-search-input"
           type="search"
@@ -182,13 +182,13 @@ const dashboardBase = `/dashboard/${userRole}`;
           id="btn-logout"
           class="block w-full text-left px-5 py-2.5 text-red-400 hover:bg-red-900/30 hover:text-red-300 transition"
           >     
-          Cerrar sesiÃ³n
+          Cerrar sesión
 </button>
-        <a href="/cambiarContraseÃ±a"
+        <a href="/cambiarContraseña"
           id="ChangePassword"
           class="block w-full text-left px-5 py-2.5 text-red-400 hover:bg-red-900/30 hover:text-red-300 transition"
                >
-          Cambiar contraseÃ±a
+          Cambiar contraseña
           </a>
       </div>
     </div>
@@ -209,7 +209,7 @@ const dashboardBase = `/dashboard/${userRole}`;
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
-        Todas leÃ­das
+        Todas leídas
       </button>
     </div>
 
@@ -218,10 +218,10 @@ const dashboardBase = `/dashboard/${userRole}`;
       <div class="flex justify-between items-start gap-3 p-4 border-b border-slate-800 hover:bg-slate-800/50 transition">
         
         <div class="text-sm text-slate-200">
-          Tienes un nuevo pedido de diseÃ±o.
+          Tienes un nuevo pedido de diseño.
         </div>
         
-        <button class="text-slate-500 hover:text-green-400 transition shrink-0 focus:outline-none" title="Marcar como leÃ­da">
+        <button class="text-slate-500 hover:text-green-400 transition shrink-0 focus:outline-none" title="Marcar como leída">
           <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
@@ -237,9 +237,9 @@ const dashboardBase = `/dashboard/${userRole}`;
 
   const nameEl = document.getElementById("navbarUserName");
   const avatarEl = document.getElementById("navbarAvatar");
-  const currentRole = {JSON.stringify(userRole)};
   const globalSearchForm = document.getElementById("global-search-form");
   const globalSearchInput = document.getElementById("global-search-input");
+  const currentRole = globalSearchForm?.dataset?.role || "";
 
   function getGlobalSearchRouteByRole(role) {
     if (role === "cliente") return "/dashboard/cliente/catalogo";
@@ -376,10 +376,10 @@ const dashboardBase = `/dashboard/${userRole}`;
         } else {
 
       notifs.forEach(n => {
-       const mensaje = n.data.message || 'NotificaciÃ³n';
+       const mensaje = n.data.message || 'Notificación';
         list.innerHTML += `<div class="flex justify-between items-center p-3 border-b border-slate-800 text-sm text-white">
             <span>${mensaje}</span>
-            <button onclick="selectOne('${n.id}')" class="text-slate-500 hover:text-green-400 transition focus:outline-none" title="Marcar leÃ­da">
+            <button onclick="selectOne('${n.id}')" class="text-slate-500 hover:text-green-400 transition focus:outline-none" title="Marcar leída">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
               </svg>
@@ -440,6 +440,11 @@ const dashboardBase = `/dashboard/${userRole}`;
 
   
 </header>
+
+
+
+
+
 
 
 
