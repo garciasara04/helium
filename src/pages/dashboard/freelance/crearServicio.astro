@@ -81,11 +81,12 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
   <!-- Revisiones -->
   <div>
-    <label class="block text-sm mb-2">Revisiones</label>
+    <label class="block text-sm mb-2">Revisiones (maximo 3)</label>
     <input
       type="number"
       id="revisions"
       name="revisions"
+      max="3"
       placeholder="2"
       class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 focus:outline-none focus:border-purple-500"
       required
