@@ -1,4 +1,4 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
@@ -149,11 +149,11 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-        confirm('Servicio creado con exito');
+        window.appToast("Servicio creado con exito.", { tone: "success" });
         window.location.href = 'da'
       }
       else{
-        alert('datos incorrectos');
+        window.appToast("Datos incorrectos.", { tone: "error" });
       }
       }
 
@@ -165,3 +165,4 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 </script>
 
 </DashboardLayout>
+

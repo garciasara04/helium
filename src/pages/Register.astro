@@ -1,4 +1,4 @@
----
+﻿---
 import PublicLayout from "../layouts/PublicLayout.astro";
 
 ---
@@ -214,48 +214,9 @@ import PublicLayout from "../layouts/PublicLayout.astro";
   </div>
 
 
-  <script>
-    const registerForm = document.getElementById('registerForm');
-    registerForm?.addEventListener('submit', async (e)=> {
-      e.preventDefault();
-      const formdata = new FormData(registerForm);
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/register", {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-          },
-          body: formdata
-        })
-        const data = await response.json();
-        console.log(data);
-        if (data.token){
-          localStorage.setItem('token', data.token);
-          const rol = parseInt(data.user.role_id)
-          if(rol === 1){
-            window.location.href = ('/dashboard/cliente');
-          }
-           if(rol === 2){
-            window.location.href = ('/dashboard/freelance');
-          }
-           if(rol === 3){
-            window.location.href = ('/dashboard/company');
-          }
-           if(rol === 4){
-            window.location.href = ('/dashboard/admin');
-          }
-        }
-        else{
-          alert('Corrige los campos')
-        }
-      }
-      catch (error) {
-        console.log("error", error);
-      }
-    } )
-  </script>
-  <script>
-    import "../js/auth/register.js";
-  </script>
+  <script type="module" src="/src/js/auth/register.js"></script>
 </PublicLayout>
+
+
+
 

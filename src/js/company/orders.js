@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
+﻿const API_BASE = "http://127.0.0.1:8000";
 
 const gridEl = document.getElementById("ordersGrid");
 const emptyEl = document.getElementById("ordersEmpty");
@@ -138,7 +138,7 @@ async function patchOrderStatus(orderId, status, buttonEl, loadingLabel) {
     await fetchOrders();
   } catch (err) {
     console.error("Error actualizando orden:", err);
-    alert(String(err?.message || "No se pudo actualizar la orden."));
+    window.appToast(String(err?.message || "No se pudo actualizar la orden."), { tone: "error" });
     if (buttonEl) {
       buttonEl.disabled = false;
       buttonEl.textContent = status === "completed" ? "Confirmar recepcion" : "Cancelar orden";
@@ -149,7 +149,7 @@ async function patchOrderStatus(orderId, status, buttonEl, loadingLabel) {
 function bindActionButtons() {
   const completeButtons = document.querySelectorAll("[data-complete-order]");
   completeButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const orderId = btn.getAttribute("data-complete-order");
       if (!orderId) return;
       patchOrderStatus(orderId, "completed", btn, "Confirmando...");
@@ -158,11 +158,17 @@ function bindActionButtons() {
 
   const cancelButtons = document.querySelectorAll("[data-cancel-order]");
   cancelButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       const orderId = btn.getAttribute("data-cancel-order");
       if (!orderId) return;
 
-      const ok = confirm("Esta orden se cancelara. Deseas continuar?");
+      const ok = await window.appConfirm({
+        title: "Cancelar orden",
+        message: "Esta orden se cancelara. Deseas continuar?",
+        confirmText: "Si, cancelar",
+        cancelText: "No",
+        tone: "danger"
+      });
       if (!ok) return;
 
       patchOrderStatus(orderId, "cancelled", btn, "Cancelando...");
@@ -213,3 +219,6 @@ async function fetchOrders() {
 }
 
 fetchOrders();
+
+
+

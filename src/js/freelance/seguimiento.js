@@ -499,7 +499,13 @@ window.rechazarOrdenPendiente = async function rechazarOrdenPendiente(orderId) {
     return;
   }
 
-  const confirmed = window.confirm("Estas seguro de rechazar esta orden? Esta accion la dejara cancelada.");
+  const confirmed = await window.appConfirm({
+    title: "Rechazar orden",
+    message: "Estas seguro de rechazar esta orden? Esta accion la dejara cancelada.",
+    confirmText: "Si, rechazar",
+    cancelText: "No",
+    tone: "danger"
+  });
   if (!confirmed) return;
 
   const acceptBtn = document.getElementById(`pending-accept-btn-${orderId}`);
@@ -596,7 +602,7 @@ window.descargarRevisionArchivo = async function descargarRevisionArchivo(orderI
     URL.revokeObjectURL(url);
   } catch (error) {
     console.error("Error descargando archivo:", error);
-    alert("No se pudo descargar el archivo.");
+    window.appToast("No se pudo descargar el archivo.", { tone: "error" });
   }
 };
 
@@ -837,6 +843,9 @@ async function cargarOrdenes() {
 }
 
 cargarOrdenes();
+
+
+
 
 
 

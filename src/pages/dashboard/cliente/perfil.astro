@@ -1,4 +1,4 @@
----
+﻿---
 // src/pages/dashboard/cliente/perfil.astro
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 ---
@@ -114,8 +114,14 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 
   cargarPerfil();
 
-  window.cerrarSesion = function() {
-    if(confirm('¿Seguro que deseas cerrar sesión?')) {
+  window.cerrarSesion = async function() {
+    const ok = await window.appConfirm({
+      title: "Cerrar sesion",
+      message: "Seguro que deseas cerrar sesion?",
+      confirmText: "Si, salir",
+      cancelText: "Cancelar"
+    });
+    if(ok) {
       
       localStorage.removeItem('token');
       // Lo mandamos al login
@@ -125,3 +131,6 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 </script>
 
 </DashboardLayout>
+
+
+

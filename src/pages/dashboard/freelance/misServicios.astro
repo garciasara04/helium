@@ -1,4 +1,4 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
@@ -114,7 +114,13 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
   cargarServicios();
 
   window.deleteService = async function(id) {
-    const seguro = confirm("¿Estás seguro de que deseas eliminar este servicio? Esta acción no se puede deshacer.");
+    const seguro = await window.appConfirm({
+      title: "Eliminar servicio",
+      message: "Estas seguro de que deseas eliminar este servicio? Esta accion no se puede deshacer.",
+      confirmText: "Si, eliminar",
+      cancelText: "Cancelar",
+      tone: "danger"
+    });
     if (!seguro) return;
 
     const token = localStorage.getItem('token');
@@ -132,14 +138,17 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       if (response.ok) {
         cargarServicios();
       } else {
-        alert("Hubo un problema al eliminar el servicio.");
+        window.appToast("Hubo un problema al eliminar el servicio.", { tone: "error" });
       }
 
     } catch (error) {
       console.log('Error al eliminar:', error);
-      alert("Error de conexión al intentar eliminar.");
+      window.appToast("Error de conexion al intentar eliminar.", { tone: "error" });
     }
   }
 </script>
 
 </DashboardLayout>
+
+
+

@@ -1,4 +1,4 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 ---
 
@@ -82,7 +82,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
   async function cargarDetalleServicio() {
     if (!serviceId) {
-      alert("No se especificó un servicio.");
+      window.appToast("No se especifico un servicio.", { tone: "warning" });
       window.location.href = '/dashboard/cliente/catalogo'; 
       return;
     }
@@ -149,3 +149,5 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 </script>
 
 </DashboardLayout>
+
+

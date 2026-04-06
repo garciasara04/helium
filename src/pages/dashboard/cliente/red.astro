@@ -1,4 +1,4 @@
----
+﻿---
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 ---
 
@@ -78,7 +78,6 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
   }
 
   function buildCard(order) {
-    // Extracción de datos compatible con tu controlador de Laravel
     const userProfile = order?.service?.freelancer_profile?.user;
     const freelancerName = userProfile ? `${userProfile.names} ${userProfile.last_names}` : "Freelancer";
     const serviceName = order?.service?.title || "Servicio";
@@ -86,18 +85,14 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
     const price = order?.amount ? `$${Number(order.amount).toLocaleString('es-CO')}` : "Sin precio";
     const imageUrl = userProfile?.photo ? `${API_BASE}/storage/${userProfile.photo}` : "https://placehold.co/300";
 
-    // Lógica dinámica de los botones
     let actionHtml = '';
 
     if (status === 'delivered') {
-      // Si el freelancer ya entregó, el cliente puede finalizar
       actionHtml = `<button onclick="finalizarPedido(${order.id})" class="w-full px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition shadow-lg shadow-green-900/30">Finalizar Pedido ✓</button>`;
     } else if (status === 'completed') {
-      // Si ya finalizó, puede dejar la reseña
       actionHtml = `<a href="/dashboard/cliente/reviews?order_id=${order.id}" class="block w-full px-6 py-3 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-xl transition shadow-lg shadow-purple-900/30 text-center">Dejar reseña ⭐</a>`;
     } else {
-      // Si está pendiente o en progreso, solo mostramos el estado
-      const statusMap = { 'pending': 'Pendiente', 'in_progress': 'En progreso', 'cancelled': 'Cancelado' };
+      const statusMap = { pending: 'Pendiente', in_progress: 'En progreso', cancelled: 'Cancelado' };
       const statusText = statusMap[status] || status;
       actionHtml = `<div class="w-full px-6 py-3 bg-slate-800 text-slate-300 font-medium rounded-xl text-center border border-slate-700">Estado: ${statusText}</div>`;
     }
@@ -119,9 +114,14 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
     `;
   }
 
-  // --- FUNCIÓN GLOBAL PARA FINALIZAR EL PEDIDO ---
   window.finalizarPedido = async function(orderId) {
-    const confirmacion = confirm("¿Marcar este pedido como completado? Ya no podrás pedir más revisiones.");
+    const confirmacion = await window.appConfirm({
+      title: "Finalizar pedido",
+      message: "Marcar este pedido como completado? Ya no podras pedir mas revisiones.",
+      confirmText: "Si, finalizar",
+      cancelText: "Cancelar",
+      tone: "warning"
+    });
     if (!confirmacion) return;
 
     const token = localStorage.getItem("token");
@@ -137,15 +137,14 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
       });
 
       if (response.ok) {
-        // Recargamos las órdenes para que el botón cambie a "Dejar reseña" automáticamente
         fetchOrders();
       } else {
         const data = await response.json();
-        alert(data.error || 'No se pudo finalizar el pedido.');
+        window.appToast(data.error || "No se pudo finalizar el pedido.", { tone: "error" });
       }
     } catch (e) {
       console.error(e);
-      alert('Error de conexión con el servidor.');
+      window.appToast("Error de conexion con el servidor.", { tone: "error" });
     }
   };
 
@@ -197,8 +196,7 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
       elAllEmpty.textContent = "Error al cargar contrataciones.";
       console.error(err);
     }
-  }  
+  }
 
-  // Inicializar
   fetchOrders();
 </script>

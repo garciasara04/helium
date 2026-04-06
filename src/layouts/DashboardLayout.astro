@@ -20,12 +20,13 @@ const {  userRole, userName = "" } = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title> Helium</title>
+    <script src="/src/js/ui/feedback.js"></script>
   </head>
 
   <body class="bg-slate-950 text-white antialiased">
     <div class="flex min-h-screen flex-col">
 
-      <!-- Header/Nav (menÃº horizontal) -->
+      <!-- Header/Nav (menú horizontal) -->
       <Navbar userName={userName} userRole={userRole} />
 
       <CategoriesBar userRole={userRole} />
@@ -58,5 +59,8 @@ const {  userRole, userName = "" } = Astro.props;
     </script>
   </body>
 </html>
+
+
+
 
 

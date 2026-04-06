@@ -1,4 +1,4 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 // Nota: Estos valores estáticos los podrías cargar dinámicamente después
@@ -139,7 +139,7 @@ const serviceName = "Desarrollo de Landing Page";
       const serviceId = params.get('id');
 
       if (!serviceId) {
-        alert("No se encontró el ID del servicio. Regresa al catálogo.");
+        window.appToast("No se encontro el ID del servicio. Regresa al catalogo.", { tone: "warning" });
         return;
       }
 
@@ -160,19 +160,20 @@ const serviceName = "Desarrollo de Landing Page";
         const data = await response.json();
 
         if (response.ok) {
-          alert('¡Servicio contratado con éxito!');
+          window.appToast("Servicio contratado con exito.", { tone: "success" });
           window.location.href = '/dashboard/cliente/red'; // <-- Cámbialo si tu ruta es diferente
         } else {
           console.error("Error del servidor:", data);
-          alert(data.error || 'Hubo un problema al procesar tu solicitud.');
+          window.appToast(data.error || "Hubo un problema al procesar tu solicitud.", { tone: "error" });
         }
 
       } catch (error) {
         console.error("Error de fetch:", error);
-        alert('Hubo un error de conexión con el servidor.');
+        window.appToast("Hubo un error de conexion con el servidor.", { tone: "error" });
       }
     });
   });
 </script>
 
 </DashboardLayout>
+

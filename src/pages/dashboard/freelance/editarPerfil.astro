@@ -1,4 +1,4 @@
----
+﻿---
 import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 //en la linea 29 se debe hacer un script para la modificacion de la foto 
@@ -149,7 +149,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       
       console.log(datas);
       if (data.ok) {
-        alert(datas.message);
+        window.appToast(datas.message || "Perfil actualizado.", { tone: "success" });
         window.location.href = '/dashboard/freelance';
       } 
     }
@@ -248,3 +248,5 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
 
 
 </DashboardLayout>
+
+

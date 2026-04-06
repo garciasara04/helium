@@ -1,4 +1,4 @@
----
+﻿---
 
 import DashboardLayout from "../layouts/DashboardLayout.astro";
 ---
@@ -100,7 +100,7 @@ import DashboardLayout from "../layouts/DashboardLayout.astro";
     try {
       const formdata = new FormData(login);
       if(!token){
-        alert('Sesion expirada.')
+        window.appToast("Sesion expirada.", { tone: "warning" })
         window.location.href = '/Login'
       }
       const response = await fetch('http://127.0.0.1:8000/api/password/change', {
@@ -114,11 +114,11 @@ import DashboardLayout from "../layouts/DashboardLayout.astro";
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-        alert(data.message);
+        window.appToast(data.message || "Contrasena actualizada.", { tone: "success" });
         window.location.href = '/Login'
       } 
       else{
-        alert(data.message)
+        window.appToast(data.message || "No se pudo actualizar la contrasena.", { tone: "error" })
         login.reset();
       }
     } catch (error) {
@@ -129,3 +129,4 @@ import DashboardLayout from "../layouts/DashboardLayout.astro";
 
 
 </DashboardLayout>
+

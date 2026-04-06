@@ -1,4 +1,4 @@
----
+﻿---
 // src/pages/dashboard/cliente/editar-perfil.astro
 import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 ---
@@ -164,7 +164,7 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
 
     } catch (error) {
       console.error(error);
-      alert('Error al cargar los datos de tu perfil.');
+      window.appToast("Error al cargar los datos de tu perfil.", { tone: "error" });
     }
   }
 
@@ -204,20 +204,24 @@ import DashboardLayout from '../../../layouts/DashboardLayout.astro';
       const data = await response.json();
 
       if (response.ok) {
-        alert("¡Perfil actualizado con éxito!");
+        window.appToast("Perfil actualizado con exito.", { tone: "success" });
         // Opcional: Redirigir al perfil
         // window.location.href = '/dashboard/cliente/perfil';
       } else {
-        alert("Error: " + (data.message || "No se pudo actualizar"));
+        window.appToast("Error: " + (data.message || "No se pudo actualizar"), { tone: "error" });
         console.log(data);
       }
 
     } catch (error) {
       console.error(error);
-      alert("Error de conexión al guardar.");
+      window.appToast("Error de conexion al guardar.", { tone: "error" });
     }
   });
 
   // Iniciar la carga de datos
   cargarDatos();
 </script>
+
+
+
+

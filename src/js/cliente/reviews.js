@@ -1,4 +1,4 @@
-const API_BASE = "http://127.0.0.1:8000";
+﻿const API_BASE = "http://127.0.0.1:8000";
 
 const listEl = document.getElementById("reviewsList");
 const emptyEl = document.getElementById("reviewsEmpty");
@@ -118,14 +118,14 @@ async function fetchOrders() {
 async function submitReview(form) {
   const orderId = form.getAttribute("data-order-id");
   if (form.querySelector("button")?.disabled) {
-    alert("Solo se puede resenar una vez.");
+    window.appToast("Solo se puede resenar una vez.", { tone: "warning" });
     return;
   }
   if (!orderId) return;
 
   const token = localStorage.getItem("token");
   if (!token) {
-    alert("No hay sesion activa.");
+    window.appToast("No hay sesion activa.", { tone: "warning" });
     return;
   }
 
@@ -147,7 +147,7 @@ async function submitReview(form) {
       throw new Error(`HTTP ${res.status}`);
     }
 
-    alert("Resena enviada.");
+    window.appToast("Resena enviada.", { tone: "success" });
 
     form.querySelectorAll("input, select, textarea, button").forEach(el => {
       el.setAttribute("disabled", "disabled");
@@ -160,9 +160,9 @@ async function submitReview(form) {
   } catch (err) {
     console.error(err);
     if (err?.message?.includes("409") || err?.message?.includes("422")) {
-      alert("Solo se puede resenar una vez.");
+      window.appToast("Solo se puede resenar una vez.", { tone: "warning" });
     } else {
-      alert("No se pudo enviar la resena.");
+      window.appToast("No se pudo enviar la resena.", { tone: "error" });
     }
   }
 }
@@ -177,3 +177,4 @@ document.addEventListener("submit", (event) => {
 });
 
 fetchOrders();
+

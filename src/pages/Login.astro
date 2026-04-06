@@ -1,4 +1,4 @@
----
+﻿---
 import PublicLayout from "../layouts/PublicLayout.astro";
 import backgroundImage from "../assets/image.png";
 
@@ -63,10 +63,12 @@ import backgroundImage from "../assets/image.png";
         <div class="pt-4">
           <button
             type="submit"
-            class="w-full py-2 px-6 bg-gray-900 text-white font-medium text-lg rounded-xl hover:bg-gray-800 transition">
+            class="w-full py-2 px-6 bg-gray-900 text-white font-medium text-lg rounded-xl hover:bg-gray-800 transition cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2">
             Ingresar
           </button>
         </div>
+
+        <p id="loginFeedback" class="hidden mt-3 text-sm font-medium rounded-lg border px-3 py-2"></p>
 
       </form>
 
@@ -86,8 +88,32 @@ import backgroundImage from "../assets/image.png";
 
   <script>
     const loginForm = document.getElementById('loginForm');
+    const loginFeedback = document.getElementById('loginFeedback');
+
+    function setLoginFeedback(message, tone = 'error') {
+      if (!loginFeedback) return;
+
+      if (!message) {
+        loginFeedback.textContent = '';
+        loginFeedback.className = 'hidden mt-3 text-sm font-medium rounded-lg border px-3 py-2';
+        return;
+      }
+
+      const base = 'mt-3 text-sm font-medium rounded-lg border px-3 py-2';
+      if (tone === 'success') {
+        loginFeedback.className = `${base} border-emerald-500/40 bg-emerald-900/20 text-emerald-200`;
+      } else if (tone === 'warning') {
+        loginFeedback.className = `${base} border-amber-500/40 bg-amber-900/20 text-amber-200`;
+      } else {
+        loginFeedback.className = `${base} border-rose-500/40 bg-rose-900/20 text-rose-200`;
+      }
+
+      loginFeedback.textContent = message;
+    }
+
     loginForm?.addEventListener('submit', async (e)=> {
       e.preventDefault();
+      setLoginFeedback('');
       const formdata = new FormData(loginForm);
       try {
         const response = await fetch("http://127.0.0.1:8000/api/login", {
@@ -120,16 +146,17 @@ import backgroundImage from "../assets/image.png";
           }
         }
         else{
-          alert('Su cuenta ha sido suspendida')
+          setLoginFeedback('Su cuenta ha sido suspendida', 'error');
         } 
         }
         else{
-          alert('Credenciales incorrecta')
+          setLoginFeedback('Credenciales incorrectas', 'error');
         }
         
       }
       catch (error) {
         console.log("error", error);
+        setLoginFeedback('Error de conexión con el servidor.', 'error');
       }
     } )
   </script>

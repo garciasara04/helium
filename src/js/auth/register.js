@@ -1,171 +1,180 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Capturamos los elementos principales
+﻿document.addEventListener('DOMContentLoaded', () => {
+  const API_BASE = 'http://127.0.0.1:8000';
+
   const form = document.getElementById('registerForm');
+  if (!form) return;
+
   const roleSelect = document.getElementById('role_id');
   const freelancerSection = document.getElementById('freelancerSection');
   const companySection = document.getElementById('companySection');
   const passwordInput = document.getElementById('password');
   const confirmInput = document.getElementById('password_confirmation');
+  const photoInput = document.getElementById('photo');
+  const fileText = document.getElementById('fileText');
+  const submitBtn = form.querySelector('button[type="submit"]');
 
-  // Trampa de seguridad con aviso:
-  if (!form) {
-    console.error("🚨 ATENCIÓN: No se encontró el id='registerForm' en tu HTML.");
-    return;
-  }
-
-  // --- 2. Lógica de Feedback de Contraseña ---
-  const feedback = document.createElement('ul');
-  feedback.id = 'passwordFeedback';
-  feedback.className = 'mt-2 text-sm space-y-1 bg-gray-200 bg-opacity-50 p-3 rounded-md';
-  feedback.style.display = 'none';
-  if (passwordInput) passwordInput.insertAdjacentElement('afterend', feedback);
-
-  const criteria = [
-    { text: 'Al menos 8 caracteres', test: (pw) => pw.length >= 8 },
-    { text: 'Al menos una letra mayúscula', test: (pw) => /[A-Z]/.test(pw) },
-    { text: 'Al menos una letra minúscula', test: (pw) => /[a-z]/.test(pw) },
-    { text: 'Al menos un número', test: (pw) => /\d/.test(pw) },
-    { text: 'Al menos un símbolo (!@#$%^&*)', test: (pw) => /[!@#$%^&*]/.test(pw) },
+  const fieldIds = [
+    'names',
+    'last_names',
+    'email',
+    'password',
+    'password_confirmation',
+    'phone',
+    'role_id',
+    'profession',
+    'experience',
+    'description',
+    'nit',
+    'address'
   ];
 
-  criteria.forEach(({ text }) => {
-    const li = document.createElement('li');
-    li.textContent = text;
-    li.className = 'text-gray-600';
-    feedback.appendChild(li);
-  });
+  const errorMap = new Map();
 
-  function validatePasswordCriteria(pw) {
-    Array.from(feedback.children).forEach((li, i) => {
-      if (criteria[i].test(pw)) {
-        li.classList.remove('text-gray-600');
-        li.classList.add('text-green-600', 'font-semibold');
-      } else {
-        li.classList.remove('text-green-600', 'font-semibold');
-        li.classList.add('text-gray-600');
-      }
-    });
+  function ensureErrorEl(input) {
+    if (!input) return null;
+    if (errorMap.has(input.id)) return errorMap.get(input.id);
+
+    const errorEl = document.createElement('p');
+    errorEl.className = 'hidden mt-1 text-xs text-red-300';
+
+    const target = input.closest('div') || input.parentElement;
+    if (target) target.appendChild(errorEl);
+
+    errorMap.set(input.id, errorEl);
+    return errorEl;
   }
 
-  function updatePasswordFeedback() {
-    if (passwordInput.value.length > 0 && document.activeElement === passwordInput) {
-      feedback.style.display = 'block';
-    } else {
-      feedback.style.display = 'none';
+  function setFieldError(id, message) {
+    const input = document.getElementById(id);
+    if (!input) return;
+
+    const errorEl = ensureErrorEl(input);
+    input.classList.add('border-red-500');
+    input.classList.remove('border-green-500');
+
+    if (errorEl) {
+      errorEl.textContent = message;
+      errorEl.classList.remove('hidden');
     }
   }
 
-  let confirmError = null;
-  function validateConfirmPassword() {
-    if (!confirmInput) return true;
-    
-    if (confirmInput.value === '') {
-      if (confirmError) confirmError.remove();
-      confirmError = null;
-      confirmInput.classList.remove('border-red-600', 'border-green-600');
-      return false;
-    }
+  function clearFieldError(id) {
+    const input = document.getElementById(id);
+    if (!input) return;
 
-    if (confirmError) confirmError.remove();
-
-    if (confirmInput.value !== passwordInput.value) {
-      confirmError = document.createElement('p');
-      confirmError.textContent = 'Las contraseñas no coinciden.';
-      confirmError.className = 'text-red-600 text-sm mt-1';
-      confirmInput.insertAdjacentElement('afterend', confirmError);
-      confirmInput.classList.add('border-red-600');
-      confirmInput.classList.remove('border-green-600');
-      return false;
-    } else {
-      confirmInput.classList.remove('border-red-600');
-      confirmInput.classList.add('border-green-600');
-      return true;
+    input.classList.remove('border-red-500');
+    const errorEl = ensureErrorEl(input);
+    if (errorEl) {
+      errorEl.textContent = '';
+      errorEl.classList.add('hidden');
     }
   }
 
-  if (passwordInput) {
-    passwordInput.addEventListener('input', () => {
-      updatePasswordFeedback();
-      validatePasswordCriteria(passwordInput.value);
-      validateConfirmPassword();
-    });
-    passwordInput.addEventListener('focus', updatePasswordFeedback);
-    passwordInput.addEventListener('blur', updatePasswordFeedback);
+  function clearAllErrors() {
+    fieldIds.forEach(clearFieldError);
   }
 
-  if (confirmInput) {
-    confirmInput.addEventListener('input', validateConfirmPassword);
+  function markFieldAsValid(id) {
+    const input = document.getElementById(id);
+    if (!input) return;
+    input.classList.remove('border-red-500');
+    input.classList.add('border-green-500');
   }
 
+  function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  }
 
-  // --- 3. Lógica de Ocultar/Mostrar Secciones ---
   function toggleSections() {
-    if(!roleSelect || !freelancerSection || !companySection) return;
-    
+    if (!roleSelect || !freelancerSection || !companySection) return;
+
     const selectedRole = roleSelect.value;
     freelancerSection.classList.add('hidden');
     companySection.classList.add('hidden');
 
-    if (selectedRole === '2') {
-      freelancerSection.classList.remove('hidden');
-    } else if (selectedRole === '3') {
-      companySection.classList.remove('hidden');
-    }
+    if (selectedRole === '2') freelancerSection.classList.remove('hidden');
+    if (selectedRole === '3') companySection.classList.remove('hidden');
   }
 
-  if (roleSelect) {
-    roleSelect.addEventListener('change', toggleSections);
-    toggleSections(); 
-  }
-
-
-  // --- 4. Validación General del Formulario ---
   function validateForm() {
+    clearAllErrors();
+
     let valid = true;
 
-    const requiredFields = ['names', 'email', 'password', 'password_confirmation', 'phone', 'role_id'];
-    
-    requiredFields.forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        if (!el.value.trim()) {
-          el.classList.add('border-red-600');
-          valid = false;
-        } else {
-          el.classList.remove('border-red-600');
-        }
+    const requiredCommon = [
+      ['names', 'Ingresa tus nombres.'],
+      ['last_names', 'Ingresa tus apellidos.'],
+      ['email', 'Ingresa tu correo electrónico.'],
+      ['password', 'Ingresa una contraseña.'],
+      ['password_confirmation', 'Confirma tu contraseña.'],
+      ['role_id', 'Selecciona un rol.']
+    ];
+
+    requiredCommon.forEach(([id, message]) => {
+      const input = document.getElementById(id);
+      const value = String(input?.value || '').trim();
+      if (!value) {
+        setFieldError(id, message);
+        valid = false;
       }
     });
 
-    if (!validateConfirmPassword()) valid = false;
-
-    const pw = passwordInput ? passwordInput.value : '';
-    const allCriteriaMet = criteria.every(c => c.test(pw));
-    if (!allCriteriaMet && passwordInput) {
-      feedback.style.display = 'block';
+    const emailValue = String(document.getElementById('email')?.value || '').trim();
+    if (emailValue && !isValidEmail(emailValue)) {
+      setFieldError('email', 'Ingresa un correo válido.');
       valid = false;
+    } else if (emailValue) {
+      markFieldAsValid('email');
     }
 
-    if (roleSelect && roleSelect.value === '2') {
-      const freelancerFields = ['description', 'profession', 'experience'];
-      freelancerFields.forEach(id => {
-        const el = document.getElementById(id);
-        if (el && !el.value.trim()) {
-          el.classList.add('border-red-600');
+    const passwordValue = String(passwordInput?.value || '');
+    if (passwordValue && passwordValue.length < 8) {
+      setFieldError('password', 'La contraseña debe tener al menos 8 caracteres.');
+      valid = false;
+    } else if (passwordValue.length >= 8) {
+      markFieldAsValid('password');
+    }
+
+    const confirmValue = String(confirmInput?.value || '');
+    if (confirmValue && confirmValue !== passwordValue) {
+      setFieldError('password_confirmation', 'Las contraseñas no coinciden.');
+      valid = false;
+    } else if (confirmValue && confirmValue === passwordValue) {
+      markFieldAsValid('password_confirmation');
+    }
+
+    const selectedRole = String(roleSelect?.value || '');
+    if (selectedRole === '2') {
+      const freelancerRequired = [
+        ['profession', 'Ingresa tu profesión.'],
+        ['experience', 'Ingresa tu experiencia.'],
+        ['description', 'Ingresa una descripción de tu perfil.']
+      ];
+
+      freelancerRequired.forEach(([id, message]) => {
+        const value = String(document.getElementById(id)?.value || '').trim();
+        if (!value) {
+          setFieldError(id, message);
           valid = false;
-        } else if (el) {
-          el.classList.remove('border-red-600');
+        } else {
+          markFieldAsValid(id);
         }
       });
-    } else if (roleSelect && roleSelect.value === '3') {
-      const companyFields = ['nit', 'address'];
-      companyFields.forEach(name => {
-        const el = document.querySelector(`input[name="${name}"]`);
-        if (el && !el.value.trim()) {
-          el.classList.add('border-red-600');
+    }
+
+    if (selectedRole === '3') {
+      const companyRequired = [
+        ['nit', 'Ingresa el NIT de la empresa.'],
+        ['address', 'Ingresa la dirección de la empresa.']
+      ];
+
+      companyRequired.forEach(([id, message]) => {
+        const value = String(document.getElementById(id)?.value || '').trim();
+        if (!value) {
+          setFieldError(id, message);
           valid = false;
-        } else if (el) {
-          el.classList.remove('border-red-600');
+        } else {
+          markFieldAsValid(id);
         }
       });
     }
@@ -173,45 +182,107 @@ document.addEventListener('DOMContentLoaded', () => {
     return valid;
   }
 
-  // --- 5. EL GATILLO: Evento Submit ---
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault(); // Evita que la página se recargue
+  fieldIds.forEach((id) => {
+    const input = document.getElementById(id);
+    if (!input) return;
 
-    // Ejecutamos tu validación aquí
-    if (!validateForm()) {
-      console.log("Faltan campos por llenar o hay errores.");
-      // Puedes poner un alert() aquí si quieres
-      return; // Detiene la ejecución si hay errores
-    }
-
-    // SI LLEGA HASTA AQUÍ, LOS DATOS ESTÁN PERFECTOS
-    console.log("¡Todo válido! Listo para enviar a Laravel.");
-    
-    // Aquí pondrías tu lógica del fetch...
+    input.addEventListener('input', () => clearFieldError(id));
+    input.addEventListener('change', () => clearFieldError(id));
   });
 
-  // --- 6. Animaciones y Extras de tu compañera ---
-  const card = document.getElementById("registerCard");
+  if (roleSelect) {
+    roleSelect.addEventListener('change', () => {
+      toggleSections();
+      ['profession', 'experience', 'description', 'nit', 'address'].forEach(clearFieldError);
+    });
+    toggleSections();
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      window.appToast('Revisa los campos marcados en rojo.', { tone: 'warning' });
+      return;
+    }
+
+    const formdata = new FormData(form);
+
+    try {
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creando cuenta...';
+        submitBtn.classList.add('opacity-70', 'cursor-not-allowed');
+      }
+
+      const response = await fetch(`${API_BASE}/api/register`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json'
+        },
+        body: formdata
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        const errors = data?.errors || {};
+        Object.entries(errors).forEach(([key, messages]) => {
+          const message = Array.isArray(messages) ? messages[0] : 'Campo inválido.';
+          if (document.getElementById(key)) {
+            setFieldError(key, message);
+          }
+        });
+
+        window.appToast(data?.message || 'No se pudo completar el registro.', { tone: 'error' });
+        return;
+      }
+
+      if (!data?.token || !data?.user) {
+        window.appToast('Respuesta inesperada del servidor.', { tone: 'error' });
+        return;
+      }
+
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      const role = Number(data.user.role_id);
+      if (role === 1) window.location.href = '/dashboard/cliente';
+      else if (role === 2) window.location.href = '/dashboard/freelance';
+      else if (role === 3) window.location.href = '/dashboard/company';
+      else if (role === 4) window.location.href = '/dashboard/admin';
+      else window.location.href = '/dashboard';
+    } catch (error) {
+      console.error('Error register:', error);
+      window.appToast('Error de conexión con el servidor.', { tone: 'error' });
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Crear cuenta';
+        submitBtn.classList.remove('opacity-70', 'cursor-not-allowed');
+      }
+    }
+  });
+
+  const card = document.getElementById('registerCard');
   if (card) {
     requestAnimationFrame(() => {
-      card.classList.remove("opacity-0", "translate-y-6");
-      card.classList.add("opacity-100", "translate-y-0");
+      card.classList.remove('opacity-0', 'translate-y-6');
+      card.classList.add('opacity-100', 'translate-y-0');
     });
   }
 
-  const title = document.getElementById("registerTitle");
+  const title = document.getElementById('registerTitle');
   if (title) {
     setTimeout(() => {
-      title.classList.remove("opacity-0", "translate-y-3");
-      title.classList.add("opacity-100", "translate-y-0");
+      title.classList.remove('opacity-0', 'translate-y-3');
+      title.classList.add('opacity-100', 'translate-y-0');
     }, 150);
   }
 
-  const photoInput = document.getElementById('photo');
-  const fileText = document.getElementById('fileText');
   if (photoInput && fileText) {
     photoInput.addEventListener('change', () => {
-      fileText.textContent = photoInput.files.length
+      fileText.textContent = photoInput.files?.length
         ? photoInput.files[0].name
         : 'Selecciona una imagen';
     });
