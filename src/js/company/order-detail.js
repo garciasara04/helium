@@ -143,7 +143,7 @@ function setInitialAttachment(path) {
       onclick="descargarAdjuntoInicialOrden('${safePath}', '${safeName}')"
       class="inline-flex items-center gap-2 rounded-lg border border-slate-700 px-3 py-1.5 text-xs text-slate-200 hover:border-purple-500 hover:text-purple-300 transition"
     >
-      Descargar adjunto inicial (${escapeHtml(fileName)})
+      Descargar adjunto inicial 
     </button>
   `;
 }

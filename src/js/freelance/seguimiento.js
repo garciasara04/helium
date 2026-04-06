@@ -1,4 +1,4 @@
-﻿const API_BASE = "http://127.0.0.1:8000";
+const API_BASE = "http://127.0.0.1:8000";
 
 const contenedor = document.getElementById("contenedor-ordenes");
 const orderMeta = new Map();
@@ -21,6 +21,40 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+
+function buildStorageUrl(path) {
+  if (!path) return "";
+  if (/^https?:\/\//i.test(path)) return path;
+  if (path.startsWith("/storage/")) return `${API_BASE}${path}`;
+  return `${API_BASE}/storage/${path}`;
+}
+
+function getFileNameFromPath(path) {
+  if (!path) return "archivo";
+  const clean = String(path).split("?")[0].split("#")[0];
+  const parts = clean.split("/");
+  return parts[parts.length - 1] || "archivo";
+}
+
+window.descargarAdjuntoInicial = function descargarAdjuntoInicial(encodedPath, encodedName) {
+  const path = decodeURIComponent(encodedPath || "");
+  if (!path) {
+    window.appToast?.("No hay archivo adjunto disponible.", { tone: "warning" });
+    return;
+  }
+
+  const fileName = decodeURIComponent(encodedName || "archivo");
+  const url = buildStorageUrl(path);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+};
 function clampMaxRevisions(raw) {
   const value = Number(raw);
   if (!Number.isFinite(value)) return 1;
@@ -699,6 +733,12 @@ function buildOrderCard(order) {
     : "Cliente Desconocido";
 
   const servicioNombre = order.service?.title || "Servicio borrado/inactivo";
+  const projectName = String(order.project_name || "").trim() || `Orden #${order.id}`;
+  const attachmentPath = String(order.attachments || "").trim();
+  const attachmentName = getFileNameFromPath(attachmentPath);
+  const hasAttachment = Boolean(attachmentPath);
+  const encodedAttachmentPath = encodeURIComponent(attachmentPath);
+  const encodedAttachmentName = encodeURIComponent(attachmentName);
   const status = String(order.status || "").toLowerCase();
   const maxRevisions = clampMaxRevisions(order.service?.revisions);
   const usedRevisions = normalizeUsedRevisions(order.revisions_count);
@@ -716,6 +756,10 @@ function buildOrderCard(order) {
 
           <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-sm">
             <div>
+              <p class="text-slate-400">Nombre del proyecto</p>
+              <p class="font-semibold text-white line-clamp-1" title="${escapeHtml(projectName)}">${escapeHtml(projectName)}</p>
+            </div>
+            <div>
               <p class="text-slate-400">Cliente</p>
               <p class="font-semibold text-white">${escapeHtml(clienteNombre)}</p>
             </div>
@@ -730,6 +774,18 @@ function buildOrderCard(order) {
             <div>
               <p class="text-slate-400">Inicio (Creado)</p>
               <p class="font-semibold text-white">${escapeHtml(new Date(order.created_at).toLocaleDateString())}</p>
+            </div>
+            <div>
+              <p class="text-slate-400">Adjunto inicial</p>
+              ${hasAttachment
+                ? `<button
+                    type="button"
+                    onclick="descargarAdjuntoInicial('${encodedAttachmentPath}', '${encodedAttachmentName}')"
+                    class="font-semibold text-indigo-300 hover:text-indigo-200 underline decoration-indigo-400/60 underline-offset-2 transition"
+                  >
+                    Descarga aqui
+                  </button>`
+                : '<p class="font-semibold text-slate-400">Sin adjunto</p>'}
             </div>
             <div>
               <p class="text-slate-400">Requisitos</p>
@@ -872,6 +928,8 @@ async function cargarOrdenes() {
 }
 
 cargarOrdenes();
+
+
 
 
 
