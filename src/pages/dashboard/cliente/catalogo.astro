@@ -16,12 +16,9 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro"
       </div>
 
       <div class="flex items-center gap-4">
-        <button class="px-6 py-3 bg-purple-700 hover:bg-purple-600 text-white font-medium rounded-lg transition">
-          Catálogo Pro
-        </button>
-        <button class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-lg transition border border-slate-600">
+        <a href="/dashboard/cliente/catalogo" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-lg transition border border-slate-600">
           Catálogo completo
-        </button>
+        </a>
       </div>
     </div>
 
@@ -91,7 +88,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro"
 
         <div class="mt-16 text-center">
           <button class="px-10 py-4 bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-xl transition shadow-lg shadow-purple-900/30">
-            Ver más freelancers →
+            Ver más servicios→
           </button>
         </div>
       </div>
@@ -132,7 +129,7 @@ async function cargarfreelancers() {
     }
 
     servicios.forEach(f => {
-        // AQUÍ ESTÁN LOS CAMBIOS VISUALES (Tailwind)
+        
         const tarjetaHTML = `
           <div class="bg-slate-900 border border-slate-800 rounded-xl overflow-hidden hover:border-purple-600 transition-all duration-300 group shadow-lg hover:shadow-purple-900/20 flex flex-col h-full">
             <div class="h-48 bg-linear-to-br from-slate-800 to-slate-900 relative shrink-0">

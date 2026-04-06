@@ -44,9 +44,10 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
         <h2 class="text-2xl font-semibold text-purple-200 group-hover:text-purple-100 transition-colors">Cambiar Contraseña</h2>
       </a>
 
-      <a
-        href="eliminaCuenta"
-        class="group bg-gray-900/40 backdrop-blur-sm border border-red-900/40 rounded-2xl p-8 md:p-10 flex flex-col items-center justify-center text-center hover:border-red-700/60 hover:bg-gray-900/60 transition-all duration-300 shadow-xl shadow-black/40"
+      <button
+        type="button"
+        id="deleteAccount"
+        class="group w-full h-full bg-gray-900/40 backdrop-blur-sm border border-red-900/40 rounded-2xl p-8 md:p-10 flex flex-col items-center justify-center text-center hover:border-red-700/60 hover:bg-gray-900/60 transition-all duration-300 shadow-xl shadow-black/40 cursor-pointer"
       >
         <div class="w-24 h-24 md:w-32 md:h-32 bg-red-900/30 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-800/40 transition-colors">
           <svg class="w-14 h-14 md:w-20 md:h-20 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,11 +55,36 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
           </svg>
         </div>
         <h2 class="text-2xl font-semibold text-red-200 group-hover:text-red-100 transition-colors">Dar de Baja</h2>
-      </a>
+      </button>
 
     </div>
 
   </div>
+  <div id="custom-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4 transition-opacity">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl p-8 max-w-md w-full shadow-2xl shadow-purple-900/20">
+      
+      <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-900/30 mb-6">
+        <svg class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+      </div>
+
+      <h3 class="text-xl font-bold text-center text-white mb-2">¿Estás completamente seguro?</h3>
+      <p class="text-slate-400 text-center mb-8">
+        Tu cuenta será desactivada y no podrás acceder a la plataforma hasta que contactes a soporte.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button id="btn-cancel-modal" type="button" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-lg transition order-2 sm:order-1">
+          No, cancelar
+        </button>
+        <button id="btn-confirm-modal" type="button" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition shadow-lg shadow-red-900/30 order-1 sm:order-2">
+          Sí, desactivar cuenta
+        </button>
+      </div>
+    </div>
+  </div>
+  
 
   <script>
     async function cargarPerfilPrincipal() {
@@ -98,7 +124,6 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
         if (profile.photo) {
           imgEl.src = `http://127.0.0.1:8000/storage/${profile.photo}`;
         } else {
-          // Si no tiene foto, le generamos un avatar bonito con sus iniciales
           imgEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=4f46e5&color=fff&size=400`;
         }
 
@@ -110,5 +135,62 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
     }
 
     document.addEventListener('DOMContentLoaded', cargarPerfilPrincipal);
+  </script>
+
+  <script>
+
+    const btnOpenModal = document.getElementById('deleteAccount');
+    const modal = document.getElementById('custom-modal');
+    const btnCancel = document.getElementById('btn-cancel-modal');
+    const btnConfirm = document.getElementById('btn-confirm-modal');
+
+    btnOpenModal?.addEventListener('click', () => {
+      const token = localStorage.getItem('token');
+      if(!token) {
+        window.location.href = '/login';
+        return;
+      }
+      modal.classList.remove('hidden'); // 
+    });
+
+    btnCancel?.addEventListener('click', () => {
+      modal.classList.add('hidden');
+    });
+
+    btnConfirm?.addEventListener('click', async () => {
+      const token = localStorage.getItem('token');
+      
+      btnConfirm.innerText = "Desactivando...";
+      btnConfirm.disabled = true;
+
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/profile/desactivate', {
+          method: 'PATCH',
+          headers:{
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}` 
+          }
+        });
+        
+        const data = await response.json();
+
+        if(response.ok){
+          localStorage.removeItem('token');
+          window.location.href = '/Login';
+        } else {
+          alert(data.message || 'Error al desactivar la cuenta');
+          modal.classList.add('hidden');
+          btnConfirm.innerText = "Sí, desactivar cuenta";
+          btnConfirm.disabled = false;
+        }
+
+      } catch (error) {
+        console.error("Error:", error);
+        alert('Error de conexión con el servidor.');
+        modal.classList.add('hidden');
+        btnConfirm.innerText = "Sí, desactivar cuenta";
+        btnConfirm.disabled = false;
+      }
+    });
   </script>
 </DashboardLayout>

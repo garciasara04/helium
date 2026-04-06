@@ -150,7 +150,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       console.log(data);
       if (response.ok) {
         window.appToast("Servicio creado con exito.", { tone: "success" });
-        window.location.href = 'da'
+        window.location.href = '/dashboard/freelance/misServicios'
       }
       else{
         window.appToast("Datos incorrectos.", { tone: "error" });
