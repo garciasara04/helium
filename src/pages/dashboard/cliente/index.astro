@@ -79,14 +79,14 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
       // 1. SERVICIOS POPULARES (Los primeros 4)
       const serviciosPopulares = todosLosServicios.slice(0, 4);
       contenedorServicios.innerHTML = '';
-      
+      console.log(serviciosPopulares);
       if(serviciosPopulares.length === 0) {
         contenedorServicios.innerHTML = '<p class="text-slate-500 col-span-full">No hay servicios disponibles.</p>';
       } else {
         serviciosPopulares.forEach(s => {
           const imagen = s.photo ? STORAGE_BASE + s.photo : 'https://placehold.co/600x400';
           contenedorServicios.innerHTML += `
-            <a href="/dashboard/cliente/detalleServicio?id=${s.id}" class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition block group shadow-lg">
+            <a href="/dashboard/cliente/perfilFreelance?id=${s.freelancer.id}" class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-purple-600 transition block group shadow-lg">
               <img src="${imagen}" class="w-full h-44 object-cover group-hover:scale-105 transition-transform duration-500" alt="${s.title}" />
               <div class="p-5 text-center">
                 <span class="text-xs text-purple-400 font-bold mb-1 block uppercase tracking-wider">${s.category?.name || s.category || 'Servicio'}</span>
@@ -210,7 +210,7 @@ import DashboardLayout from "../../../layouts/DashboardLayout.astro";
                 </div>
                 <h3 class="text-lg font-bold text-white line-clamp-1" title="${servicioTitulo}">${servicioTitulo}</h3>
                 <p class="text-slate-400 text-sm">con <span class="text-slate-300 font-medium">${freelancerNombre}</span></p>
-              </div>
+              </div> 
               
               <div class="w-full md:w-64 shrink-0">
                 <div class="flex justify-between text-sm mb-1.5">
